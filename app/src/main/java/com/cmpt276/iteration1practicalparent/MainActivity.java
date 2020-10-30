@@ -2,9 +2,12 @@ package com.cmpt276.iteration1practicalparent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
+import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildren;
 import com.cmpt276.iteration1practicalparent.coinFlip.CoinFlipMain;
 import com.cmpt276.iteration1practicalparent.universalFunction.ButtonFunctions;
 
@@ -24,6 +27,21 @@ public class MainActivity extends AppCompatActivity {
 
         buttonF.setButtonActivity(() -> buttonF.setChangeActivity(coinFlipButton,MainActivity.this, CoinFlipMain.class, false));
         //buttonFunctions.setButtonActivity( () -> buttonFunctions.setPopUp(testPopUpButton,MainActivity.this,"hello"));
+
+
+        setupConfigureChildrenButton();
+    }
+
+    public void setupConfigureChildrenButton(){
+        Button configureChildren = (Button) findViewById(R.id.configure_children);
+
+        configureChildren.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ConfigureChildren.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
