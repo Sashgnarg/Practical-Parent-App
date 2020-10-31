@@ -19,7 +19,8 @@
         </activity>
         <activity
             android:name=".ConfigureChildren.ConfigureChildren"
-            android:label="ConfigureChildren">
+            android:label="ConfigureChildren"
+            android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

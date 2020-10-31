@@ -40,6 +40,7 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure_children);
         setTitle("Configure Children");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loadData();
         createChildrenList();
