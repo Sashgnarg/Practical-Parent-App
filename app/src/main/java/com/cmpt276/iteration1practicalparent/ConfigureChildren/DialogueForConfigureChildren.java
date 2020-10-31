@@ -16,6 +16,11 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.cmpt276.iteration1practicalparent.R;
 
+/*
+enter name and additional information, then press ok to apply changes or cancel to exit dialogue. values entered if pressed ok
+will be sent to configurechildren class so that that children list can be updated
+ */
+
 public class DialogueForConfigureChildren extends AppCompatDialogFragment {
     private EditText editTextName;
     private EditText editTextAdditionalInfo;

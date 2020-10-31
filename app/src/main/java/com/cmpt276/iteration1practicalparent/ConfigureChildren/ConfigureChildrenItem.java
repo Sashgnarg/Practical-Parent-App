@@ -1,5 +1,6 @@
 package com.cmpt276.iteration1practicalparent.ConfigureChildren;
 
+//class contains image resource and two texts. These will later on be used to display each item.
 public class ConfigureChildrenItem {
     private int mImageResource;
     private String mText1;

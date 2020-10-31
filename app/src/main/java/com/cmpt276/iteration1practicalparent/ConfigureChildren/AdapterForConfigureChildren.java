@@ -13,6 +13,10 @@ import com.cmpt276.iteration1practicalparent.R;
 
 import java.util.ArrayList;
 
+/*
+sets up buttons on each item to be clicked -- builds adapter
+ */
+
 public class AdapterForConfigureChildren extends RecyclerView.Adapter<AdapterForConfigureChildren.ViewHolderForConfigureChildren> {
     private ArrayList<ConfigureChildrenItem> mConfigureChildrenList;
 
