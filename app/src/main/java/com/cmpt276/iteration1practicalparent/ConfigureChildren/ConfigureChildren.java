@@ -13,7 +13,7 @@ import com.cmpt276.iteration1practicalparent.R;
 
 import java.util.ArrayList;
 
-public class ConfigureChildren extends AppCompatActivity {
+public class ConfigureChildren extends AppCompatActivity implements DialogueForConfigureChildren.DialogueForConfigureChildrenListener{
     private ArrayList<ConfigureChildrenItem> mChildrenList;
 
     private RecyclerView mRecyclerView;
@@ -21,9 +21,8 @@ public class ConfigureChildren extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
 
     private Button buttonInsert;
-    private Button buttonRemove;
-    private EditText editTextInsert;
-    private EditText editTextRemove;
+
+    private int editPosition;
 
 
     @Override
@@ -33,7 +32,7 @@ public class ConfigureChildren extends AppCompatActivity {
         setTitle("Configure Children");
 
         buildRecyclerView();
-        createExampleList();
+        createChildrenList();
 
         setButtons();
     }
@@ -60,18 +59,21 @@ public class ConfigureChildren extends AppCompatActivity {
         mAdapter.notifyItemRemoved(position);
     }
 
-    public void changeItem(int position){
-        mAdapter.notifyItemChanged(position);
+    private void editItem(int position) {
+        openEditDialog();
+        editPosition = position;
     }
+
+    public void openEditDialog() {
+        DialogueForConfigureChildren dialogueForConfigureChildren = new DialogueForConfigureChildren();
+        dialogueForConfigureChildren.show(getSupportFragmentManager(),"Edit Child");
+    }
+
     public void buildRecyclerView() {
         mChildrenList = new ArrayList<>();
-        mChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "line 1", "line 2"));
-        mChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "line 3", "line 4"));
-        mChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "line 5", "line 6"));
-
     }
 
-    public void createExampleList() {
+    public void createChildrenList() {
 
         mRecyclerView = findViewById(R.id.recycler_configure_children);
         mRecyclerView.setHasFixedSize(true);
@@ -85,13 +87,21 @@ public class ConfigureChildren extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 mChildrenList.get(position);
-                changeItem(position);
             }
 
             @Override
             public void onDeleteClick(int position) {
                 removeItem(position);
             }
+
+            @Override
+            public void onEditClick(int position) { editItem(position); }
         });
+    }
+
+    @Override
+    public void applyChanges(String name, String addition_info) {
+        mChildrenList.set(editPosition, new ConfigureChildrenItem(R.drawable.ic_child, name, addition_info));
+        mAdapter.notifyItemChanged(editPosition);
     }
 }

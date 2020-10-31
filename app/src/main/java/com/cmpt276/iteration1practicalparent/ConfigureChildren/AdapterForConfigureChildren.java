@@ -21,6 +21,7 @@ public class AdapterForConfigureChildren extends RecyclerView.Adapter<AdapterFor
     public interface OnItemClickListener {
         void onItemClick(int position);
         void onDeleteClick(int position);
+        void onEditClick(int position);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
@@ -29,16 +30,18 @@ public class AdapterForConfigureChildren extends RecyclerView.Adapter<AdapterFor
 
     public static class ViewHolderForConfigureChildren extends RecyclerView.ViewHolder{
         public ImageView mImageView;
-        public TextView mTextView1;
-        public TextView mTextView2;
+        public TextView nameTextView;
+        public TextView addition_infoTextView;
         public ImageView mDeleteImage;
+        public ImageView mEditImage;
 
         public ViewHolderForConfigureChildren(View itemView, final OnItemClickListener listener){
             super(itemView);
             mImageView = itemView.findViewById(R.id.image1);
-            mTextView1 = itemView.findViewById(R.id.text1);
-            mTextView2 = itemView.findViewById(R.id.text2);
+            nameTextView = itemView.findViewById(R.id.name);
+            addition_infoTextView = itemView.findViewById(R.id.addition_info);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
+            mEditImage = itemView.findViewById(R.id.image_edit);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,6 +66,19 @@ public class AdapterForConfigureChildren extends RecyclerView.Adapter<AdapterFor
                     }
                 }
             });
+
+            mEditImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onEditClick(position);
+                        }
+                    }
+
+                }
+            });
         }
 
     }
@@ -84,8 +100,8 @@ public class AdapterForConfigureChildren extends RecyclerView.Adapter<AdapterFor
         ConfigureChildrenItem currentItem = mConfigureChildrenList.get(position);
 
         holder.mImageView.setImageResource(currentItem.getImageResource());
-        holder.mTextView1.setText(currentItem.getmText1());
-        holder.mTextView2.setText(currentItem.getmText2());
+        holder.nameTextView.setText(currentItem.getmText1());
+        holder.addition_infoTextView.setText(currentItem.getmText2());
 
     }
 
