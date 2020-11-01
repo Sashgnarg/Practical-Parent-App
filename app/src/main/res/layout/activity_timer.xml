@@ -42,5 +42,26 @@
         app:layout_constraintTop_toBottomOf="@+id/btnStartPause"
         tools:visibility="visible" />
 
+    <EditText
+        android:id="@+id/editTextTimerInput"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="28dp"
+        android:hint="Minutes"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/txtCountDown"
+        app:layout_constraintEnd_toStartOf="@+id/btnSetMinutes" />
+
+    <Button
+        android:id="@+id/btnSetMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="40dp"
+        android:text="Set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
