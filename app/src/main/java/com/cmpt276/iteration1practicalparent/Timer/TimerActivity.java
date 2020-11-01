@@ -1,7 +1,9 @@
 package com.cmpt276.iteration1practicalparent.Timer;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -15,7 +17,7 @@ import java.util.Objects;
 
 public class TimerActivity extends AppCompatActivity {
     //code for timer referenced from the following: https://www.youtube.com/playlist?list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd
-    private static final int START_TIME_IN_MILLIS = 6000;
+    private static final long START_TIME_IN_MILLIS = 600000;
 
     private TextView txtCountDown;
     private Button btnStartPause;
@@ -23,7 +25,8 @@ public class TimerActivity extends AppCompatActivity {
 
     private CountDownTimer countDownTimer;
     private boolean timerRunning;
-    private int timeLeftInMillis = START_TIME_IN_MILLIS;
+    private long timeLeftInMillis = START_TIME_IN_MILLIS;
+    private long endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,11 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void startTimer(){
+        endTime = System.currentTimeMillis() + timeLeftInMillis;
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = (int) millisUntilFinished;
+                timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
             }
 
@@ -71,29 +75,24 @@ public class TimerActivity extends AppCompatActivity {
             public void onFinish() {
                 timerRunning = false;
                 txtCountDown.setText("00:00");
-                btnStartPause.setText("Start");
-                btnStartPause.setVisibility(View.INVISIBLE);
-                btnReset.setVisibility(View.VISIBLE);
+                updateButtons();
             }
         }.start();
 
         timerRunning = true;
-        btnStartPause.setText("Pause");
-        btnReset.setVisibility(View.INVISIBLE);
+        updateButtons();
     }
 
     private void pauseTimer(){
         countDownTimer.cancel();
         timerRunning = false;
-        btnStartPause.setText("Start");
-        btnReset.setVisibility(View.VISIBLE);
+        updateButtons();
     }
 
     private void resetTimer(){
         timeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
-        btnReset.setVisibility(View.INVISIBLE);
-        btnStartPause.setVisibility(View.VISIBLE);
+        updateButtons();
     }
 
     private void updateCountDownText(){
@@ -103,5 +102,70 @@ public class TimerActivity extends AppCompatActivity {
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         txtCountDown.setText(timeLeftFormatted);
 
+    }
+
+    private void updateButtons() {
+        if (timerRunning){
+            btnReset.setVisibility(View.INVISIBLE);
+            btnStartPause.setText("Pause");
+        }
+        //three cases: either timer finished, timer is at full time, or timer is somewhere in the middle
+        else{
+            btnStartPause.setText("Start");
+
+            if (timeLeftInMillis < 1000){
+                btnStartPause.setVisibility(View.INVISIBLE);
+            }
+            else{
+                btnStartPause.setVisibility(View.VISIBLE);
+            }
+
+            if (timeLeftInMillis < START_TIME_IN_MILLIS){
+                btnReset.setVisibility(View.VISIBLE);
+            }
+            else{
+                btnReset.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putLong("millisLeft", timeLeftInMillis);
+        editor.putBoolean("timerRunning", timerRunning);
+        editor.putLong("endTime", endTime);
+
+        editor.apply();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        timeLeftInMillis = prefs.getLong("millisLeft", START_TIME_IN_MILLIS);
+        timerRunning = prefs.getBoolean("timerRunning", false);
+
+        updateCountDownText();
+        updateButtons();
+
+        if (timerRunning){
+            endTime = prefs.getLong("endTime", 0);
+            timeLeftInMillis = endTime - System.currentTimeMillis();
+
+            if (timeLeftInMillis < 0) {
+                timeLeftInMillis = 0;
+                timerRunning = false;
+                updateCountDownText();
+                updateButtons();
+            }
+            else {
+                startTimer();
+            }
+        }
     }
 }
