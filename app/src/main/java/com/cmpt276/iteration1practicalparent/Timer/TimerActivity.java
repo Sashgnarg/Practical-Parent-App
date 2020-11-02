@@ -44,6 +44,47 @@ public class TimerActivity extends AppCompatActivity {
         btnReset = findViewById(R.id.btnReset);
         btnSet = findViewById(R.id.btnSetMinutes);
 
+        Button btnOneMin = findViewById(R.id.btnOneMin);
+        Button btnTwoMin = findViewById(R.id.btnTwoMin);
+        Button btnThreeMin = findViewById(R.id.btnThreeMin);
+        Button btnFiveMin = findViewById(R.id.btnFiveMin);
+        Button btnTenMin = findViewById(R.id.btnTenMin);
+
+        btnOneMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setTime(60000);
+            }
+        });
+
+        btnTwoMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setTime(120000);
+            }
+        });
+
+        btnThreeMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setTime(180000);
+            }
+        });
+
+        btnFiveMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setTime(300000);
+            }
+        });
+
+        btnTenMin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setTime(600000);
+            }
+        });
+
         btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
