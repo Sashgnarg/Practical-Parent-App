@@ -51,18 +51,4 @@ public class ButtonFunctions {
             }
         });
     }
-    public void setFlipButton(Button button,TextView coinText) {
-        // setup Flip Button and then update textView everyClick
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int coinFace;
-                coinFace = utility.randomTwoFace();
-                coinText.setText(""+coinFace);
-            }
-        });
-    }
-
-
-
 }

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">iteration1PracticalParent</string>
     <string name="flip_button_text">FLIP</string>
+    <string name="coin_pick_text_string">Pick a Children</string>
+    <string name="win">WIN</string>
+    <string name="lose">LOSE</string>
+
 </resources>
