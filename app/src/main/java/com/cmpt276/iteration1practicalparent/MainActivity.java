@@ -23,12 +23,11 @@ public class MainActivity extends AppCompatActivity {
         ButtonFunctions buttonF = new ButtonFunctions();
 
         Button coinFlipButton = (Button) findViewById(R.id.test_button_to_coinFlip);
-        Button testPopUpButton = (Button) findViewById(R.id.test_button2);
-        buttonF.setPopUp(testPopUpButton,MainActivity.this,"lol");
+//        Button testPopUpButton = (Button) findViewById(R.id.test_button2);
+//        buttonF.setPopUp(testPopUpButton,MainActivity.this,"lol");
 
         buttonF.setButtonActivity(() -> buttonF.setChangeActivity(coinFlipButton,MainActivity.this, CoinFlipMain.class, false));
         //buttonFunctions.setButtonActivity( () -> buttonFunctions.setPopUp(testPopUpButton,MainActivity.this,"hello"));
-
 
         setupConfigureChildrenButton();
 
