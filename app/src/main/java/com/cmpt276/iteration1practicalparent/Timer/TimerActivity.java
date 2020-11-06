@@ -1,8 +1,14 @@
 package com.cmpt276.iteration1practicalparent.Timer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -145,6 +151,8 @@ public class TimerActivity extends AppCompatActivity {
             public void onFinish() {
                 timerRunning = false;
                 txtCountDown.setText("00:00");
+                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
+                timerSound.start();
                 updateButtons();
             }
         }.start();
