@@ -68,9 +68,9 @@ public class CoinFlipMain extends AppCompatActivity {
         Button flipButton = (Button)findViewById(R.id.flip_button);
 
         setFlipButton(flipButton,coinText);
-        mChildrenList = new ArrayList<ConfigureChildrenItem>();
 
         mChildrenList = utility.loadData(mChildrenList,this);
+        coinHistory = utility.loadCoinHistory(coinHistory,this);
         popUpChildren(this);
 
     }
@@ -161,9 +161,10 @@ public class CoinFlipMain extends AppCompatActivity {
         Date currentTime = Calendar.getInstance().getTime();
         coinHistory.add(new CoinHistoryClass(childrenName,currentTime,coinFace,winner));
         String json = gson.toJson(coinHistory);
-        editor.putString(LIST_CHILDREN_HISTORY, json);
+        editor.putString(Global.LIST_CHILDREN_HISTORY, json);
         editor.commit();
     }
+
     public void setFlipButton(Button button,TextView coinText) {
         // setup Flip Button and then update textView everyClick
         button.setOnClickListener(new View.OnClickListener() {
