@@ -5,10 +5,10 @@ import java.util.Date;
 public class CoinHistoryClass {
     private String pickersName;
     private Date time;
-    private String face;
+    private int face;
     private String winner;
 
-    public CoinHistoryClass(String pickersName, Date time, String face, String winner) {
+    public CoinHistoryClass(String pickersName, Date time, int face, String winner) {
         this.pickersName = pickersName;
         this.time = time;
         this.face = face;
@@ -31,11 +31,11 @@ public class CoinHistoryClass {
         this.time = time;
     }
 
-    public String getFace() {
+    public int getFace() {
         return face;
     }
 
-    public void setFace(String face) {
+    public void setFace(int face) {
         this.face = face;
     }
 
