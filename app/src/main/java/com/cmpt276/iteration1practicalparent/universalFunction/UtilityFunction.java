@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
+import com.cmpt276.iteration1practicalparent.coinFlip.CoinHistoryClass;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -64,6 +65,18 @@ public class UtilityFunction{
             mChildrenList = new ArrayList<>();
         }
         return mChildrenList;
+    }
+    public ArrayList<CoinHistoryClass> loadCoinHistory(ArrayList<CoinHistoryClass> history, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Global.CHILDREN_HISTORY, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(Global.LIST_CHILDREN_HISTORY, null);
+        Type type = new TypeToken<ArrayList<CoinHistoryClass>>(){}.getType();
+        history = gson.fromJson(json, type);
+
+        if(history == null){
+            history = new ArrayList<>();
+        }
+        return history;
     }
 
 }

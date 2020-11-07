@@ -43,6 +43,8 @@ public class CoinFlipMain extends AppCompatActivity {
     private static int selection;
     ArrayList<CoinHistoryClass> coinHistory;
 
+    private int coinFace;
+
 
 
     @Override
@@ -66,9 +68,9 @@ public class CoinFlipMain extends AppCompatActivity {
         Button flipButton = (Button)findViewById(R.id.flip_button);
 
         setFlipButton(flipButton,coinText);
-        mChildrenList = new ArrayList<ConfigureChildrenItem>();
 
         mChildrenList = utility.loadData(mChildrenList,this);
+        coinHistory = utility.loadCoinHistory(coinHistory,this);
         popUpChildren(this);
 
     }
@@ -144,8 +146,8 @@ public class CoinFlipMain extends AppCompatActivity {
         currentChildren.setText(childrenName);
     }
     private void saveHistory(){
-        String resultFace = coinText.getText().toString().trim();
-        if (selection == Integer.parseInt(coinText.getText().toString().trim())){
+
+        if (selection ==  coinFace){
             winner = "WIN";
             coinFlipWinnerText.setText(R.string.win);
         }
@@ -157,16 +159,18 @@ public class CoinFlipMain extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         Date currentTime = Calendar.getInstance().getTime();
-        String json = gson.toJson(new CoinHistoryClass(childrenName,currentTime,resultFace,winner));
-        editor.putString(LIST_CHILDREN_HISTORY, json);
+        coinHistory.add(new CoinHistoryClass(childrenName,currentTime,coinFace,winner));
+        String json = gson.toJson(coinHistory);
+        editor.putString(Global.LIST_CHILDREN_HISTORY, json);
         editor.commit();
     }
+
     public void setFlipButton(Button button,TextView coinText) {
         // setup Flip Button and then update textView everyClick
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int coinFace;
+
                 coinFace = utility.randomTwoFace();
 
                 coinText.setText(""+coinFace);
