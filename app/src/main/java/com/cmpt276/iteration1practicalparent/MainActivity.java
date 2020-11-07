@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildren;
+import com.cmpt276.iteration1practicalparent.Timer.TimerActivity;
 import com.cmpt276.iteration1practicalparent.coinFlip.CoinFlipMain;
 import com.cmpt276.iteration1practicalparent.universalFunction.ButtonFunctions;
 
@@ -22,15 +23,17 @@ public class MainActivity extends AppCompatActivity {
         ButtonFunctions buttonF = new ButtonFunctions();
 
         Button coinFlipButton = (Button) findViewById(R.id.test_button_to_coinFlip);
-        Button testPopUpButton = (Button) findViewById(R.id.test_button2);
-        buttonF.setPopUp(testPopUpButton,MainActivity.this,"lol");
+//        Button testPopUpButton = (Button) findViewById(R.id.test_button2);
+//        buttonF.setPopUp(testPopUpButton,MainActivity.this,"lol");
 
         buttonF.setButtonActivity(() -> buttonF.setChangeActivity(coinFlipButton,MainActivity.this, CoinFlipMain.class, false));
         //buttonFunctions.setButtonActivity( () -> buttonFunctions.setPopUp(testPopUpButton,MainActivity.this,"hello"));
 
-
         setupConfigureChildrenButton();
+
+        setupTimerButton();
     }
+
 
     public void setupConfigureChildrenButton(){
         Button configureChildren = (Button) findViewById(R.id.configure_children);
@@ -39,6 +42,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ConfigureChildren.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    public void setupTimerButton() {
+        Button timerBtn = (Button) findViewById(R.id.btnTimer);
+        timerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (MainActivity.this, TimerActivity.class);
                 startActivity(intent);
             }
         });
