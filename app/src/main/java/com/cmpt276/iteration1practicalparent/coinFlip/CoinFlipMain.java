@@ -71,8 +71,10 @@ public class CoinFlipMain extends AppCompatActivity {
 
         mChildrenList = utility.loadData(mChildrenList,this);
         coinHistory = utility.loadCoinHistory(coinHistory,this);
-        popUpChildren(this);
 
+        if (!mChildrenList.isEmpty()){ //if there is config children
+            popUpChildren(this);
+        }
     }
 
     public void popUpChildren(Context context){
@@ -131,6 +133,7 @@ public class CoinFlipMain extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterForConfigureChildren.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+
                 childrenName = mChildrenList.get(position).getmText1();
                 updateText();
                 dialog.dismiss();
@@ -172,9 +175,10 @@ public class CoinFlipMain extends AppCompatActivity {
             public void onClick(View view) {
 
                 coinFace = utility.randomTwoFace();
-
                 coinText.setText(""+coinFace);
-                saveHistory();
+                if (!mChildrenList.isEmpty()){ //if there is config children
+                    saveHistory();
+                }
             }
         });
     }
