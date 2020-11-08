@@ -8,10 +8,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -23,20 +29,15 @@ import com.cmpt276.iteration1practicalparent.universalFunction.Global;
 import com.cmpt276.iteration1practicalparent.universalFunction.UtilityFunction;
 import com.google.gson.Gson;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import static com.cmpt276.iteration1practicalparent.universalFunction.Global.LIST_CHILDREN_HISTORY;
-import static com.cmpt276.iteration1practicalparent.universalFunction.Global.LIST_OF_CHILDREN;
-import static com.cmpt276.iteration1practicalparent.universalFunction.Global.SHAREDPREFERENCE_FOR_CHILDREN;
 
 public class CoinFlipMain extends AppCompatActivity {
 
     ButtonFunctions buttonF;
     UtilityFunction utility;
-    private TextView coinText, currentChildren, coinFlipWinnerText;
+    private TextView currentChildren, coinFlipResultText;
     private ArrayList<ConfigureChildrenItem> mChildrenList;
 
     private String childrenName, winner;
@@ -63,11 +64,11 @@ public class CoinFlipMain extends AppCompatActivity {
         //initial layout
         currentChildren = (TextView)findViewById(R.id.current_children);
 
-        coinText = (TextView)findViewById(R.id.coin_text);
-        coinFlipWinnerText = (TextView)findViewById(R.id.coin_flip_winner_text);
+        //coinText = (TextView)findViewById(R.id.coin_text);
+        coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
         Button flipButton = (Button)findViewById(R.id.flip_button);
 
-        setFlipButton(flipButton,coinText);
+        setFlipButton(flipButton);
 
         mChildrenList = utility.loadData(mChildrenList,this);
         coinHistory = utility.loadCoinHistory(coinHistory,this);
@@ -149,14 +150,22 @@ public class CoinFlipMain extends AppCompatActivity {
         currentChildren.setText(childrenName);
     }
     private void saveHistory(){
+        String coinResult;
+        if (coinFace == 1){
+            coinResult = "Heads";
+        }
+        else {
+            coinResult = "Tails";
+        }
+        coinFlipResultText.setText(coinResult);
 
         if (selection ==  coinFace){
             winner = "WIN";
-            coinFlipWinnerText.setText(R.string.win);
+            //coinFlipWinnerText.setText(R.string.win);
         }
         else{
             winner = "LOSE";
-            coinFlipWinnerText.setText(R.string.lose);
+            //coinFlipWinnerText.setText(R.string.lose);
         }
         SharedPreferences sharedPreferences = getSharedPreferences(Global.CHILDREN_HISTORY, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -168,19 +177,56 @@ public class CoinFlipMain extends AppCompatActivity {
         editor.commit();
     }
 
-    public void setFlipButton(Button button,TextView coinText) {
-        // setup Flip Button and then update textView everyClick
+    public void setFlipButton(Button button) {
+        // setup Flip Button and then update imgView everyClick
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 coinFace = utility.randomTwoFace();
-                coinText.setText(""+coinFace);
+                flipCoin(coinFace);
+                MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
+                coinSound.start();
                 if (!mChildrenList.isEmpty()){ //if there is config children
                     saveHistory();
                 }
             }
         });
+    }
+    //code tutorial: https://www.youtube.com/watch?v=eoPRhXoIOWA
+    private void flipCoin(int coinFace){
+        ImageView coin = (ImageView) findViewById(R.id.imgCoin);
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(500);
+        fadeOut.setFillAfter(true);
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //if coin was heads:
+                if (coinFace == 1){
+                    coin.setImageResource(R.drawable.heads);
+                }
+                else {
+                    coin.setImageResource(R.drawable.tails);
+                }
+                Animation fadeIn = new AlphaAnimation(0, 1);
+                fadeIn.setInterpolator(new DecelerateInterpolator());
+                fadeIn.setDuration(500);
+                fadeIn.setFillAfter(true);
+                coin.startAnimation(fadeIn);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        coin.startAnimation(fadeOut);
     }
 
     @Override
