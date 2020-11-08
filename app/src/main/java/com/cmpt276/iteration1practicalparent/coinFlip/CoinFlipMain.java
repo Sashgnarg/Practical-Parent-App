@@ -40,10 +40,9 @@ public class CoinFlipMain extends AppCompatActivity {
     private ArrayList<ConfigureChildrenItem> mChildrenList;
 
     private String childrenName, winner;
-    private static int selection;
+    private int selection,coinFace;
     ArrayList<CoinHistoryClass> coinHistory;
 
-    private int coinFace;
 
 
 
@@ -153,6 +152,9 @@ public class CoinFlipMain extends AppCompatActivity {
         if (selection ==  coinFace){
             winner = "WIN";
             coinFlipWinnerText.setText(R.string.win);
+        }
+        else if(childrenName.isEmpty()){
+            winner = "";
         }
         else{
             winner = "LOSE";
