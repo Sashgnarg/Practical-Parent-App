@@ -35,6 +35,7 @@ import java.util.Date;
 
 public class CoinFlipMain extends AppCompatActivity {
 
+    
     ButtonFunctions buttonF;
     UtilityFunction utility;
     private TextView currentChildren, coinFlipResultText;
