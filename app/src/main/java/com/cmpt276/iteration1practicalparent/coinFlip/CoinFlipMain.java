@@ -37,7 +37,7 @@ public class CoinFlipMain extends AppCompatActivity {
 
     ButtonFunctions buttonF;
     UtilityFunction utility;
-    private TextView coinText, currentChildren, coinFlipWinnerText;
+    private TextView currentChildren, coinFlipResultText;
     private ArrayList<ConfigureChildrenItem> mChildrenList;
 
     private String childrenName, winner;
@@ -65,10 +65,10 @@ public class CoinFlipMain extends AppCompatActivity {
         currentChildren = (TextView)findViewById(R.id.current_children);
 
         //coinText = (TextView)findViewById(R.id.coin_text);
-        coinFlipWinnerText = (TextView)findViewById(R.id.coin_flip_winner_text);
+        coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
         Button flipButton = (Button)findViewById(R.id.flip_button);
 
-        setFlipButton(flipButton,coinText);
+        setFlipButton(flipButton);
 
         mChildrenList = utility.loadData(mChildrenList,this);
         coinHistory = utility.loadCoinHistory(coinHistory,this);
@@ -157,7 +157,7 @@ public class CoinFlipMain extends AppCompatActivity {
         else {
             coinResult = "Tails";
         }
-        coinFlipWinnerText.setText(coinResult);
+        coinFlipResultText.setText(coinResult);
 
         if (selection ==  coinFace){
             winner = "WIN";
@@ -177,7 +177,7 @@ public class CoinFlipMain extends AppCompatActivity {
         editor.commit();
     }
 
-    public void setFlipButton(Button button,TextView coinText) {
+    public void setFlipButton(Button button) {
         // setup Flip Button and then update imgView everyClick
         button.setOnClickListener(new View.OnClickListener() {
             @Override
