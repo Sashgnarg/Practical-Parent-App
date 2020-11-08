@@ -9,13 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".coinFlip.testActivity"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".Timer.TimerActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".Timer.TimerActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".coinFlip.CoinFlipMain" />
         <activity android:name=".MainActivity">
             <intent-filter>
