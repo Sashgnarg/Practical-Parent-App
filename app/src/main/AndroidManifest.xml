@@ -24,12 +24,19 @@
             android:name=".ConfigureChildren.ConfigureChildren"
             android:label="ConfigureChildren"
             android:parentActivityName=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+        <activity android:name=".coinFlip.historyAllDisplay"
+            android:parentActivityName=".coinFlip.CoinFlipMain">
+
+        </activity>
+
+        <activity android:name=".coinFlip.historyCurrDisplay"
+            android:parentActivityName=".coinFlip.CoinFlipMain">
+
+        </activity>
+
+
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ import java.util.Date;
 
 public class CoinFlipMain extends AppCompatActivity {
 
-    
+
     ButtonFunctions buttonF;
     UtilityFunction utility;
     private TextView currentChildren, coinFlipResultText;
@@ -44,7 +45,12 @@ public class CoinFlipMain extends AppCompatActivity {
     private String childrenName, winner;
     private int selection,coinFace;
     ArrayList<CoinHistoryClass> coinHistory;
-// hello i am andrew
+
+    private Button historyAllBtn;
+    private Button historyCurrBtn;
+
+
+    // hello i am andrew
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,27 @@ public class CoinFlipMain extends AppCompatActivity {
         utility = new UtilityFunction();
         coinHistory = new ArrayList<>();
         initialLayout();
+
+        historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
+        historyAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = historyAllDisplay.showAll(CoinFlipMain.this);
+                startActivity(intent);
+            }
+        });
+
+        historyCurrBtn = (Button) findViewById(R.id.viewCurrHistory);
+        historyCurrBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = historyCurrDisplay.showCurr(CoinFlipMain.this);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
     public void initialLayout(){
         //initial layout
