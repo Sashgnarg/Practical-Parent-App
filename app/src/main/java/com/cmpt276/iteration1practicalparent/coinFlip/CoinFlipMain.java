@@ -44,10 +44,6 @@ public class CoinFlipMain extends AppCompatActivity {
     private int selection,coinFace;
     ArrayList<CoinHistoryClass> coinHistory;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

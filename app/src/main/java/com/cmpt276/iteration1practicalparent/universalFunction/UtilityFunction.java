@@ -55,27 +55,27 @@ public class UtilityFunction{
         return (random.nextInt(1000)%2);
     }
     public ArrayList<ConfigureChildrenItem> loadData(ArrayList<ConfigureChildrenItem> mChildrenList, Context context) {
+        if(mChildrenList == null){
+            mChildrenList = new ArrayList<>();
+            return mChildrenList;
+        }
         SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(LIST_OF_CHILDREN, null);
         Type type = new TypeToken<ArrayList<ConfigureChildrenItem>>(){}.getType();
         mChildrenList = gson.fromJson(json, type);
-
-        if(mChildrenList == null){
-            mChildrenList = new ArrayList<>();
-        }
         return mChildrenList;
     }
     public ArrayList<CoinHistoryClass> loadCoinHistory(ArrayList<CoinHistoryClass> history, Context context) {
+        if(history == null){
+            history = new ArrayList<>();
+            return history;
+        }
         SharedPreferences sharedPreferences = context.getSharedPreferences(Global.CHILDREN_HISTORY, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(Global.LIST_CHILDREN_HISTORY, null);
         Type type = new TypeToken<ArrayList<CoinHistoryClass>>(){}.getType();
         history = gson.fromJson(json, type);
-
-        if(history == null){
-            history = new ArrayList<>();
-        }
         return history;
     }
 

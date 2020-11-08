@@ -4,5 +4,8 @@
     <string name="coin_pick_text_string">Pick a Child</string>
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
+    <string name="title_activity_test">testActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 
 </resources>
