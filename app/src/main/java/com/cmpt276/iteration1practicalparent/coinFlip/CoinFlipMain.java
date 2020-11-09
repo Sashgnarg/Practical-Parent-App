@@ -76,7 +76,8 @@ public class CoinFlipMain extends AppCompatActivity {
         historyCurrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = historyCurrDisplay.showCurr(CoinFlipMain.this);
+                Intent intent = new Intent(CoinFlipMain.this, historyCurrDisplay.class);
+                intent.putExtra("param", childrenName);
                 startActivity(intent);
             }
         });
