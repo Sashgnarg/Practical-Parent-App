@@ -24,6 +24,12 @@ import com.cmpt276.iteration1practicalparent.R;
 import java.util.Locale;
 import java.util.Objects;
 
+/*
+ * Timer activity gives user the option to set a timer for a whole number of minutes
+ * or easily select between the options of: 1,2,3,5,10 minutes
+ * Allows for pausing and resetting & continues to run when on a different activity or exiting the app
+ * */
+
 public class TimerActivity extends AppCompatActivity {
     //code for timer referenced from the following: https://www.youtube.com/playlist?list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd
     private EditText editTextMinutesInput;

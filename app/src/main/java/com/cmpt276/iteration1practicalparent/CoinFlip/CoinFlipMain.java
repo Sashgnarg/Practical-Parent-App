@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.coinFlip;
+package com.cmpt276.iteration1practicalparent.CoinFlip;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,9 +25,9 @@ import android.widget.TextView;
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.AdapterForConfigureChildren;
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.universalFunction.ButtonFunctions;
-import com.cmpt276.iteration1practicalparent.universalFunction.Global;
-import com.cmpt276.iteration1practicalparent.universalFunction.UtilityFunction;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.ButtonFunctions;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.Global;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.UtilityFunction;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -50,13 +50,15 @@ public class CoinFlipMain extends AppCompatActivity {
     private Button historyCurrBtn;
 
 
-    // hello i am andrew
+    // coin Flip Main class:
+    // doing the coin flip and save to
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Coin Flip");
+        childrenName=null; //make sure null won't be saved
 
         //initial functions
         utility = new UtilityFunction();
@@ -67,7 +69,7 @@ public class CoinFlipMain extends AppCompatActivity {
         historyAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = historyAllDisplay.showAll(CoinFlipMain.this);
+                Intent intent = HistoryAllDisplay.showAll(CoinFlipMain.this);
                 startActivity(intent);
             }
         });
@@ -76,7 +78,7 @@ public class CoinFlipMain extends AppCompatActivity {
         historyCurrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CoinFlipMain.this, historyCurrDisplay.class);
+                Intent intent = new Intent(CoinFlipMain.this, HistoryCurrDisplay.class);
                 intent.putExtra("param", childrenName);
                 startActivity(intent);
             }
@@ -92,12 +94,13 @@ public class CoinFlipMain extends AppCompatActivity {
         //coinText = (TextView)findViewById(R.id.coin_text);
         coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
         Button flipButton = (Button)findViewById(R.id.flip_button);
-        //hi
+
 
         setFlipButton(flipButton);
-
-        mChildrenList = utility.loadData(mChildrenList,this);
-        coinHistory = utility.loadCoinHistory(coinHistory,this);
+        //load config children
+        mChildrenList = utility.loadData(this);
+        //load coin history
+        coinHistory = utility.loadCoinHistory(this);
 
         if (!mChildrenList.isEmpty()){ //if there is config children
             popUpChildren(this);
@@ -105,7 +108,7 @@ public class CoinFlipMain extends AppCompatActivity {
     }
 
     public void popUpChildren(Context context){
-        // popup screen
+        // popup screen that shows a list of children
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view;
         view = LayoutInflater.from(context).inflate(R.layout.coin_picker_list,null);
@@ -147,7 +150,7 @@ public class CoinFlipMain extends AppCompatActivity {
         pop.show();
     }
     private void createChildrenList(View view, AlertDialog dialog){
-        //recycle layout
+        //recycle layout for popup
         TextView textView = (TextView)view.findViewById(R.id.coin_picker_text);
         RecyclerView mRecyclerView = view.findViewById(R.id.coin_picker_recyc_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -179,11 +182,9 @@ public class CoinFlipMain extends AppCompatActivity {
 
         if (selection ==  coinFace){
             winner = "WIN";
-            //coinFlipWinnerText.setText(R.string.win);
         }
         else{
             winner = "LOSE";
-            //coinFlipWinnerText.setText(R.string.lose);
         }
         SharedPreferences sharedPreferences = getSharedPreferences(Global.CHILDREN_HISTORY, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -215,7 +216,7 @@ public class CoinFlipMain extends AppCompatActivity {
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
 
-                if (!mChildrenList.isEmpty()){ //if there is config children
+                if (childrenName != null){ //if there is config children
                     saveHistory();
                 }
             }

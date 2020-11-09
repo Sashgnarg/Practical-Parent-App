@@ -9,8 +9,8 @@ import android.widget.Button;
 
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildren;
 import com.cmpt276.iteration1practicalparent.Timer.TimerActivity;
-import com.cmpt276.iteration1practicalparent.coinFlip.CoinFlipMain;
-import com.cmpt276.iteration1practicalparent.universalFunction.ButtonFunctions;
+import com.cmpt276.iteration1practicalparent.CoinFlip.CoinFlipMain;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.ButtonFunctions;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 //        Button testPopUpButton = (Button) findViewById(R.id.test_button2);
 //        buttonF.setPopUp(testPopUpButton,MainActivity.this,"lol");
 
-        buttonF.setButtonActivity(() -> buttonF.setChangeActivity(coinFlipButton,MainActivity.this, CoinFlipMain.class, false));
+        buttonF.setButtonActivity(()->buttonF.setChangeActivity(coinFlipButton,MainActivity.this, CoinFlipMain.class, false));
         //buttonFunctions.setButtonActivity( () -> buttonFunctions.setPopUp(testPopUpButton,MainActivity.this,"hello"));
 
         setupConfigureChildrenButton();

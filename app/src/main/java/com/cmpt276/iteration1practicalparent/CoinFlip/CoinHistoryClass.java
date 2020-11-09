@@ -1,12 +1,17 @@
-package com.cmpt276.iteration1practicalparent.coinFlip;
+package com.cmpt276.iteration1practicalparent.CoinFlip;
 
 import java.util.Date;
 
 public class CoinHistoryClass {
-    private String pickersName;
-    private Date time;
-    private int face;
-    private String winner;
+    // class the save history information...
+    // pickersName -> children name
+    // time -> current time
+    // face -> 1 -> head 2 > tail
+    // winner -> win and lose
+    private final String pickersName;
+    private final Date time;
+    private final int face;
+    private final String winner;
 
     public CoinHistoryClass(String pickersName, Date time, int face, String winner) {
         this.pickersName = pickersName;
@@ -19,31 +24,16 @@ public class CoinHistoryClass {
         return pickersName;
     }
 
-    public void setPickersName(String pickersName) {
-        this.pickersName = pickersName;
-    }
-
     public Date getTime() {
         return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
     }
 
     public int getFace() {
         return face;
     }
 
-    public void setFace(int face) {
-        this.face = face;
-    }
-
     public String getWinner() {
         return winner;
     }
 
-    public void setWinner(String winner) {
-        this.winner = winner;
-    }
 }

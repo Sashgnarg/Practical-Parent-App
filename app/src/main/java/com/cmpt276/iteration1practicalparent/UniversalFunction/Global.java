@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.universalFunction;
+package com.cmpt276.iteration1practicalparent.UniversalFunction;
 
 public class Global {
     //children config
