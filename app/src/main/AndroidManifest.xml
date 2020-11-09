@@ -13,7 +13,7 @@
         <activity android:name=".Timer.TimerActivity"
             android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".coinFlip.CoinFlipMain" />
+        <activity android:name=".CoinFlip.CoinFlipMain" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,13 +27,13 @@
             android:parentActivityName=".MainActivity">
         </activity>
 
-        <activity android:name=".coinFlip.HistoryAllDisplay"
-            android:parentActivityName=".coinFlip.CoinFlipMain">
+        <activity android:name=".CoinFlip.HistoryAllDisplay"
+            android:parentActivityName=".CoinFlip.CoinFlipMain">
 
         </activity>
 
-        <activity android:name=".coinFlip.HistoryCurrDisplay"
-            android:parentActivityName=".coinFlip.CoinFlipMain">
+        <activity android:name=".CoinFlip.HistoryCurrDisplay"
+            android:parentActivityName=".CoinFlip.CoinFlipMain">
 
         </activity>
 
