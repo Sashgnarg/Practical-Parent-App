@@ -41,7 +41,7 @@ public class historyCurrDisplay extends AppCompatActivity {
         String currChildName = getIntent().getExtras().getString("param");
 
         for(int i = 0; i < coinHistoryAll.size(); i++){
-            if (coinHistoryAll.get(i).getPickersName().equals(currChildName)){
+            if (coinHistoryAll.get(i).getPickersName()!= null && currChildName!=null && coinHistoryAll.get(i).getPickersName().equals(currChildName)){
                 currInfo.add(coinHistoryAll.get(i));
             }
         }

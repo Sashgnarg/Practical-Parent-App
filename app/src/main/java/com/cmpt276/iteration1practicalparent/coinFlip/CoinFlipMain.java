@@ -176,21 +176,10 @@ public class CoinFlipMain extends AppCompatActivity {
         currentChildren.setText(childrenName);
     }
     private void saveHistory(){
-        String coinResult;
-        if (coinFace == 1){
-            coinResult = "Heads";
-        }
-        else {
-            coinResult = "Tails";
-        }
-        coinFlipResultText.setText(coinResult);
 
         if (selection ==  coinFace){
             winner = "WIN";
             //coinFlipWinnerText.setText(R.string.win);
-        }
-        else if(childrenName.isEmpty()){
-            winner = "";
         }
         else{
             winner = "LOSE";
@@ -214,8 +203,18 @@ public class CoinFlipMain extends AppCompatActivity {
 
                 coinFace = utility.randomTwoFace();
                 flipCoin(coinFace);
+                String coinResult;
+                if (coinFace == 1){
+                    coinResult = "Heads";
+                }
+                else {
+                    coinResult = "Tails";
+                }
+                coinFlipResultText.setText(coinResult);
+
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
+
                 if (!mChildrenList.isEmpty()){ //if there is config children
                     saveHistory();
                 }
