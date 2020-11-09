@@ -63,7 +63,6 @@ public class UtilityFunction{
         mChildrenList = gson.fromJson(json, type);
         if(mChildrenList == null){
             mChildrenList = new ArrayList<>();
-            return mChildrenList;
         }
         return mChildrenList;
     }
@@ -76,7 +75,6 @@ public class UtilityFunction{
         history = gson.fromJson(json, type);
         if(history == null){
             history = new ArrayList<>();
-            return history;
         }
         return history;
     }
