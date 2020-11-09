@@ -29,6 +29,8 @@ public class historyCurrDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_current);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("History for Current Child");
 
         utility = new UtilityFunction();
         coinHistoryAll = new ArrayList<>();

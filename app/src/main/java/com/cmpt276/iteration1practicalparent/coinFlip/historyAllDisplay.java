@@ -29,6 +29,8 @@ public class historyAllDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_all);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("History for all Coin Flips");
 
         utility = new UtilityFunction();
         coinHistoryAll = new ArrayList<>();
