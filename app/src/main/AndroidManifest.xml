@@ -23,7 +23,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>historyCurrDisplay
         </activity>
         <activity
             android:name=".ConfigureChildren.ConfigureChildren"
@@ -38,7 +38,7 @@
 
         </activity>
 
-        <activity android:name=".coinFlip.historyCurrDisplay"
+        <activity android:name=".coinFlip."
             android:parentActivityName=".coinFlip.CoinFlipMain"
             android:screenOrientation="portrait">
 
