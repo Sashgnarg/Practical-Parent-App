@@ -11,29 +11,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Timer.TimerActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CoinFlip.CoinFlipMain" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".CoinFlip.CoinFlipMain"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>historyCurrDisplay
         </activity>
         <activity
             android:name=".ConfigureChildren.ConfigureChildren"
             android:label="ConfigureChildren"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".CoinFlip.HistoryAllDisplay"
-            android:parentActivityName=".CoinFlip.CoinFlipMain">
+            android:parentActivityName=".CoinFlip.CoinFlipMain"
+            android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".CoinFlip.HistoryCurrDisplay"
-            android:parentActivityName=".CoinFlip.CoinFlipMain">
+        <activity android:name=".coinFlip."
+            android:parentActivityName=".coinFlip.CoinFlipMain"
+            android:screenOrientation="portrait">
 
         </activity>
 
