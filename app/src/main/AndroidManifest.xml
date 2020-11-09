@@ -27,12 +27,12 @@
             android:parentActivityName=".MainActivity">
         </activity>
 
-        <activity android:name=".coinFlip.historyAllDisplay"
+        <activity android:name=".coinFlip.HistoryAllDisplay"
             android:parentActivityName=".coinFlip.CoinFlipMain">
 
         </activity>
 
-        <activity android:name=".coinFlip.historyCurrDisplay"
+        <activity android:name=".coinFlip.HistoryCurrDisplay"
             android:parentActivityName=".coinFlip.CoinFlipMain">
 
         </activity>

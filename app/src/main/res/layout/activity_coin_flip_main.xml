@@ -5,7 +5,8 @@
     android:id="@+id/coin_flip_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".coinFlip.CoinFlipMain">
+    tools:context=".coinFlip.CoinFlipMain"
+    android:background = "@drawable/main_menu_background">
 
     <Button
         android:id="@+id/flip_button"

@@ -3,7 +3,6 @@ package com.cmpt276.iteration1practicalparent.coinFlip;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +14,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.universalFunction.UtilityFunction;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.UtilityFunction;
 
 import java.util.ArrayList;
 
-public class historyAllDisplay extends AppCompatActivity {
+public class HistoryAllDisplay extends AppCompatActivity {
     UtilityFunction utility;
     ArrayList<CoinHistoryClass> coinHistoryAll;
     String face;
@@ -50,7 +49,7 @@ public class historyAllDisplay extends AppCompatActivity {
 
     public class MyListAdapter extends ArrayAdapter<CoinHistoryClass> {
         public MyListAdapter(){
-            super(historyAllDisplay.this, R.layout.history_of_all_flips, coinHistoryAll);
+            super(HistoryAllDisplay.this, R.layout.history_of_all_flips, coinHistoryAll);
 
         }
 
@@ -86,7 +85,7 @@ public class historyAllDisplay extends AppCompatActivity {
     }
 
     public static Intent showAll(Context c){
-        Intent intent = new Intent(c, historyAllDisplay.class);
+        Intent intent = new Intent(c, HistoryAllDisplay.class);
         return intent;
     }
 

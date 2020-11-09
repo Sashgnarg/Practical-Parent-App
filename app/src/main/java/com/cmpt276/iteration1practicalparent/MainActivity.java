@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildren;
 import com.cmpt276.iteration1practicalparent.Timer.TimerActivity;
 import com.cmpt276.iteration1practicalparent.coinFlip.CoinFlipMain;
-import com.cmpt276.iteration1practicalparent.universalFunction.ButtonFunctions;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.ButtonFunctions;
 
 
 public class MainActivity extends AppCompatActivity {
