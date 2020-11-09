@@ -57,6 +57,7 @@ public class CoinFlipMain extends AppCompatActivity {
         setContentView(R.layout.activity_coin_flip_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Coin Flip");
+        childrenName=null; //make sure null won't be saved
 
         //initial functions
         utility = new UtilityFunction();
@@ -215,7 +216,7 @@ public class CoinFlipMain extends AppCompatActivity {
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
 
-                if (!mChildrenList.isEmpty()){ //if there is config children
+                if (childrenName != null){ //if there is config children
                     saveHistory();
                 }
             }
