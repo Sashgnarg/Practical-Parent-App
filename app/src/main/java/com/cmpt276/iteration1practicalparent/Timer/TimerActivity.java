@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -59,7 +60,7 @@ public class TimerActivity extends AppCompatActivity {
         btnOneMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setTime(60000);
+                setTime(6000);
             }
         });
 
@@ -153,6 +154,9 @@ public class TimerActivity extends AppCompatActivity {
                 txtCountDown.setText("00:00");
                 MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
                 timerSound.start();
+                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                Vibration.vibrate(2000);
+                sendNotification();
                 updateButtons();
             }
         }.start();
@@ -229,6 +233,24 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
+    //tutorial for code: https://www.youtube.com/watch?v=ATERxKKORbY
+    private void sendNotification(){
+        // Builds your notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("Practical Parent: Timer Ended")
+                .setContentText("Your timer has reached zero!");
+
+        // Creates the intent needed to show the notification
+        Intent notificationIntent = new Intent(this, TimerActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -275,3 +297,4 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 }
+
