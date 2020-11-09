@@ -18,8 +18,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /*
-Builds recycler view -- sets up insert button --saves/creates the array list of children-- responsible for adding/removing/deleting items from the arraylist
---opens dialogue when insert or edit item is clicked--
+Builds recycler view
+sets up insert button
+saves/loads/creates the array list of children
+responsible for adding/removing/deleting items from the arraylist and updating the recycler view
+opens dialogue when insert or edit item is clicked
  */
 
 public class ConfigureChildren extends AppCompatActivity implements DialogueForConfigureChildren.DialogueForConfigureChildrenListener{
