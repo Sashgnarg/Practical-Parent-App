@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.UniversalFunction;
+package com.cmpt276.iteration1practicalparent.Model.UniversalFunction;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildrenItem;
+import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.CoinFlip.CoinHistoryClass;
+import com.cmpt276.iteration1practicalparent.Model.CoinHistoryClass;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.cmpt276.iteration1practicalparent.UniversalFunction.Global.LIST_OF_CHILDREN;
+import static com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global.LIST_OF_CHILDREN;
 
 public class UtilityFunction{
     Random random = new Random();

@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.ConfigureChildren;
+package com.cmpt276.iteration1practicalparent.Model;
 
 //Stores information of each child
 

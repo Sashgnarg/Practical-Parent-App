@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.CoinFlip;
+package com.cmpt276.iteration1practicalparent.UI.CoinFlip;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,12 +22,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.cmpt276.iteration1practicalparent.ConfigureChildren.AdapterForConfigureChildren;
-import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildrenItem;
+import com.cmpt276.iteration1practicalparent.Model.CoinHistoryClass;
+import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.AdapterForConfigureChildren;
+import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.UniversalFunction.ButtonFunctions;
-import com.cmpt276.iteration1practicalparent.UniversalFunction.Global;
-import com.cmpt276.iteration1practicalparent.UniversalFunction.UtilityFunction;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.ButtonFunctions;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

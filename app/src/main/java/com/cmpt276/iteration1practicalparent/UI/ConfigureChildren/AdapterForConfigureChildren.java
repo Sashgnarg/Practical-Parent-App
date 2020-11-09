@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.ConfigureChildren;
+package com.cmpt276.iteration1practicalparent.UI.ConfigureChildren;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
 
 import java.util.ArrayList;
