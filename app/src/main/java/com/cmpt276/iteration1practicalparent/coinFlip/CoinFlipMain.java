@@ -222,6 +222,7 @@ public class CoinFlipMain extends AppCompatActivity {
             }
         });
     }
+
     //code tutorial: https://www.youtube.com/watch?v=eoPRhXoIOWA
     private void flipCoin(int coinFace){
         ImageView coin = (ImageView) findViewById(R.id.imgCoin);

@@ -39,7 +39,7 @@ public class historyCurrDisplay extends AppCompatActivity {
         String currChildName = getIntent().getExtras().getString("param");
 
         for(int i = 0; i < coinHistoryAll.size(); i++){
-            if (coinHistoryAll.get(i).getPickersName() ==  currChildName){
+            if (coinHistoryAll.get(i).getPickersName().equals(currChildName)){
                 currInfo.add(coinHistoryAll.get(i));
             }
         }
@@ -57,7 +57,7 @@ public class historyCurrDisplay extends AppCompatActivity {
 
     public class MyListAdapter extends ArrayAdapter<CoinHistoryClass> {
         public MyListAdapter(){
-            super(historyCurrDisplay.this, R.layout.history_of_curr_flips, currInfo);
+            super(historyCurrDisplay.this, R.layout.history_of_all_flips, currInfo);
 
         }
 
@@ -66,7 +66,7 @@ public class historyCurrDisplay extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View itemView = convertView;
             if (itemView == null){
-                itemView = getLayoutInflater().inflate(R.layout.history_of_curr_flips, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.history_of_all_flips, parent, false);
             }
 
             CoinHistoryClass history = currInfo.get(position);
