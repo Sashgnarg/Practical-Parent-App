@@ -1,4 +1,8 @@
-package com.cmpt276.iteration1practicalparent.coinFlip;
+/*
+ * show history of all coin flips
+ */
+
+package com.cmpt276.iteration1practicalparent.CoinFlip;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

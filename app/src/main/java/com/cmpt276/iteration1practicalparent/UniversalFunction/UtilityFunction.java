@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.coinFlip.CoinHistoryClass;
+import com.cmpt276.iteration1practicalparent.CoinFlip.CoinHistoryClass;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.coinFlip;
+package com.cmpt276.iteration1practicalparent.CoinFlip;
 
 import java.util.Date;
 
