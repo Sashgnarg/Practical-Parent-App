@@ -66,7 +66,7 @@ public class TimerActivity extends AppCompatActivity {
         btnOneMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setTime(6000);
+                setTime(60000);
             }
         });
 
