@@ -14,7 +14,7 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".coinFlip.CoinFlipMain"
+        <activity android:name=".CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
@@ -32,8 +32,8 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".coinFlip.historyAllDisplay"
-            android:parentActivityName=".coinFlip.CoinFlipMain"
+        <activity android:name=".CoinFlip.HistoryAllDisplay"
+            android:parentActivityName=".CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait">
 
         </activity>
