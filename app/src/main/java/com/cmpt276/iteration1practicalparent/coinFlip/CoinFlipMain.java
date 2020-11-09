@@ -189,7 +189,7 @@ public class CoinFlipMain extends AppCompatActivity {
             winner = "WIN";
             //coinFlipWinnerText.setText(R.string.win);
         }
-        else if(childrenName.isEmpty()){
+        else if(childrenName == null){
             winner = "";
         }
         else{
