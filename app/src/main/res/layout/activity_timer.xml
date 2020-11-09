@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/timer_background"
-    tools:context=".Timer.TimerActivity">
+    tools:context=".UI.Timer.TimerActivity">
 
     <Button
         android:id="@+id/btnTenMin"

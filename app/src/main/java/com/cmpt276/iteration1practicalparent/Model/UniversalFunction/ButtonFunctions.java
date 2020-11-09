@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.UniversalFunction;
+package com.cmpt276.iteration1practicalparent.Model.UniversalFunction;
 
 import android.app.Activity;
 import android.content.Context;

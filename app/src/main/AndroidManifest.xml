@@ -10,14 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Timer.TimerActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name=".UI.Timer.TimerActivity"
+            android:parentActivityName=".UI.MainActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CoinFlip.CoinFlipMain"
+        <activity android:name=".UI.CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,20 +26,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ConfigureChildren.ConfigureChildren"
+            android:name=".UI.ConfigureChildren.ConfigureChildren"
             android:label="ConfigureChildren"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".UI.MainActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".CoinFlip.HistoryAllDisplay"
-            android:parentActivityName=".CoinFlip.CoinFlipMain"
+        <activity android:name=".UI.CoinFlip.HistoryAllDisplay"
+            android:parentActivityName=".UI.CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".CoinFlip.HistoryCurrDisplay"
-            android:parentActivityName=".CoinFlip.CoinFlipMain"
+        <activity android:name=".UI.CoinFlip.HistoryCurrDisplay"
+            android:parentActivityName=".UI.CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait">
 
         </activity>

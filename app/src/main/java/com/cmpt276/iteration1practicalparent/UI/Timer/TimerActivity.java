@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.Timer;
+package com.cmpt276.iteration1practicalparent.UI.Timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;

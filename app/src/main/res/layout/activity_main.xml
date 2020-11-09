@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background = "@drawable/main_menu_background"
-    tools:context=".MainActivity">
+    tools:context=".UI.MainActivity">
 
     <Button
         android:id="@+id/test_button_to_coinFlip"
