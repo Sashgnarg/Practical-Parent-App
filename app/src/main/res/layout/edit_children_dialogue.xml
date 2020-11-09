@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="273dp"
         android:hint="Name" />
 
     <EditText
@@ -18,9 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="327dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/edit_name"
         android:hint="Addition Info" />
 
 </RelativeLayout>
