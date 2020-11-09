@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +12,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.universalFunction.UtilityFunction;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.UtilityFunction;
 
 import java.util.ArrayList;
 
-public class historyCurrDisplay extends AppCompatActivity {
+public class HistoryCurrDisplay extends AppCompatActivity {
     UtilityFunction utility;
     ArrayList<CoinHistoryClass> coinHistoryAll;
     ArrayList<CoinHistoryClass> currInfo;
@@ -50,7 +48,7 @@ public class historyCurrDisplay extends AppCompatActivity {
     }
 
     private void displayCurr() {
-        historyCurrDisplay.MyListAdapter historyAdatper = new historyCurrDisplay.MyListAdapter();
+        HistoryCurrDisplay.MyListAdapter historyAdatper = new HistoryCurrDisplay.MyListAdapter();
 
         ListView list = (ListView) findViewById(R.id.showCurr);
         list.setAdapter(historyAdatper);
@@ -59,7 +57,7 @@ public class historyCurrDisplay extends AppCompatActivity {
 
     public class MyListAdapter extends ArrayAdapter<CoinHistoryClass> {
         public MyListAdapter(){
-            super(historyCurrDisplay.this, R.layout.history_of_all_flips, currInfo);
+            super(HistoryCurrDisplay.this, R.layout.history_of_all_flips, currInfo);
 
         }
 

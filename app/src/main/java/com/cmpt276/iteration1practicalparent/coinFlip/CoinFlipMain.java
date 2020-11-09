@@ -25,9 +25,9 @@ import android.widget.TextView;
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.AdapterForConfigureChildren;
 import com.cmpt276.iteration1practicalparent.ConfigureChildren.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.universalFunction.ButtonFunctions;
-import com.cmpt276.iteration1practicalparent.universalFunction.Global;
-import com.cmpt276.iteration1practicalparent.universalFunction.UtilityFunction;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.ButtonFunctions;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.Global;
+import com.cmpt276.iteration1practicalparent.UniversalFunction.UtilityFunction;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class CoinFlipMain extends AppCompatActivity {
         historyAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = historyAllDisplay.showAll(CoinFlipMain.this);
+                Intent intent = HistoryAllDisplay.showAll(CoinFlipMain.this);
                 startActivity(intent);
             }
         });
@@ -76,7 +76,7 @@ public class CoinFlipMain extends AppCompatActivity {
         historyCurrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CoinFlipMain.this, historyCurrDisplay.class);
+                Intent intent = new Intent(CoinFlipMain.this, HistoryCurrDisplay.class);
                 intent.putExtra("param", childrenName);
                 startActivity(intent);
             }

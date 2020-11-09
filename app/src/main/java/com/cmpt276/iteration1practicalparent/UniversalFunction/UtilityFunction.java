@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.universalFunction;
+package com.cmpt276.iteration1practicalparent.UniversalFunction;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,13 +15,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.cmpt276.iteration1practicalparent.universalFunction.Global.LIST_OF_CHILDREN;
+import static com.cmpt276.iteration1practicalparent.UniversalFunction.Global.LIST_OF_CHILDREN;
 
 public class UtilityFunction{
     Random random = new Random();
