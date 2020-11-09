@@ -26,7 +26,8 @@ public class UtilityFunction{
 
     //UtilityFunction
     // 1. popUpMsg pop a msg base on popup_dialog.xml
-    // 2. random 2 face and update content(content will set up later)
+    // 2. random 2 face 1,0
+    // 3,4. load function -> return a list base of each class
 
     public void popUpMsg(String msg, Context context){
         // popup screen base on popup_dialog.xml
@@ -52,25 +53,25 @@ public class UtilityFunction{
         //random
         return (random.nextInt(1000)%2);
     }
-    public ArrayList<ConfigureChildrenItem> loadData(ArrayList<ConfigureChildrenItem> mChildrenList, Context context) {
-
+    public ArrayList<ConfigureChildrenItem> loadData(Context context) {
+        //load all config children
         SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(LIST_OF_CHILDREN, null);
         Type type = new TypeToken<ArrayList<ConfigureChildrenItem>>(){}.getType();
-        mChildrenList = gson.fromJson(json, type);
+        ArrayList<ConfigureChildrenItem> mChildrenList = gson.fromJson(json, type);
         if(mChildrenList == null){
             mChildrenList = new ArrayList<>();
         }
         return mChildrenList;
     }
-    public ArrayList<CoinHistoryClass> loadCoinHistory(ArrayList<CoinHistoryClass> history, Context context) {
-
+    public ArrayList<CoinHistoryClass> loadCoinHistory(Context context) {
+        //load all coin history
         SharedPreferences sharedPreferences = context.getSharedPreferences(Global.CHILDREN_HISTORY, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(Global.LIST_CHILDREN_HISTORY, null);
         Type type = new TypeToken<ArrayList<CoinHistoryClass>>(){}.getType();
-        history = gson.fromJson(json, type);
+        ArrayList<CoinHistoryClass> history = gson.fromJson(json, type);
         if(history == null){
             history = new ArrayList<>();
         }

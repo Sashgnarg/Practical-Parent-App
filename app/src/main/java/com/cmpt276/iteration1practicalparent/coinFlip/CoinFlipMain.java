@@ -50,7 +50,8 @@ public class CoinFlipMain extends AppCompatActivity {
     private Button historyCurrBtn;
 
 
-    // hello i am andrew
+    // coin Flip Main class:
+    // doing the coin flip and save to
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,12 +94,13 @@ public class CoinFlipMain extends AppCompatActivity {
         //coinText = (TextView)findViewById(R.id.coin_text);
         coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
         Button flipButton = (Button)findViewById(R.id.flip_button);
-        //hi
+
 
         setFlipButton(flipButton);
-
-        mChildrenList = utility.loadData(mChildrenList,this);
-        coinHistory = utility.loadCoinHistory(coinHistory,this);
+        //load config children
+        mChildrenList = utility.loadData(this);
+        //load coin history
+        coinHistory = utility.loadCoinHistory(this);
 
         if (!mChildrenList.isEmpty()){ //if there is config children
             popUpChildren(this);
@@ -106,7 +108,7 @@ public class CoinFlipMain extends AppCompatActivity {
     }
 
     public void popUpChildren(Context context){
-        // popup screen
+        // popup screen that shows a list of children
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view;
         view = LayoutInflater.from(context).inflate(R.layout.coin_picker_list,null);
@@ -148,7 +150,7 @@ public class CoinFlipMain extends AppCompatActivity {
         pop.show();
     }
     private void createChildrenList(View view, AlertDialog dialog){
-        //recycle layout
+        //recycle layout for popup
         TextView textView = (TextView)view.findViewById(R.id.coin_picker_text);
         RecyclerView mRecyclerView = view.findViewById(R.id.coin_picker_recyc_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -180,11 +182,9 @@ public class CoinFlipMain extends AppCompatActivity {
 
         if (selection ==  coinFace){
             winner = "WIN";
-            //coinFlipWinnerText.setText(R.string.win);
         }
         else{
             winner = "LOSE";
-            //coinFlipWinnerText.setText(R.string.lose);
         }
         SharedPreferences sharedPreferences = getSharedPreferences(Global.CHILDREN_HISTORY, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

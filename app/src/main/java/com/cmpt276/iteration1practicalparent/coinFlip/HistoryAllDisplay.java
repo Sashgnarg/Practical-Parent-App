@@ -33,7 +33,7 @@ public class HistoryAllDisplay extends AppCompatActivity {
 
         utility = new UtilityFunction();
         coinHistoryAll = new ArrayList<>();
-        coinHistoryAll = utility.loadCoinHistory(coinHistoryAll,this);
+        coinHistoryAll = utility.loadCoinHistory(this);
 
         displayAll();
 

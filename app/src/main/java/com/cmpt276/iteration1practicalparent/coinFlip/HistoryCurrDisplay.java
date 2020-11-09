@@ -32,7 +32,7 @@ public class HistoryCurrDisplay extends AppCompatActivity {
 
         utility = new UtilityFunction();
         coinHistoryAll = new ArrayList<>();
-        coinHistoryAll = utility.loadCoinHistory(coinHistoryAll,this);
+        coinHistoryAll = utility.loadCoinHistory(this);
 
         // store current child selected info
         currInfo = new ArrayList<>();
