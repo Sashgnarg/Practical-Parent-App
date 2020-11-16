@@ -1,11 +1,10 @@
-package com.cmpt276.iteration1practicalparent.universalFunction;
+package com.cmpt276.iteration1practicalparent.Model.UniversalFunction;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class ButtonFunctions {
     UtilityFunction utility = new UtilityFunction();// utility functions

@@ -1,15 +1,15 @@
-package com.cmpt276.iteration1practicalparent.ConfigureChildren;
+package com.cmpt276.iteration1practicalparent.UI.ConfigureChildren;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,8 +18,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /*
-Builds recycler view -- sets up insert button --saves/creates the array list of children-- responsible for adding/removing/deleting items from the arraylist
---opens dialogue when insert or edit item is clicked--
+Builds recycler view
+sets up insert button
+saves/loads/creates the array list of children
+responsible for adding/removing/deleting items from the arraylist and updating the recycler view
+opens dialogue when insert or edit item is clicked
  */
 
 public class ConfigureChildren extends AppCompatActivity implements DialogueForConfigureChildren.DialogueForConfigureChildrenListener{
@@ -141,6 +144,5 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
             mChildrenList = new ArrayList<>();
         }
     }
-
 
 }

@@ -5,49 +5,67 @@
     android:id="@+id/coin_flip_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".coinFlip.CoinFlipMain">
+    tools:context=".UI.CoinFlip.CoinFlipMain"
+    android:background = "@drawable/main_menu_background">
 
     <Button
         android:id="@+id/flip_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="@string/flip_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coin_text" />
-
-    <TextView
-        android:id="@+id/coin_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:text="TextView"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imgCoin" />
 
     <TextView
         android:id="@+id/current_children"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="TextView"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/coin_flip_winner_text"
+        android:id="@+id/coin_flip_result_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="TextView"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flip_button" />
+
+    <ImageView
+        android:id="@+id/imgCoin"
+        android:layout_width="177dp"
+        android:layout_height="172dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_children"
+        app:srcCompat="@drawable/heads" />
+
+    <Button
+        android:id="@+id/viewCurrHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Child Coin Flip History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/viewAllHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Coin Flip History"
+        app:layout_constraintBottom_toTopOf="@+id/viewCurrHistory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

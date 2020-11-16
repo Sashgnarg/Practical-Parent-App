@@ -1,4 +1,4 @@
-package com.cmpt276.iteration1practicalparent.Timer;
+package com.cmpt276.iteration1practicalparent.UI.Timer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -22,6 +23,12 @@ import com.cmpt276.iteration1practicalparent.R;
 
 import java.util.Locale;
 import java.util.Objects;
+
+/*
+ * Timer activity gives user the option to set a timer for a whole number of minutes
+ * or easily select between the options of: 1,2,3,5,10 minutes
+ * Allows for pausing and resetting & continues to run when on a different activity or exiting the app
+ * */
 
 public class TimerActivity extends AppCompatActivity {
     //code for timer referenced from the following: https://www.youtube.com/playlist?list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd
@@ -153,6 +160,9 @@ public class TimerActivity extends AppCompatActivity {
                 txtCountDown.setText("00:00");
                 MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
                 timerSound.start();
+                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                Vibration.vibrate(2000);
+                sendNotification();
                 updateButtons();
             }
         }.start();
@@ -229,6 +239,24 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
+    //tutorial for code: https://www.youtube.com/watch?v=ATERxKKORbY
+    private void sendNotification(){
+        // Builds your notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("Practical Parent: Timer Ended")
+                .setContentText("Your timer has reached zero!");
+
+        // Creates the intent needed to show the notification
+        Intent notificationIntent = new Intent(this, TimerActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -275,3 +303,4 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 }
+
