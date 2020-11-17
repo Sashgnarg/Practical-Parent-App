@@ -39,6 +39,7 @@ import static android.app.Activity.RESULT_OK;
 public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    private static final int OPEN_GALLERY_CODE = 1002;
     private ImageButton takePicture;
     private ImageView mPhotoOfChild;
     private ImageButton viewGallery;
@@ -71,6 +72,27 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
                             listener.applyChangesForPhoto(image_uri.toString());
                     }
                 });
+
+        viewGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)==
+                            PackageManager.PERMISSION_DENIED||ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)==
+                            PackageManager.PERMISSION_DENIED){
+                        String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        requestPermissions(permission, PERMISSION_CODE);
+                    }
+                    else{
+                        openGallery();
+                    }
+                }
+                else{
+                    openGallery();
+                }
+            }
+        });
+
         takePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +116,13 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
 
 
         return builder.create();
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(
+                Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, OPEN_GALLERY_CODE);
     }
 
 
@@ -124,7 +153,11 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode == RESULT_OK){
+        if(resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE&&data!=null){
+            mPhotoOfChild.setImageURI(image_uri);
+        }
+        if(resultCode == RESULT_OK && requestCode == OPEN_GALLERY_CODE&&data!=null){
+            image_uri = data.getData();
             mPhotoOfChild.setImageURI(image_uri);
         }
     }

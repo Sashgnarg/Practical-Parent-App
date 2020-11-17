@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <application
@@ -44,10 +45,6 @@
         <activity android:name=".UI.CoinFlip.HistoryCurrDisplay"
             android:parentActivityName=".UI.CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait">
-
         </activity>
-
-
     </application>
-
 </manifest>
