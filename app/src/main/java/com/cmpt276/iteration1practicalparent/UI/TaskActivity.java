@@ -11,13 +11,19 @@ import android.widget.Button;
 import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.Model.TaskItem;
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.DialogueForConfigureChildren;
+
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.ButtonFunctions;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global;
+import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class TaskActivity extends AppCompatActivity implements DialogueForTask.DialogueForTaskListener {
     private ArrayList<TaskItem> taskList;
+    private ArrayList<ConfigureChildrenItem> mChildrenList;
 
     private RecyclerView taskRecyclerView;
     private TaskAdapter taskAdapter; //provides only the amount of items you need
@@ -36,14 +42,16 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         setTitle("Tasks");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        createTaskList();
+        initializeTaskData();
         buildTaskRecyclerView();
-
         setupInsertTaskButton();
     }
 
-    public void createTaskList(){
+    public void initializeTaskData(){
         taskList = new ArrayList<>();
+        //ISSUE WITH LOADING CHILDREN: not letting me load the data using utility function..
+        //load config children
+        //mChildrenList = utility.loadData(this);
         //taskList.add(new TaskItem(R.drawable.task_image, "Task Name", "Task Description"));
     }
     public void buildTaskRecyclerView(){
@@ -74,7 +82,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
             }
         });
     }
-    //inserting a new task
+
     private void setupInsertTaskButton(){
         buttonInsert = findViewById(R.id.btnInsertTask);
         buttonInsert.setOnClickListener(new View.OnClickListener() {
