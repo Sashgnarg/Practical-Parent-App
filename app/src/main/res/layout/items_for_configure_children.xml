@@ -14,7 +14,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="2dp"
-            android:id="@+id/image1"/>
+            android:id="@+id/childPhoto"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/image1"
+            android:layout_toEndOf="@+id/childPhoto"
             android:id="@+id/name"/>
 
         <TextView
@@ -34,7 +34,7 @@
             android:textSize="15sp"
             android:textStyle="italic"
             android:layout_below="@+id/name"
-            android:layout_toEndOf="@+id/image1"
+            android:layout_toEndOf="@+id/childPhoto"
             android:layout_marginStart="8dp"
             android:id="@+id/addition_info"/>
 

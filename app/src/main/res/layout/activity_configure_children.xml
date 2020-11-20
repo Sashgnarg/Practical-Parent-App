@@ -7,14 +7,14 @@
     tools:context=".UI.ConfigureChildren.ConfigureChildren"
     >
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id = "@+id/recycler_configure_children"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp"
-        android:background="@android:color/white"
-        android:scrollbars="vertical"
-        android:layout_marginBottom="100dp"/>
+        android:background="@drawable/maxresdefault"
+        android:scrollbars="vertical"/>
 
     <Button
         android:id="@+id/button_insert"

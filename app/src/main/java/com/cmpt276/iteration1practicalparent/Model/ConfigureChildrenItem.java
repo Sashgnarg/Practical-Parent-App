@@ -3,12 +3,24 @@ package com.cmpt276.iteration1practicalparent.Model;
 //Stores information of each child
 
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.res.Resources;
+import android.net.Uri;
+
+
+import com.cmpt276.iteration1practicalparent.R;
+import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
+
+import java.io.InputStream;
+import java.net.URI;
+
 public class ConfigureChildrenItem {
-    private int mImageResource;
+    private String mImageResource;
     private String mText1;
     private String mText2;
 
-    public ConfigureChildrenItem(int imageResource, String text1, String text2){
+    public ConfigureChildrenItem(String imageResource, String text1, String text2){
         mImageResource = imageResource;
         mText1 = text1;
         mText2 = text2;
@@ -22,7 +34,11 @@ public class ConfigureChildrenItem {
         this.mText2 = mText2;
     }
 
-    public int getImageResource(){
+    public void setmImageResource(String imageResource) {
+        this.mImageResource = imageResource;
+    }
+
+    public String getImageResource(){
         return mImageResource;
     }
 

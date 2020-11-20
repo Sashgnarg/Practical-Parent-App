@@ -1,6 +1,11 @@
 package com.cmpt276.iteration1practicalparent.UI.ConfigureChildren;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +30,8 @@ responsible for adding/removing/deleting items from the arraylist and updating t
 opens dialogue when insert or edit item is clicked
  */
 
-public class ConfigureChildren extends AppCompatActivity implements DialogueForConfigureChildren.DialogueForConfigureChildrenListener{
+public class ConfigureChildren extends AppCompatActivity
+        implements DialogueForConfigureChildren.DialogueForConfigureChildrenListener, DialogueForSelectImageOrPicture.DialogueForSelectImageOrTakePictureListener {
     public static final String LIST_OF_CHILDREN = "list of children";
     private ArrayList<ConfigureChildrenItem> mChildrenList;
 
@@ -36,6 +42,8 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
     private Button buttonInsert;
 
     private int editPosition;
+
+    public static Context context;
 
 
     @Override
@@ -66,11 +74,25 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
 
     public void insertItem() {
         editPosition = mChildrenList.size();
-        mChildrenList.add(editPosition, new ConfigureChildrenItem(R.drawable.ic_child, "Edit Name", "Edit details"));
+        getDefaultImageForChild();
+
+        mChildrenList.add(editPosition, new ConfigureChildrenItem(getDefaultImageForChild(), "Edit Name", "Edit details"));
         openEditDialog();
         mAdapter.notifyItemInserted(editPosition);
         saveData();
     }
+
+    private String getDefaultImageForChild() {
+        context = ConfigureChildren.this;
+        context.getApplicationContext();
+        Resources res = context.getResources();
+        String mImageResource = ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + res.getResourcePackageName(R.drawable.ic_child)
+                + '/' + res.getResourceTypeName(R.drawable.ic_child)
+                + '/' + res.getResourceEntryName(R.drawable.ic_child);
+        return mImageResource;
+    }
+
     public void removeItem(int position) {
         mChildrenList.remove(position);
         mAdapter.notifyItemRemoved(position);
@@ -83,13 +105,21 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
         saveData();
     }
 
-    public void openEditDialog() {
-        DialogueForConfigureChildren dialogueForConfigureChildren = new DialogueForConfigureChildren();
-        dialogueForConfigureChildren.show(getSupportFragmentManager(),"Edit Child");
+    private void editPhoto(int position) {
+        editPosition = position;
+        openEditPhotoDialog();
+        saveData();
     }
 
+    private void openEditPhotoDialog() {
+        DialogueForSelectImageOrPicture dialogueForSelectImageOrPicture = new DialogueForSelectImageOrPicture();
+        dialogueForSelectImageOrPicture.show(getSupportFragmentManager(), "Edit Photo");
+    }
 
-
+    public void openEditDialog() {
+        DialogueForConfigureChildren dialogueForConfigureChildren = new DialogueForConfigureChildren();
+        dialogueForConfigureChildren.show(getSupportFragmentManager(), "Edit Child");
+    }
 
     public void createChildrenList() {
 
@@ -113,13 +143,34 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
             }
 
             @Override
-            public void onEditClick(int position) { editItem(position); }
+            public void onEditClick(int position) {
+                editItem(position);
+            }
+
+            @Override
+            public void onChildPhotoClick(int position) {
+                editPhoto(position);
+            }
+
         });
     }
 
     @Override
     public void applyChanges(String name, String addition_info) {
-        mChildrenList.set(editPosition, new ConfigureChildrenItem(R.drawable.ic_child, name, addition_info));
+        ConfigureChildrenItem configureChildrenItem = mChildrenList.get(editPosition);
+        configureChildrenItem.setmText1(name);
+        configureChildrenItem.setmText2(addition_info);
+        mChildrenList.set(editPosition, configureChildrenItem);
+        mAdapter.notifyItemChanged(editPosition);
+        saveData();
+    }
+
+
+    @Override
+    public void applyChangesForPhoto(String uri) {
+        ConfigureChildrenItem configureChildrenItem = mChildrenList.get(editPosition);
+        configureChildrenItem.setmImageResource(uri);
+        mChildrenList.set(editPosition, configureChildrenItem);
         mAdapter.notifyItemChanged(editPosition);
         saveData();
     }
@@ -134,15 +185,16 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
     }
 
     private void loadData() {
+
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(LIST_OF_CHILDREN, null);
-        Type type = new TypeToken<ArrayList<ConfigureChildrenItem>>(){}.getType();
+        Type type = new TypeToken<ArrayList<ConfigureChildrenItem>>() {
+        }.getType();
         mChildrenList = gson.fromJson(json, type);
 
-        if(mChildrenList == null){
+        if (mChildrenList == null) {
             mChildrenList = new ArrayList<>();
         }
     }
-
 }
