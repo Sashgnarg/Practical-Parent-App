@@ -4,5 +4,19 @@
     <string name="coin_pick_text_string">Pick a Child</string>
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
+    <string name ="homePageBackground">
+        <a href = "https://www.pinterest.ca/pin/565975878168745099/">
+            <u>
+                Home page background
+            </u>
+        </a>
+    </string>
+    <string name = "timerBackground">
+        <a href = "https://www.pinterest.ca/pin/509117932857055374/">
+            <u>
+                Timer page background
+            </u>
+        </a>
+    </string>
 
 </resources>
