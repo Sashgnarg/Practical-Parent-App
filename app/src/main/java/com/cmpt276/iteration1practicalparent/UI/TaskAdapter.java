@@ -16,17 +16,70 @@ import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private ArrayList<TaskItem> taskList;
+    private OnItemClickListener taskListener;
 
-    public class TaskViewHolder extends RecyclerView.ViewHolder{
+    public interface OnItemClickListener {
+        void onTaskItemClick(int position);
+        void onTaskDeleteClick(int position);
+        void onTaskEditClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        taskListener = listener;
+    }
+
+    public static class TaskViewHolder extends RecyclerView.ViewHolder{
         public ImageView taskImageView;
         public TextView taskNameTextView;
         public TextView taskDescriptionTextView;
+        public ImageView taskDeleteImage;
+        public ImageView taskEditImage;
 
-        public TaskViewHolder(@NonNull View itemView) {
+        public TaskViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             taskImageView = itemView.findViewById(R.id.imgTask);
             taskNameTextView = itemView.findViewById(R.id.txtTaskName);
             taskDescriptionTextView = itemView.findViewById(R.id.txtTaskDescription);
+            taskDeleteImage = itemView.findViewById(R.id.imgTaskDelete);
+            taskEditImage = itemView.findViewById(R.id.imgTaskEdit);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onTaskItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            taskDeleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onTaskDeleteClick(position);
+                        }
+                    }
+                }
+            });
+
+            taskEditImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onTaskEditClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 
@@ -38,7 +91,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item, parent, false);
-        TaskViewHolder tvh = new TaskViewHolder(v);
+        TaskViewHolder tvh = new TaskViewHolder(v, taskListener);
         return tvh;
         //return null;
     }
