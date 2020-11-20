@@ -38,6 +38,33 @@
             android:layout_toEndOf="@id/imgTask"
             android:layout_marginStart="8dp" />
 
+        <TextView
+            android:id="@+id/txtTaskChildName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@+id/txtTaskName"
+            android:textColor="@android:color/holo_blue_dark"
+            android:text="Child's Name" />
+
+        <ImageView
+            android:id="@+id/imgTaskDelete"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_close_24" />
+
+        <ImageView
+            android:id="@+id/imgTaskEdit"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@id/imgTaskDelete"
+            android:src="@drawable/ic_baseline_edit_24" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
