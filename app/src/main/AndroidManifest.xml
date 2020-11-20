@@ -11,11 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.HelpPage"></activity>
+        <activity android:name=".UI.TaskActivity"></activity>
+        <activity android:name=".UI.HelpPage" />
         <activity
             android:name=".UI.Timer.TimerActivity"
             android:parentActivityName=".UI.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait" />
@@ -32,15 +33,15 @@
             android:name=".UI.ConfigureChildren.ConfigureChildren"
             android:label="ConfigureChildren"
             android:parentActivityName=".UI.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.CoinFlip.HistoryAllDisplay"
             android:parentActivityName=".UI.CoinFlip.CoinFlipMain"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.CoinFlip.HistoryCurrDisplay"
             android:parentActivityName=".UI.CoinFlip.CoinFlipMain"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
