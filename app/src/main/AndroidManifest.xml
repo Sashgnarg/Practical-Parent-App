@@ -11,8 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.TaskActivity"></activity>
-        <activity android:name=".UI.HelpPage" />
+        <activity
+            android:name=".UI.TaskActivity"
+            android:parentActivityName=".UI.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".UI.HelpPage"
+            android:parentActivityName=".UI.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.Timer.TimerActivity"
             android:parentActivityName=".UI.MainActivity"
