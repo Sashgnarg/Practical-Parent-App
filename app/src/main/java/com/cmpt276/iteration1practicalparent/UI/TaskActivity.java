@@ -24,6 +24,7 @@ import java.util.Objects;
 public class TaskActivity extends AppCompatActivity implements DialogueForTask.DialogueForTaskListener {
     private ArrayList<TaskItem> taskList;
     private ArrayList<ConfigureChildrenItem> mChildrenList;
+    private ArrayList<ConfigureChildrenItem> newChildrenList;
 
     private RecyclerView taskRecyclerView;
     private TaskAdapter taskAdapter; //provides only the amount of items you need
@@ -52,6 +53,11 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         //ISSUE WITH LOADING CHILDREN: not letting me load the data using utility function..
         //load config children
         //mChildrenList = utility.loadData(this);
+        newChildrenList = new ArrayList<ConfigureChildrenItem>();
+        newChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "John", "age7"));
+        newChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "Emily", "age7"));
+        newChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "Silvana", "age7"));
+
         //taskList.add(new TaskItem(R.drawable.task_image, "Task Name", "Task Description"));
     }
     public void buildTaskRecyclerView(){
@@ -68,6 +74,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
             @Override
             public void onTaskItemClick(int position) {
                 //OPEN DIALOG THAT SHOWS CHILD'S TURN AND PICTURE when clicking on a task
+                openTaskPopUp();
                 taskList.get(position);
             }
 
@@ -95,7 +102,17 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
 
     public void insertTask(){
         taskInsertPosition = taskList.size();
-        taskList.add(taskInsertPosition, new TaskItem(R.drawable.task_image, "Task Name", "Task Description"));
+        ConfigureChildrenItem childToInsert;
+        int indexOfChild;
+        if (!newChildrenList.isEmpty()){
+            childToInsert = newChildrenList.get(0);
+            indexOfChild = 0;
+        }
+        else{
+            childToInsert = null;
+            indexOfChild = -1;
+        }
+        taskList.add(taskInsertPosition, new TaskItem(R.drawable.task_image, "Task Name", "Task Description", childToInsert, indexOfChild));
         openTaskEditDialog();
         taskAdapter.notifyItemInserted(taskInsertPosition);
         //TO DO: save data
@@ -112,13 +129,18 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         //TO DO: sava data
     }
 
+    public void openTaskPopUp(){
+
+    }
+
     public void openTaskEditDialog() {
         DialogueForTask dialogueForTask = new DialogueForTask();
         dialogueForTask.show(getSupportFragmentManager(),"Edit Task");
     }
 
     public void applyTaskChanges(String task_name, String task_description){
-        taskList.set(taskEditPosition, new TaskItem(R.drawable.task_image, task_name, task_description));
+        TaskItem currentItem = taskList.get(taskEditPosition);
+        taskList.set(taskEditPosition, new TaskItem(R.drawable.task_image, task_name, task_description, currentItem.getChildForTask(), currentItem.getIndexOfChildForTask()));
         taskAdapter.notifyItemChanged(taskEditPosition);
         //TODO:save data
     }

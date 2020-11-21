@@ -34,6 +34,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public TextView taskDescriptionTextView;
         public ImageView taskDeleteImage;
         public ImageView taskEditImage;
+        public TextView taskChildNameTextView;
 
         public TaskViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
@@ -42,6 +43,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskDescriptionTextView = itemView.findViewById(R.id.txtTaskDescription);
             taskDeleteImage = itemView.findViewById(R.id.imgTaskDelete);
             taskEditImage = itemView.findViewById(R.id.imgTaskEdit);
+            taskChildNameTextView = itemView.findViewById(R.id.txtTaskChildName);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +105,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.taskImageView.setImageResource(currentTask.getTaskImage());
         holder.taskNameTextView.setText(currentTask.getTaskName());
         holder.taskDescriptionTextView.setText(currentTask.getTaskDescription());
+        if (currentTask.getChildForTask()!= null){
+            holder.taskChildNameTextView.setText(currentTask.getChildForTask().getmText1());
+        }
 
     }
 
