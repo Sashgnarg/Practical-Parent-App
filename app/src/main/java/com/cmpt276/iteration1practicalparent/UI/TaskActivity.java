@@ -43,6 +43,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //code tutorial from: https://www.youtube.com/playlist?list=PLrnPJCHvNZuBtTYUuc5Pyo4V7xZ2HNtf4
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         setTitle("Tasks");
@@ -264,5 +265,17 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
             taskList = new ArrayList<>();
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        taskAdapter.notifyDataSetChanged();
+        for (TaskItem task: taskList){
+            if (task.getChildForTask() != null){
+                Log.i("inTASK ACTIVITY ON START","TASK CHILD FOR TASK IS " + task.getChildForTask().getmText1());
+            }
+        }
+    }
+
 
 }
