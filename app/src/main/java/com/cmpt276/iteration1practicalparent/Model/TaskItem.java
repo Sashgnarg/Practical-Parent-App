@@ -33,6 +33,10 @@ public class TaskItem {
         return taskChild;
     }
 
+    public void setChildForTask(ConfigureChildrenItem childForTask){
+        this.taskChild = childForTask;
+    }
+
     public int getIndexOfChildForTask(){
         return indexOfChildForTask;
     }

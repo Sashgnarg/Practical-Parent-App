@@ -4,27 +4,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.Model.TaskItem;
 import com.cmpt276.iteration1practicalparent.R;
-
-import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.ButtonFunctions;
-import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global;
-import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
 import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.Console;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class TaskActivity extends AppCompatActivity implements DialogueForTask.DialogueForTaskListener {
+    public static final String LIST_OF_TASKS = "list of tasks";
     private ArrayList<TaskItem> taskList;
     private ArrayList<ConfigureChildrenItem> mChildrenList;
-    private ArrayList<ConfigureChildrenItem> newChildrenList;
+    private ArrayList<ConfigureChildrenItem> childrenList;
+    UtilityFunction utility;
 
     private RecyclerView taskRecyclerView;
     private TaskAdapter taskAdapter; //provides only the amount of items you need
@@ -32,9 +40,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
 
     private Button buttonInsert;
 
-    private int taskInsertPosition; //the position where we will insert a task
-    private int taskEditPosition; //the position to edit a task
-    private int indexForChildTurn; //will increment to get position of child from Child list
+    private int taskEditPosition; //the position to edit/insert a task
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +49,17 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         setTitle("Tasks");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        initializeTaskData();
+        //initializeTaskData();
+        loadData();
         buildTaskRecyclerView();
         setupInsertTaskButton();
     }
 
     public void initializeTaskData(){
-        taskList = new ArrayList<>();
-        //ISSUE WITH LOADING CHILDREN: not letting me load the data using utility function..
+        taskList = new ArrayList<>(); //change it to load it from saved data after
+        utility = new UtilityFunction();
         //load config children
-        //mChildrenList = utility.loadData(this);
-        newChildrenList = new ArrayList<ConfigureChildrenItem>();
-        newChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "John", "age7"));
-        newChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "Emily", "age7"));
-        newChildrenList.add(new ConfigureChildrenItem(R.drawable.ic_child, "Silvana", "age7"));
+        childrenList = utility.loadData(this);
 
         //taskList.add(new TaskItem(R.drawable.task_image, "Task Name", "Task Description"));
     }
@@ -74,8 +77,13 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
             @Override
             public void onTaskItemClick(int position) {
                 //OPEN DIALOG THAT SHOWS CHILD'S TURN AND PICTURE when clicking on a task
-                openTaskPopUp();
-                taskList.get(position);
+                TaskItem clickedTask = taskList.get(position);
+                if (clickedTask.getChildForTask()!= null){
+                    openTaskPopUpWithChild(position, clickedTask);
+                }
+                else{
+                    openTaskPopUpWithNoChild(position, clickedTask);
+                }
             }
 
             @Override
@@ -101,36 +109,125 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
     }
 
     public void insertTask(){
-        taskInsertPosition = taskList.size();
+        taskEditPosition = taskList.size();
         ConfigureChildrenItem childToInsert;
         int indexOfChild;
-        if (!newChildrenList.isEmpty()){
-            childToInsert = newChildrenList.get(0);
+        if (!childrenList.isEmpty()){
+            childToInsert = childrenList.get(0);
             indexOfChild = 0;
         }
         else{
             childToInsert = null;
             indexOfChild = -1;
         }
-        taskList.add(taskInsertPosition, new TaskItem(R.drawable.task_image, "Task Name", "Task Description", childToInsert, indexOfChild));
+        taskList.add(taskEditPosition, new TaskItem(R.drawable.task_image, "", "", childToInsert, indexOfChild));
         openTaskEditDialog();
-        taskAdapter.notifyItemInserted(taskInsertPosition);
+        taskAdapter.notifyItemInserted(taskEditPosition);
         //TO DO: save data
+        saveData();
     }
 
     private void removeTask(int position){
         taskList.remove(position);
         taskAdapter.notifyItemRemoved(position);
+        saveData();
     }
     private void editTask(int position){
         taskEditPosition = position;
         openTaskEditDialog();
-        //TO DO: open a dialog to allow user to re-enter the task name and description
         //TO DO: sava data
+        saveData();
     }
 
-    public void openTaskPopUp(){
+    public void openTaskPopUpWithChild(int position, TaskItem clickedTask){
+        // popup screen that shows task description and child picture+name
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view;
+        view = LayoutInflater.from(this).inflate(R.layout.task_pop_up_dialog,null);
 
+        String taskName = clickedTask.getTaskName();
+        String taskDescription = clickedTask.getTaskDescription();
+        int currentTaskChildPic = clickedTask.getChildForTask().getImageResource();
+        String currentTaskChildName = clickedTask.getChildForTask().getmText1();
+        int indexOfChildForTask = clickedTask.getIndexOfChildForTask();
+
+        //setting the task name and task description in our dialog pop up
+        TextView txtTaskName = view.findViewById(R.id.txtTaskNameDialog);
+        txtTaskName.setText(taskName);
+
+        Log.i("IN TASK ACTIVITY POP UP", "task description is: " + taskDescription);
+        //trying to set task description crashes up.. will try to fix later:
+//        TextView txtTaskDescription = findViewById(R.id.txtTaskDescriptionDialog);
+//        txtTaskDescription.setText("hello");
+
+
+
+        //setting the image and Child name for this task in our dialog pop up
+        ImageView imgChild = view.findViewById(R.id.imgTaskChildDialog);
+        imgChild.setImageResource(currentTaskChildPic);
+        TextView txtChildName = view.findViewById(R.id.txtTaskChildNameDialog);
+        txtChildName.setText(currentTaskChildName);
+
+        //alert dialog setting
+        builder.setCancelable(true);
+        builder.setView(view);
+        builder.setPositiveButton("Child Completed Task", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //making sure there are more children in the list
+                //if there is, the next child gets their turn to do this task
+                Log.i("in TASK ACTIVTY POP UP","index of childfortask is: " + indexOfChildForTask + " AND the size is: " + childrenList.size());
+                if (indexOfChildForTask < childrenList.size()-1){
+                    clickedTask.setIndexOfChildForTask(indexOfChildForTask + 1);
+                    clickedTask.setChildForTask(childrenList.get(indexOfChildForTask + 1));
+                    taskAdapter.notifyItemChanged(position);
+                }
+                //if not we restart indexOfChildForTask to 0
+                else {
+                    clickedTask.setIndexOfChildForTask(0);
+                    clickedTask.setChildForTask(childrenList.get(0));
+                    taskAdapter.notifyItemChanged(position);
+                }
+            }
+        });
+        builder.setNegativeButton("Return", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog pop = builder.create();
+        pop.show();
+    }
+
+    //if there are no children associated with the task, we display this pop-up instead
+    public void openTaskPopUpWithNoChild(int position, TaskItem clickedTask){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view;
+        view = LayoutInflater.from(this).inflate(R.layout.task_pop_up_dialog,null);
+
+        String taskName = clickedTask.getTaskName();
+        String taskDescription = clickedTask.getTaskDescription();
+
+        //setting the task name and task description in our dialog pop up
+        TextView txtTaskName = view.findViewById(R.id.txtTaskNameDialog);
+        txtTaskName.setText(taskName);
+
+        TextView txtChildName = view.findViewById(R.id.txtTaskChildNameDialog);
+        txtChildName.setText("No child for this task (list empty)");
+
+        //alert dialog setting
+        builder.setCancelable(true);
+        builder.setView(view);
+
+        builder.setNegativeButton("Return", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog pop = builder.create();
+        pop.show();
     }
 
     public void openTaskEditDialog() {
@@ -143,7 +240,31 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         taskList.set(taskEditPosition, new TaskItem(R.drawable.task_image, task_name, task_description, currentItem.getChildForTask(), currentItem.getIndexOfChildForTask()));
         taskAdapter.notifyItemChanged(taskEditPosition);
         //TODO:save data
+        saveData();
     }
 
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(taskList);
+        editor.putString(LIST_OF_TASKS, json);
+        editor.apply();
+    }
+
+    private void loadData() {
+        utility = new UtilityFunction();
+        //load config children
+        childrenList = utility.loadData(this);
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(LIST_OF_TASKS, null);
+        Type type = new TypeToken<ArrayList<TaskItem>>(){}.getType();
+        taskList = gson.fromJson(json, type);
+
+        if(taskList == null){
+            taskList = new ArrayList<>();
+        }
+    }
 
 }
