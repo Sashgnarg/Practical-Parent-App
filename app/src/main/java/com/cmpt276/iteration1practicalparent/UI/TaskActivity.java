@@ -63,6 +63,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
 
         //taskList.add(new TaskItem(R.drawable.task_image, "Task Name", "Task Description"));
     }
+
     public void buildTaskRecyclerView(){
 
         taskRecyclerView = findViewById(R.id.recyclerviewForTasks);
@@ -265,6 +266,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         if(taskList == null){
             taskList = new ArrayList<>();
         }
+
     }
 
 }
