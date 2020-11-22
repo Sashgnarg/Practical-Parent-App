@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
+import com.cmpt276.iteration1practicalparent.Model.TaskItem;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
 import com.cmpt276.iteration1practicalparent.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +30,8 @@ opens dialogue when insert or edit item is clicked
 public class ConfigureChildren extends AppCompatActivity implements DialogueForConfigureChildren.DialogueForConfigureChildrenListener{
     public static final String LIST_OF_CHILDREN = "list of children";
     private ArrayList<ConfigureChildrenItem> mChildrenList;
+    private ArrayList<TaskItem> taskList;
+    UtilityFunction utility;
 
     private RecyclerView mRecyclerView;
     private AdapterForConfigureChildren mAdapter;
@@ -69,6 +73,12 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
         mChildrenList.add(editPosition, new ConfigureChildrenItem(R.drawable.ic_child, "Edit Name", "Edit details"));
         openEditDialog();
         mAdapter.notifyItemInserted(editPosition);
+        if (editPosition == 0){
+            for (TaskItem task: taskList){
+                task.setChildForTask(mChildrenList.get(editPosition));
+                //taskAdapter.notifyItemChanged(editPosition);
+            }
+        }
         saveData();
     }
     public void removeItem(int position) {
@@ -134,6 +144,8 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
     }
 
     private void loadData() {
+        utility = new UtilityFunction();
+        taskList = utility.loadTaskData(this);
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(LIST_OF_CHILDREN, null);

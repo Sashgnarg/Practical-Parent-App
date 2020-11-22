@@ -30,7 +30,6 @@ import java.util.Objects;
 public class TaskActivity extends AppCompatActivity implements DialogueForTask.DialogueForTaskListener {
     public static final String LIST_OF_TASKS = "list of tasks";
     private ArrayList<TaskItem> taskList;
-    private ArrayList<ConfigureChildrenItem> mChildrenList;
     private ArrayList<ConfigureChildrenItem> childrenList;
     UtilityFunction utility;
 
@@ -136,7 +135,6 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
     private void editTask(int position){
         taskEditPosition = position;
         openTaskEditDialog();
-        //TO DO: sava data
         saveData();
     }
 
