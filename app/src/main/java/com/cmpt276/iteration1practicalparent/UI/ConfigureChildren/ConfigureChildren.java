@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
+import com.cmpt276.iteration1practicalparent.Model.TaskItem;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
 import com.cmpt276.iteration1practicalparent.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -34,6 +36,8 @@ public class ConfigureChildren extends AppCompatActivity
         implements DialogueForConfigureChildren.DialogueForConfigureChildrenListener, DialogueForSelectImageOrPicture.DialogueForSelectImageOrTakePictureListener {
     public static final String LIST_OF_CHILDREN = "list of children";
     private ArrayList<ConfigureChildrenItem> mChildrenList;
+    private ArrayList<TaskItem> taskList;
+    UtilityFunction utility;
 
     private RecyclerView mRecyclerView;
     private AdapterForConfigureChildren mAdapter;
@@ -79,6 +83,13 @@ public class ConfigureChildren extends AppCompatActivity
         mChildrenList.add(editPosition, new ConfigureChildrenItem(getDefaultImageForChild(), "Edit Name", "Edit details"));
         openEditDialog();
         mAdapter.notifyItemInserted(editPosition);
+        if (editPosition == 0){
+            for (TaskItem task: taskList){
+                task.setChildForTask(mChildrenList.get(editPosition));
+                task.setIndexOfChildForTask(editPosition);
+                //taskAdapter.notifyItemChanged(editPosition);
+            }
+        }
         saveData();
     }
 
@@ -94,6 +105,26 @@ public class ConfigureChildren extends AppCompatActivity
     }
 
     public void removeItem(int position) {
+        for (TaskItem task: taskList){
+            if (task.getChildForTask() == mChildrenList.get(position)){
+                if (position!= mChildrenList.size() - 1) {
+                    task.setChildForTask(mChildrenList.get(position + 1));
+                    task.setIndexOfChildForTask(position+1);
+                }
+                //this was the last child in the list (must set task child to be first one again
+                else if (position == mChildrenList.size()-1 && mChildrenList.size()!=1){
+                    task.setChildForTask(mChildrenList.get(0));
+                    task.setIndexOfChildForTask(0);
+                }
+                //ONLY child in the list
+                else if (mChildrenList.size() == 1){
+                        task.setChildForTask(null);
+                        task.setIndexOfChildForTask(-1);
+                }
+
+
+            }
+        }
         mChildrenList.remove(position);
         mAdapter.notifyItemRemoved(position);
         saveData();
@@ -120,6 +151,9 @@ public class ConfigureChildren extends AppCompatActivity
         DialogueForConfigureChildren dialogueForConfigureChildren = new DialogueForConfigureChildren();
         dialogueForConfigureChildren.show(getSupportFragmentManager(), "Edit Child");
     }
+
+
+
 
     public void createChildrenList() {
 
@@ -185,6 +219,8 @@ public class ConfigureChildren extends AppCompatActivity
     }
 
     private void loadData() {
+        utility = new UtilityFunction();
+        taskList = utility.loadTaskData(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -197,4 +233,5 @@ public class ConfigureChildren extends AppCompatActivity
             mChildrenList = new ArrayList<>();
         }
     }
+
 }

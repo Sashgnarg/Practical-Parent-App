@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
+import com.cmpt276.iteration1practicalparent.Model.TaskItem;
 import com.cmpt276.iteration1practicalparent.R;
 import com.cmpt276.iteration1practicalparent.Model.CoinHistoryClass;
 import com.google.gson.Gson;
@@ -20,6 +21,7 @@ import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global.LIST_OF_CHILDREN;
+import static com.cmpt276.iteration1practicalparent.UI.TaskActivity.LIST_OF_TASKS;
 
 public class UtilityFunction{
     Random random = new Random();
@@ -76,6 +78,19 @@ public class UtilityFunction{
             history = new ArrayList<>();
         }
         return history;
+    }
+
+    public ArrayList<TaskItem> loadTaskData(Context context) {
+        //load all Tasks
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(LIST_OF_TASKS, null);
+        Type type = new TypeToken<ArrayList<TaskItem>>(){}.getType();
+        ArrayList<TaskItem> taskList = gson.fromJson(json, type);
+        if(taskList == null){
+            taskList = new ArrayList<>();
+        }
+        return taskList;
     }
 
 }

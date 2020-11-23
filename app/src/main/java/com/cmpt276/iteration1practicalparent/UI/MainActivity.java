@@ -30,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
         buttonF.setButtonActivity(()->buttonF.setChangeActivity(coinFlipButton,MainActivity.this, CoinFlipMain.class, false));
         //buttonFunctions.setButtonActivity( () -> buttonFunctions.setPopUp(testPopUpButton,MainActivity.this,"hello"));
 
-        setupConfigureChildrenButton();
 
+        setupConfigureChildrenButton();
         setupTimerButton();
+        setupTasksButton();
+        setupHelpButton();
     }
 
 
@@ -59,5 +61,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void setupTasksButton(){
+        Button tasksBtn = (Button) findViewById(R.id.btnTasks);
+        tasksBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TaskActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void setupHelpButton(){
+        Button tasksBtn = (Button) findViewById(R.id.btnHelp);
+        tasksBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, HelpPage.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
 }
