@@ -5,8 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -147,7 +150,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
 
         String taskName = clickedTask.getTaskName();
 
-        int currentTaskChildPic = clickedTask.getChildForTask().getImageResource();
+        int currentTaskChildPic = getImageId(this,clickedTask.getChildForTask().getImageResource() );
         String currentTaskChildName = clickedTask.getChildForTask().getmText1();
         int indexOfChildForTask = clickedTask.getIndexOfChildForTask();
 
@@ -276,5 +279,10 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    //code reference: https://stackoverflow.com/questions/6783327/setimageresource-from-a-string
+    public static int getImageId(Context context, String imageName) {
+        return context.getResources().getIdentifier("drawable/" + imageName, null, context.getPackageName());
     }
 }
