@@ -13,5 +13,25 @@
     <string name="picked_head_text">Picked Head</string>
     <string name="current_child_history">Current Child History</string>
     <string name="coin_flip_history">Coin Flip History</string>
-
+    <string name ="homePageBackground">
+        <a href = "https://www.pinterest.ca/pin/565975878168745099/">
+            <u>
+                Home page background
+            </u>
+        </a>
+    </string>
+    <string name = "timerBackground">
+        <a href = "https://www.pinterest.ca/pin/509117932857055374/">
+            <u>
+                Timer page background
+            </u>
+        </a>
+    </string>
+    <string name="linkToCourse">
+        <a href = "https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home">
+            <u>
+                Link to course webpage
+            </u>
+        </a>
+    </string>
 </resources>
