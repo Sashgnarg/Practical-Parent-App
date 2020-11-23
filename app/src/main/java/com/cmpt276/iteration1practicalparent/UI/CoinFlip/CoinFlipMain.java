@@ -64,18 +64,12 @@ public class CoinFlipMain extends AppCompatActivity {
 
         //initial functions
         utility = new UtilityFunction();
+
         coinHistory = new ArrayList<>();
         initialLayout();
 
-        historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
-        historyAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CoinFlipMain.this, HistoryAllDisplay.class);
-                startActivity(intent);
-            }
-        });
 
+        historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
         historyCurrBtn = (Button) findViewById(R.id.viewCurrHistory);
         historyCurrBtn.setOnClickListener(new View.OnClickListener() {
             @Override

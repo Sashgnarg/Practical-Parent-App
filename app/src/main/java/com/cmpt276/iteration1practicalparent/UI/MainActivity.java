@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         buttonF.setButtonActivity(()->buttonF.setChangeActivity(coinFlipButton,MainActivity.this, CoinFlipMain.class, false));
         //buttonFunctions.setButtonActivity( () -> buttonFunctions.setPopUp(testPopUpButton,MainActivity.this,"hello"));
 
+
         setupConfigureChildrenButton();
 
         setupTimerButton();
