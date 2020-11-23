@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +32,6 @@ import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global;
 import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +46,7 @@ public class CoinFlipMain extends AppCompatActivity {
     private String winner;
     private ConfigureChildrenItem currentChild, previousChild, nextChild;
     private int selection,coinFace;
+    private ImageView childImage;
     ArrayList<CoinHistoryClass> coinHistory;
 
     private Button historyAllBtn;
@@ -98,6 +98,8 @@ public class CoinFlipMain extends AppCompatActivity {
         nextChildTextV = (TextView)findViewById(R.id.new_child_text);
         currentFaceV = (TextView)findViewById(R.id.coin_current_face);
 
+        childImage = (ImageView)findViewById(R.id.child_image_view);
+
         //coinText = (TextView)findViewById(R.id.coin_text);
         coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
         Button flipButton = (Button)findViewById(R.id.flip_button);
@@ -130,7 +132,7 @@ public class CoinFlipMain extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 currentChild = null;
-                updateText();
+                updateUI();
             }
         });
         AlertDialog pop = builder.create();
@@ -198,7 +200,7 @@ public class CoinFlipMain extends AppCompatActivity {
                 }
                 currentChild = mChildrenList.get(position);
                 setChildInQuene();
-                updateText();
+                updateUI();
                 dialog.dismiss();
                 PickFaceMsg("Pick Your Face", CoinFlipMain.this);
             }
@@ -211,14 +213,18 @@ public class CoinFlipMain extends AppCompatActivity {
             public void onChildPhotoClick(int position) {}
         });
     }
-    private void updateText(){
+    private void updateUI(){
         if (currentChild!= null){
             currentChildTextV.setText(currentChild.getmText1());
             nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            Uri uri = Uri.parse(currentChild.getImageResource());
+            childImage.setImageURI(uri);
+
         }
         else{
             currentChildTextV.setText("");
             nextChildTextV.setText("");//next Child
+            childImage.setImageResource(R.drawable.ic_child);
         }
         setFaceText();
     }
@@ -249,13 +255,11 @@ public class CoinFlipMain extends AppCompatActivity {
                 flipCoin(coinFace);
                 String coinResult;
                 if (coinFace == 1){
-                    coinResult = "Heads";
+                    coinFlipResultText.setText(R.string.head);
                 }
                 else {
-                    coinResult = "Tails";
+                    coinFlipResultText.setText(R.string.tail);
                 }
-                coinFlipResultText.setText(coinResult);
-
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
 
@@ -264,9 +268,8 @@ public class CoinFlipMain extends AppCompatActivity {
                     previousChild = currentChild;
                     currentChild = mChildrenList.get(1);
                     setChildInQuene();
-                    updateText();
+                    updateUI();
                 }
-
             }
         });
     }
