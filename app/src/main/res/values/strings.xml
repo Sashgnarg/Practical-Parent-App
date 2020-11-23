@@ -34,4 +34,23 @@
             </u>
         </a>
     </string>
+    <string name="task_name">Task Name</string>
+    <string name="task_description">Task Description</string>
+    <string name="no_child_for_task">No Child For Task</string>
+    <string name="task_name_dialog">Task Name</string>
+    <string name="task_description_dialog">Task Description</string>
+    <string name="pick_a_time_in_minutes_or_set_your_own">Pick a time (in minutes) or set your own:</string>
+    <string name="task_name_popup">Task Name</string>
+    <string name="child_name_popup">Child Name</string>
+    <string name="insert_btn_task">Insert</string>
+    <string name="_1">1</string>
+    <string name="set_btn_timer">Set</string>
+    <string name="minutes_txt_timer">Minutes</string>
+    <string name="reset_btn_timer">Reset</string>
+    <string name="start_btn_timer">Start</string>
+    <string name="_00_00">00:00</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_5">5</string>
+    <string name="_10">10</string>
 </resources>
