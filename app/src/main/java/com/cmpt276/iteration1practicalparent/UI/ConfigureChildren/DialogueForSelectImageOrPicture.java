@@ -119,10 +119,19 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
     }
 
     private void openGallery() {
-        Intent intent = new Intent(
-                Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, OPEN_GALLERY_CODE);
+        Intent intent;
+
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(
+                    Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, OPEN_GALLERY_CODE);
+        } else {
+            intent = new Intent(
+                    Intent.ACTION_OPEN_DOCUMENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, OPEN_GALLERY_CODE);
+        }
     }
 
 

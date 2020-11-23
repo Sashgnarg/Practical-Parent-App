@@ -5,4 +5,7 @@
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
 
+    <string name="takePhoto">Take Photo</string>
+    <string name="selectImageFromGallery">Select Image From Gallery</string>
+
 </resources>
