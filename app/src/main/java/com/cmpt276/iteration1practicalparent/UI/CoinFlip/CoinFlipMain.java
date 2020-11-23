@@ -200,8 +200,6 @@ public class CoinFlipMain extends AppCompatActivity {
                 updateUI();
                 currentChild = mChildrenList.get(position);
                 setChildInQuene(); //update the children list
-
-
                 dialog.dismiss();
                 PickFaceMsg("Pick Your Face", CoinFlipMain.this);
             }
@@ -224,7 +222,9 @@ public class CoinFlipMain extends AppCompatActivity {
         }
         else{
             currentChildTextV.setText("");
-            nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            if (nextChild!=null){
+                nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            }
             childImage.setImageResource(R.drawable.ic_child);
         }
         setFaceText();
@@ -262,22 +262,20 @@ public class CoinFlipMain extends AppCompatActivity {
                 }
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
-
-                if (currentChild != null){ //if there is config children
-
-                    saveHistory();
-                    updateUI();
-                    previousChild = currentChild;
-                    currentChild = mChildrenList.get(1);
-                    setChildInQuene();
-
-                }
-                else{
-                    updateUI();
-                    previousChild = currentChild;
-                    currentChild = mChildrenList.get(0);
-                    setFaceText();
-                    setChildInQuene();
+                if (!mChildrenList.isEmpty()){
+                    if (currentChild != null){ //if there is config children
+                        saveHistory();
+                        updateUI();
+                        previousChild = currentChild;
+                        currentChild = mChildrenList.get(1);
+                        setChildInQuene();
+                    }
+                    else{
+                        updateUI();
+                        previousChild = currentChild;
+                        setFaceText();
+                        setChildInQuene();
+                    }
                 }
             }
         });

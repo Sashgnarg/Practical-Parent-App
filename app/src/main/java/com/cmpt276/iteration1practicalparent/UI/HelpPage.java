@@ -27,11 +27,11 @@ public class HelpPage extends AppCompatActivity {
 
         // linking timer background
         TextView time = (TextView) findViewById(R.id.timerBack);
-        home.setMovementMethod(LinkMovementMethod.getInstance());
+        time.setMovementMethod(LinkMovementMethod.getInstance());
 
         // link to course
         TextView course = (TextView) findViewById(R.id.linkToCourse);
-        home.setMovementMethod(LinkMovementMethod.getInstance());
+        course.setMovementMethod(LinkMovementMethod.getInstance());
 
 
     }

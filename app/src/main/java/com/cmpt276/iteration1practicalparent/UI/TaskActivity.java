@@ -34,6 +34,7 @@ import java.util.Objects;
 public class TaskActivity extends AppCompatActivity implements DialogueForTask.DialogueForTaskListener {
     public static final String LIST_OF_TASKS = "list of tasks";
     private ArrayList<TaskItem> taskList;
+    private ConfigureChildrenItem currentIteml;
     private ArrayList<ConfigureChildrenItem> childrenList;
     UtilityFunction utility;
 
@@ -187,6 +188,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
                         taskAdapter.notifyItemChanged(position);
                     }
                 }
+                saveData();
             }
         });
         builder.setNegativeButton("Return", new DialogInterface.OnClickListener() {

@@ -117,11 +117,12 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="268dp"
+        android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:layout_marginStart="40dp"
         android:layout_marginTop="84dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/pick_a_time_in_minutes_or_set_your_own"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
