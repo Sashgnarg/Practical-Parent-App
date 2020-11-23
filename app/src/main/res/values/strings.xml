@@ -37,5 +37,21 @@
 
     <string name="takePhoto">Take Photo</string>
     <string name="selectImageFromGallery">Select Image From Gallery</string>
+    <string name="coinflip">coinFlip</string>
+    <string name="practical">PRACTICAL</string>
+    <string name="configure_children">Configure Children</string>
+    <string name="timer">Timer</string>
+    <string name="tasks">Tasks</string>
+    <string name="help">HELP</string>
+    <string name="parent">PARENT</string>
+    <string name="exclaim">!</string>
+    <string name="exclaim_mark">!</string>
+    <string name="this_project_is_created_by_team_brass">This Project is created by Team Brass</string>
+    <string name="members">Members:</string>
+    <string name="hang_wei_liu">Hang Wei Liu</string>
+    <string name="sash_stolba">Sash Stolba</string>
+    <string name="mariz_fahmy">Mariz Fahmy</string>
+    <string name="andrew_liang">Andrew Liang</string>
+    <string name="links_to_resource">Links to resource</string>
 
 </resources>
