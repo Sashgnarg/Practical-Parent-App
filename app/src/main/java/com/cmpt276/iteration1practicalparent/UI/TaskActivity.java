@@ -146,21 +146,14 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         view = LayoutInflater.from(this).inflate(R.layout.task_pop_up_dialog,null);
 
         String taskName = clickedTask.getTaskName();
-        String taskDescription = clickedTask.getTaskDescription();
+
         int currentTaskChildPic = clickedTask.getChildForTask().getImageResource();
         String currentTaskChildName = clickedTask.getChildForTask().getmText1();
         int indexOfChildForTask = clickedTask.getIndexOfChildForTask();
 
-        //setting the task name and task description in our dialog pop up
+        //setting the task name in our dialog pop up
         TextView txtTaskName = view.findViewById(R.id.txtTaskNameDialog);
         txtTaskName.setText(taskName);
-
-        Log.i("IN TASK ACTIVITY POP UP", "task description is: " + taskDescription);
-        //trying to set task description crashes up.. will try to fix later:
-//        TextView txtTaskDescription = findViewById(R.id.txtTaskDescriptionDialog);
-//        txtTaskDescription.setText("hello");
-
-
 
         //setting the image and Child name for this task in our dialog pop up
         ImageView imgChild = view.findViewById(R.id.imgTaskChildDialog);
@@ -176,7 +169,6 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
             public void onClick(DialogInterface dialogInterface, int i) {
                 //making sure there are more children in the list
                 //if there is, the next child gets their turn to do this task
-                Log.i("in TASK ACTIVTY POP UP","index of childfortask is: " + indexOfChildForTask + " AND the size is: " + childrenList.size());
                 if (indexOfChildForTask < childrenList.size()-1){
                     clickedTask.setIndexOfChildForTask(indexOfChildForTask + 1);
                     clickedTask.setChildForTask(childrenList.get(indexOfChildForTask + 1));
@@ -184,9 +176,11 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
                 }
                 //if not we restart indexOfChildForTask to 0
                 else {
-                    clickedTask.setIndexOfChildForTask(0);
-                    clickedTask.setChildForTask(childrenList.get(0));
-                    taskAdapter.notifyItemChanged(position);
+                    if (!childrenList.isEmpty()) {
+                        clickedTask.setIndexOfChildForTask(0);
+                        clickedTask.setChildForTask(childrenList.get(0));
+                        taskAdapter.notifyItemChanged(position);
+                    }
                 }
             }
         });
@@ -279,5 +273,8 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }
