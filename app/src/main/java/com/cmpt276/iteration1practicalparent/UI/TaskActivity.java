@@ -284,9 +284,4 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
     protected void onResume() {
         super.onResume();
     }
-
-    //code reference: https://stackoverflow.com/questions/6783327/setimageresource-from-a-string
-    public static int getImageId(Context context, String imageName) {
-        return context.getResources().getIdentifier("drawable/" + imageName, null, context.getPackageName());
-    }
 }
