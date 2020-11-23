@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="29dp"
-        android:text="Insert" />
+        android:text="@string/insert_btn_task" />
 
 
 </RelativeLayout>
