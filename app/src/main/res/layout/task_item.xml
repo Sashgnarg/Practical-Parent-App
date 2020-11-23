@@ -20,7 +20,7 @@
             android:id="@+id/txtTaskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Task Name"
+            android:text="@string/task_name"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -32,7 +32,7 @@
             android:id="@+id/txtTaskDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Task Description"
+            android:text="@string/task_description"
             android:textSize="15sp"
             android:layout_below="@id/txtTaskName"
             android:layout_toEndOf="@id/imgTask"
@@ -46,7 +46,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/txtTaskName"
-            android:text="No Child For Task"
+            android:text="@string/no_child_for_task"
             android:textColor="@android:color/holo_blue_dark" />
 
         <ImageView

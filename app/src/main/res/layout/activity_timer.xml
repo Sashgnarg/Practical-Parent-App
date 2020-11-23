@@ -13,7 +13,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="80dp"
-        android:text="10"
+        android:text="@string/_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -23,7 +23,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
-        android:text="5"
+        android:text="@string/_5"
         app:layout_constraintEnd_toStartOf="@+id/btnTenMin"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -33,7 +33,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
-        android:text="3"
+        android:text="@string/_3"
         app:layout_constraintEnd_toStartOf="@+id/btnFiveMin"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -43,7 +43,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
-        android:text="2"
+        android:text="@string/_2"
         app:layout_constraintEnd_toStartOf="@+id/btnThreeMin"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="276dp"
-        android:text="00:00"
+        android:text="@string/_00_00"
         android:textColor="@color/cardview_dark_background"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginTop="36dp"
-        android:text="Start"
+        android:text="@string/start_btn_timer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCountDown" />
 
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Reset"
+        android:text="@string/reset_btn_timer"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="28dp"
-        android:hint="Minutes"
+        android:hint="@string/minutes_txt_timer"
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/txtCountDown"
         app:layout_constraintEnd_toStartOf="@+id/btnSetMinutes" />
@@ -99,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:layout_marginEnd="40dp"
-        android:text="Set"
+        android:text="@string/set_btn_timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -109,7 +109,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
-        android:text="1"
+        android:text="@string/_1"
         app:layout_constraintEnd_toStartOf="@+id/btnTwoMin"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +121,7 @@
         android:layout_height="28dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="84dp"
-        android:text="Pick a time (in minutes) or set your own:"
+        android:text="@string/pick_a_time_in_minutes_or_set_your_own"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
