@@ -4,5 +4,10 @@
     <string name="coin_pick_text_string">Pick a Child</string>
     <string name="win">WIN</string>
     <string name="lose">LOSE</string>
+    <string name="switch_child_text">Pick different child</string>
+    <string name="switch_face_text">Pick a new face</string>
+    <string name="face_pick_text">Pick Your Face</string>
+    <string name="picked_tail_text">Picked Tail</string>
+    <string name="picked_head_text">Picked Head</string>
 
 </resources>

@@ -31,19 +31,21 @@ import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global;
 import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
 import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class CoinFlipMain extends AppCompatActivity {
 
-
     ButtonFunctions buttonF;
     UtilityFunction utility;
-    private TextView currentChildren, coinFlipResultText;
+    private TextView currentChildTextV, coinFlipResultText,nextChildTextV, currentFaceV;
     private ArrayList<ConfigureChildrenItem> mChildrenList;
 
-    private String childrenName, winner;
+    private String winner;
+    private ConfigureChildrenItem currentChild, previousChild, nextChild;
     private int selection,coinFace;
     ArrayList<CoinHistoryClass> coinHistory;
 
@@ -59,7 +61,6 @@ public class CoinFlipMain extends AppCompatActivity {
         setContentView(R.layout.activity_coin_flip_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Coin Flip");
-        childrenName=null; //make sure null won't be saved
 
         //initial functions
         utility = new UtilityFunction();
@@ -70,7 +71,7 @@ public class CoinFlipMain extends AppCompatActivity {
         historyAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = HistoryAllDisplay.showAll(CoinFlipMain.this);
+                Intent intent = new Intent(CoinFlipMain.this, HistoryAllDisplay.class);
                 startActivity(intent);
             }
         });
@@ -80,17 +81,22 @@ public class CoinFlipMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CoinFlipMain.this, HistoryCurrDisplay.class);
-                intent.putExtra("param", childrenName);
+                if (currentChild!=null){
+                    intent.putExtra("param", currentChild.getmText1());
+                }
+                else{
+                    intent.putExtra("param", ""); //prevent error when passing value
+                                                               //when there is no children selected
+                }
                 startActivity(intent);
             }
         });
-
-
-
     }
     public void initialLayout(){
         //initial layout
-        currentChildren = (TextView)findViewById(R.id.current_children);
+        currentChildTextV = (TextView)findViewById(R.id.current_children);
+        nextChildTextV = (TextView)findViewById(R.id.new_child_text);
+        currentFaceV = (TextView)findViewById(R.id.coin_current_face);
 
         //coinText = (TextView)findViewById(R.id.coin_text);
         coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
@@ -102,6 +108,9 @@ public class CoinFlipMain extends AppCompatActivity {
         mChildrenList = utility.loadData(this);
         //load coin history
         coinHistory = utility.loadCoinHistory(this);
+
+        setSwitchChildButton();// button to switch child
+        setSwitchFaceButton(); // button to pick new face
 
         if (!mChildrenList.isEmpty()){ //if there is config children
             popUpChildren(this);
@@ -117,12 +126,18 @@ public class CoinFlipMain extends AppCompatActivity {
         //alert dialog setting
         builder.setCancelable(true);
         builder.setView(view);
+        builder.setPositiveButton("pick no child", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                currentChild = null;
+                updateText();
+            }
+        });
         AlertDialog pop = builder.create();
-
         createChildrenList(view,pop);
         pop.show();
     }
-    public void popUpMsg(String msg, Context context){
+    public void PickFaceMsg(String msg, Context context){
         // popup screen base on popup_dialog.xml
         // change popup_dialog.xml for more effect
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -137,6 +152,7 @@ public class CoinFlipMain extends AppCompatActivity {
         builder.setPositiveButton("Tail", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 selection = Global.TAIL;
+                setFaceText();
                 dialog.cancel();
             }
         });
@@ -144,11 +160,24 @@ public class CoinFlipMain extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 selection = Global.HEAD;
+                setFaceText();
                 dialog.cancel();
             }
         });
         AlertDialog pop = builder.create();
         pop.show();
+    }
+    private void setFaceText(){
+        if (currentChild!=null){
+            if (selection == Global.HEAD){
+                currentFaceV.setText(R.string.picked_head_text);
+            }
+            else{
+                currentFaceV.setText(R.string.picked_tail_text);
+            }
+        }else{
+            currentFaceV.setText("");
+        }
     }
     private void createChildrenList(View view, AlertDialog dialog){
         //recycle layout for popup
@@ -164,11 +193,14 @@ public class CoinFlipMain extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterForConfigureChildren.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
-                childrenName = mChildrenList.get(position).getmText1();
+                if (currentChild!=null){
+                    previousChild = currentChild;
+                }
+                currentChild = mChildrenList.get(position);
+                setChildInQuene();
                 updateText();
                 dialog.dismiss();
-                popUpMsg("Pick Your Face", CoinFlipMain.this);
+                PickFaceMsg("Pick Your Face", CoinFlipMain.this);
             }
             @Override
             public void onDeleteClick(int position) {}
@@ -180,7 +212,15 @@ public class CoinFlipMain extends AppCompatActivity {
         });
     }
     private void updateText(){
-        currentChildren.setText(childrenName);
+        if (currentChild!= null){
+            currentChildTextV.setText(currentChild.getmText1());
+            nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+        }
+        else{
+            currentChildTextV.setText("");
+            nextChildTextV.setText("");//next Child
+        }
+        setFaceText();
     }
     private void saveHistory(){
 
@@ -194,7 +234,7 @@ public class CoinFlipMain extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         Date currentTime = Calendar.getInstance().getTime();
-        coinHistory.add(new CoinHistoryClass(childrenName,currentTime,coinFace,winner));
+        coinHistory.add(new CoinHistoryClass(currentChild.getmText1(),currentTime,coinFace,winner));
         String json = gson.toJson(coinHistory);
         editor.putString(Global.LIST_CHILDREN_HISTORY, json);
         editor.commit();
@@ -205,7 +245,6 @@ public class CoinFlipMain extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 coinFace = utility.randomTwoFace();
                 flipCoin(coinFace);
                 String coinResult;
@@ -220,9 +259,56 @@ public class CoinFlipMain extends AppCompatActivity {
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
 
-                if (childrenName != null){ //if there is config children
+                if (currentChild != null){ //if there is config children
                     saveHistory();
+                    previousChild = currentChild;
+                    currentChild = mChildrenList.get(1);
+                    setChildInQuene();
+                    updateText();
                 }
+
+            }
+        });
+    }
+    private void setSwitchChildButton(){
+       Button switchChildButton = (Button)findViewById(R.id.switch_child_button);
+       switchChildButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if (!mChildrenList.isEmpty()){ //if there is config children
+                   popUpChildren(CoinFlipMain.this);
+               }
+               else{
+                   utility.popUpMsg("please add a children before you select",CoinFlipMain.this);
+               }
+           }
+       });
+    }
+    private void setChildInQuene(){
+        ArrayList<ConfigureChildrenItem> tempChildItem = new ArrayList<>();
+        if (currentChild!=null){ // if a current child is picked
+                tempChildItem.add(currentChild);
+                mChildrenList.remove(currentChild);
+        }
+        if (previousChild != null){ //if there is a previous child
+                mChildrenList.remove(previousChild);
+        }
+        int childListLength = mChildrenList.size();
+        for (int i = 0;i<childListLength;i++){
+            tempChildItem.add(mChildrenList.get(i));
+        }
+        if (previousChild != null){
+            tempChildItem.add(previousChild);
+        }
+        mChildrenList = tempChildItem; //save back
+        nextChild = mChildrenList.get(1);
+    }
+    private void setSwitchFaceButton(){
+        Button switchFaceButton = (Button)findViewById(R.id.switch_face_button);
+        switchFaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PickFaceMsg("Pick Your Face",CoinFlipMain.this);
             }
         });
     }
@@ -250,9 +336,11 @@ public class CoinFlipMain extends AppCompatActivity {
                 }
                 Animation fadeIn = new AlphaAnimation(0, 1);
                 fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(500);
+                fadeIn.setDuration(1000);
                 fadeIn.setFillAfter(true);
+
                 coin.startAnimation(fadeIn);
+
             }
 
             @Override
