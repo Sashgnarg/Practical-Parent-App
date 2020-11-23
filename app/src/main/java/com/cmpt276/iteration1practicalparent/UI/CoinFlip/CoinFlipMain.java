@@ -174,6 +174,9 @@ public class CoinFlipMain extends AppCompatActivity {
             public void onDeleteClick(int position) {}
             @Override
             public void onEditClick(int position) {}
+
+            @Override
+            public void onChildPhotoClick(int position) {}
         });
     }
     private void updateText(){

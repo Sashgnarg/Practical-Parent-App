@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmpt276.iteration1practicalparent">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -49,5 +53,4 @@
             android:parentActivityName=".UI.CoinFlip.CoinFlipMain"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>
