@@ -34,4 +34,8 @@
             </u>
         </a>
     </string>
+
+    <string name="takePhoto">Take Photo</string>
+    <string name="selectImageFromGallery">Select Image From Gallery</string>
+
 </resources>
