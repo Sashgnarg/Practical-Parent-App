@@ -103,6 +103,7 @@ public class CoinFlipMain extends AppCompatActivity {
         setSwitchChildButton();// button to switch child
         setSwitchFaceButton(); // button to pick new face
 
+
         //load config children
         mChildrenList = utility.loadData(this);
         //load coin history
@@ -111,6 +112,7 @@ public class CoinFlipMain extends AppCompatActivity {
         if (!mChildrenList.isEmpty()){ //if there is config children
             popUpChildren(this);
         }
+        nextChild = mChildrenList.get(0);
     }
 
     public void popUpChildren(Context context){
@@ -126,6 +128,7 @@ public class CoinFlipMain extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 currentChild = null;
+                nextChild = mChildrenList.get(0);
                 updateUI();
             }
         });
@@ -192,9 +195,12 @@ public class CoinFlipMain extends AppCompatActivity {
                 if (currentChild!=null){
                     previousChild = currentChild;
                 }
+                nextChild = mChildrenList.get(position);
+                updateUI();
                 currentChild = mChildrenList.get(position);
                 setChildInQuene(); //update the children list
-                updateUI();
+
+
                 dialog.dismiss();
                 PickFaceMsg("Pick Your Face", CoinFlipMain.this);
             }
@@ -217,7 +223,7 @@ public class CoinFlipMain extends AppCompatActivity {
         }
         else{
             currentChildTextV.setText("");
-            nextChildTextV.setText("");//next Child
+            nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
             childImage.setImageResource(R.drawable.ic_child);
         }
         setFaceText();
@@ -257,11 +263,21 @@ public class CoinFlipMain extends AppCompatActivity {
                 coinSound.start();
 
                 if (currentChild != null){ //if there is config children
+
                     saveHistory();
+                    updateUI();
                     previousChild = currentChild;
                     currentChild = mChildrenList.get(1);
                     setChildInQuene();
+
+                }
+                else{
                     updateUI();
+                    previousChild = currentChild;
+                    currentChild = mChildrenList.get(0);
+                    currentChildTextV.setText("Nobody");
+                    setFaceText();
+                    setChildInQuene();
                 }
             }
         });
