@@ -34,4 +34,12 @@
             </u>
         </a>
     </string>
+    <string name="ohelp">HELP</string>
+    <string name="othis_project_is_created_by_team_brass">This project is created by Team Brass</string>
+    <string name="omembers">Members:</string>
+    <string name="hang_wei_liu">Hang Wei Liu</string>
+    <string name="sash_stolba">Sash Stolba</string>
+    <string name="mariz">Mariz</string>
+    <string name="andrew">Andrew</string>
+    <string name="links_to_resources">Links to resources:</string>
 </resources>
