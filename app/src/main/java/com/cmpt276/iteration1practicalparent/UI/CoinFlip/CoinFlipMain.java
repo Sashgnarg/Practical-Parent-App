@@ -93,20 +93,20 @@ public class CoinFlipMain extends AppCompatActivity {
         currentFaceV = (TextView)findViewById(R.id.coin_current_face);
 
         childImage = (ImageView)findViewById(R.id.child_image_view);
+        childImage.setImageResource(R.drawable.ic_child); //default image
 
         //coinText = (TextView)findViewById(R.id.coin_text);
         coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
         Button flipButton = (Button)findViewById(R.id.flip_button);
 
+        setFlipButton(flipButton); //button to flip coin
+        setSwitchChildButton();// button to switch child
+        setSwitchFaceButton(); // button to pick new face
 
-        setFlipButton(flipButton);
         //load config children
         mChildrenList = utility.loadData(this);
         //load coin history
         coinHistory = utility.loadCoinHistory(this);
-
-        setSwitchChildButton();// button to switch child
-        setSwitchFaceButton(); // button to pick new face
 
         if (!mChildrenList.isEmpty()){ //if there is config children
             popUpChildren(this);
@@ -193,7 +193,7 @@ public class CoinFlipMain extends AppCompatActivity {
                     previousChild = currentChild;
                 }
                 currentChild = mChildrenList.get(position);
-                setChildInQuene();
+                setChildInQuene(); //update the children list
                 updateUI();
                 dialog.dismiss();
                 PickFaceMsg("Pick Your Face", CoinFlipMain.this);
@@ -247,7 +247,6 @@ public class CoinFlipMain extends AppCompatActivity {
             public void onClick(View view) {
                 coinFace = utility.randomTwoFace();
                 flipCoin(coinFace);
-                String coinResult;
                 if (coinFace == 1){
                     coinFlipResultText.setText(R.string.head);
                 }
