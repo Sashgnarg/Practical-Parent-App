@@ -85,6 +85,8 @@ public class ConfigureChildren extends AppCompatActivity implements DialogueForC
         mChildrenList.remove(position);
         mAdapter.notifyItemRemoved(position);
         saveData();
+
+
     }
 
     private void editItem(int position) {
