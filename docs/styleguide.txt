@@ -1,0 +1,16 @@
+Style guide referenced from:
+https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/course-info/styleguide
+
+- meaningful variable/function/class names
+- loop variables will be i,j,k unless a for-each loop is possible
+- constants all upper case, with multiple words separated by '_'
+- functions start with lower case letter for first word, then upper case for the rest
+- functions named in terms of an action
+- classes named in term of a noun
+- indentation using tabs
+- opening brace is at the end of the enclosing statement and closing brace on own line, with statements inside block indented
+- inside classes, fields are at top then followed by methods
+- comments that are one line use //
+- comments with multiple lines can use // or /* ... */
+- class has descriptive comment explaining purpose
+
