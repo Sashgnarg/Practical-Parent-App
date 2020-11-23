@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -150,9 +151,10 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
 
         String taskName = clickedTask.getTaskName();
 
-        int currentTaskChildPic = getImageId(this,clickedTask.getChildForTask().getImageResource() );
+        Uri currentTaskChildPicUri = Uri.parse(clickedTask.getChildForTask().getImageResource());
         String currentTaskChildName = clickedTask.getChildForTask().getmText1();
         int indexOfChildForTask = clickedTask.getIndexOfChildForTask();
+
 
         //setting the task name in our dialog pop up
         TextView txtTaskName = view.findViewById(R.id.txtTaskNameDialog);
@@ -160,7 +162,7 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
 
         //setting the image and Child name for this task in our dialog pop up
         ImageView imgChild = view.findViewById(R.id.imgTaskChildDialog);
-        imgChild.setImageResource(currentTaskChildPic);
+        imgChild.setImageURI(currentTaskChildPicUri);
         TextView txtChildName = view.findViewById(R.id.txtTaskChildNameDialog);
         txtChildName.setText(currentTaskChildName);
 
