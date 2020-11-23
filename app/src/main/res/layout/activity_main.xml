@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/test_button_to_coinFlip"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="coinFlip"
@@ -20,9 +20,9 @@
 
     <Button
         android:id="@+id/configure_children"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="250dp"
         android:text="Configure Children"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
 
     <Button
         android:id="@+id/btnTimer"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Timer"
@@ -40,7 +40,7 @@
 
     <Button
         android:id="@+id/btnTasks"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="Tasks"
@@ -50,12 +50,63 @@
 
     <Button
         android:id="@+id/btnHelp"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="Help"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnTasks" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="137dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="90dp"
+        android:text="PRACTICAL"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PARENT"
+        android:textColor="@android:color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="17dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="90dp"
+        android:text="!"
+        android:textColor="@android:color/white"
+        android:textSize="54sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="17dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="18dp"
+        android:text="!"
+        android:textColor="@android:color/white"
+        android:textSize="54sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

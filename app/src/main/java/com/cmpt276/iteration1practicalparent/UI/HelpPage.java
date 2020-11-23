@@ -29,6 +29,11 @@ public class HelpPage extends AppCompatActivity {
         TextView time = (TextView) findViewById(R.id.timerBack);
         home.setMovementMethod(LinkMovementMethod.getInstance());
 
+        // link to course
+        TextView course = (TextView) findViewById(R.id.linkToCourse);
+        home.setMovementMethod(LinkMovementMethod.getInstance());
+
+
     }
 
 }

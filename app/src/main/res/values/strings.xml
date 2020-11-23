@@ -18,5 +18,12 @@
             </u>
         </a>
     </string>
+    <string name="linkToCourse">
+        <a href = "https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home">
+            <u>
+                Link to course webpage
+            </u>
+        </a>
+    </string>
 
 </resources>
