@@ -3,6 +3,7 @@ package com.cmpt276.iteration1practicalparent.UI.ConfigureChildren;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,6 +47,7 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
     private DialogueForSelectImageOrTakePictureListener listener;
 
     Uri image_uri;
+    Context context;
 
     @NonNull
     @Override
@@ -57,6 +59,8 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
         takePicture = view.findViewById(R.id.takephoto);
         viewGallery = view.findViewById(R.id.gallery);
         mPhotoOfChild = view.findViewById(R.id.photoOfChildInDialogue);
+        mPhotoOfChild.setImageURI(setDefaultImageForChild());
+        image_uri = setDefaultImageForChild();
 
         builder.setView(view)
                 .setTitle("Select Image or take picture")
@@ -118,6 +122,16 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
         return builder.create();
     }
 
+    private Uri setDefaultImageForChild() {
+        context = getContext();
+        context.getApplicationContext();
+        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + context.getResources().getResourcePackageName(R.drawable.ic_child)
+                + '/' + context.getResources().getResourceTypeName(R.drawable.ic_child)
+                + '/' + context.getResources().getResourceEntryName(R.drawable.ic_child) );
+        return imageUri;
+    }
+
     private void openGallery() {
         Intent intent;
 
@@ -162,10 +176,10 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE&&data!=null){
+        if(resultCode == RESULT_OK && requestCode == IMAGE_CAPTURE_CODE&& data!=null){
             mPhotoOfChild.setImageURI(image_uri);
         }
-        if(resultCode == RESULT_OK && requestCode == OPEN_GALLERY_CODE&&data!=null){
+        if(resultCode == RESULT_OK && requestCode == OPEN_GALLERY_CODE&& data!=null){
             image_uri = data.getData();
             mPhotoOfChild.setImageURI(image_uri);
         }

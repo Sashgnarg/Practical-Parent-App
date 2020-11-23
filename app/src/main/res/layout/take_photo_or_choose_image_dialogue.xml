@@ -40,18 +40,18 @@
         android:layout_alignStart="@id/takephoto"
         android:text="@string/takePhoto"
         android:textColor="@color/black"
-        android:textSize="36dp"
+        android:textSize="20dp"
         android:textAlignment="center"/>
 
 
     <TextView
-        android:layout_width="180dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/gallery"
         android:layout_alignStart="@id/gallery"
         android:text="@string/selectImageFromGallery"
         android:textColor="@color/black"
-        android:textSize="30dp"
+        android:textSize="15dp"
         android:textAlignment="center"/>
 
 
