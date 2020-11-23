@@ -8,11 +8,10 @@
         android:layout_height="150dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="22dp"
         android:layout_marginTop="211dp"
-        android:src="@drawable/chooseimage"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/chooseimage" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/takephoto"
@@ -20,21 +19,40 @@
         android:layout_height="150dp"
         android:layout_below="@id/gallery"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="-151dp"
-        android:layout_marginEnd="6dp"
-        android:src="@drawable/takephoto"
-        android:scaleType="centerCrop"/>
+        android:layout_marginTop="-150dp"
+        android:layout_marginEnd="22dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/takephoto" />
 
     <ImageView
+        android:id="@+id/photoOfChildInDialogue"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="94dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/ic_child"
-        android:id="@+id/photoOfChildInDialogue"/>
+        android:layout_marginTop="2dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_child" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/takephoto"
+        android:layout_alignStart="@id/takephoto"
+        android:text="@string/takePhoto"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textAlignment="center"/>
+
+
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gallery"
+        android:layout_alignStart="@id/gallery"
+        android:text="@string/selectImageFromGallery"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textAlignment="center"/>
+
 
 </RelativeLayout>

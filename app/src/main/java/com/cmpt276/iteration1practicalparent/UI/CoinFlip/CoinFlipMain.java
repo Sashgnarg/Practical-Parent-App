@@ -64,12 +64,14 @@ public class CoinFlipMain extends AppCompatActivity {
 
         //initial functions
         utility = new UtilityFunction();
+        buttonF = new ButtonFunctions();
 
         coinHistory = new ArrayList<>();
         initialLayout();
 
 
         historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
+        buttonF.setChangeActivity(historyAllBtn,CoinFlipMain.this,HistoryAllDisplay.class,false);
         historyCurrBtn = (Button) findViewById(R.id.viewCurrHistory);
         historyCurrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +114,6 @@ public class CoinFlipMain extends AppCompatActivity {
         if (!mChildrenList.isEmpty()){ //if there is config children
             popUpChildren(this);
         }
-        nextChild = mChildrenList.get(0);
     }
 
     public void popUpChildren(Context context){
@@ -275,7 +276,6 @@ public class CoinFlipMain extends AppCompatActivity {
                     updateUI();
                     previousChild = currentChild;
                     currentChild = mChildrenList.get(0);
-                    currentChildTextV.setText("Nobody");
                     setFaceText();
                     setChildInQuene();
                 }
