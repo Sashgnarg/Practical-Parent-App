@@ -88,13 +88,5 @@ public class HistoryAllDisplay extends AppCompatActivity {
         }
 
     }
-
-    public static Intent showAll(Context c){
-        Intent intent = new Intent(c, HistoryAllDisplay.class);
-        return intent;
-    }
-
-
-
 }
 

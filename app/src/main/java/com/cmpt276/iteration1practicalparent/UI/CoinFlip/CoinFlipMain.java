@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,14 +38,15 @@ import java.util.Date;
 
 public class CoinFlipMain extends AppCompatActivity {
 
-
     ButtonFunctions buttonF;
     UtilityFunction utility;
-    private TextView currentChildren, coinFlipResultText;
+    private TextView currentChildTextV, coinFlipResultText,nextChildTextV, currentFaceV;
     private ArrayList<ConfigureChildrenItem> mChildrenList;
 
-    private String childrenName, winner;
+    private String winner;
+    private ConfigureChildrenItem currentChild, previousChild, nextChild;
     private int selection,coinFace;
+    private ImageView childImage;
     ArrayList<CoinHistoryClass> coinHistory;
 
     private Button historyAllBtn;
@@ -59,45 +61,51 @@ public class CoinFlipMain extends AppCompatActivity {
         setContentView(R.layout.activity_coin_flip_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Coin Flip");
-        childrenName=null; //make sure null won't be saved
 
         //initial functions
         utility = new UtilityFunction();
+        buttonF = new ButtonFunctions();
+
         coinHistory = new ArrayList<>();
         initialLayout();
 
-        historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
-        historyAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = HistoryAllDisplay.showAll(CoinFlipMain.this);
-                startActivity(intent);
-            }
-        });
 
+        historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
+        buttonF.setChangeActivity(historyAllBtn,CoinFlipMain.this,HistoryAllDisplay.class,false);
         historyCurrBtn = (Button) findViewById(R.id.viewCurrHistory);
         historyCurrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CoinFlipMain.this, HistoryCurrDisplay.class);
-                intent.putExtra("param", childrenName);
+                if (currentChild!=null){
+                    intent.putExtra("param", currentChild.getmText1());
+                }
+                else{
+                    intent.putExtra("param", ""); //prevent error when passing value
+                                                               //when there is no children selected
+                }
                 startActivity(intent);
             }
         });
-
-
-
     }
     public void initialLayout(){
         //initial layout
-        currentChildren = (TextView)findViewById(R.id.current_children);
+        currentChildTextV = (TextView)findViewById(R.id.current_children);
+        nextChildTextV = (TextView)findViewById(R.id.new_child_text);
+        currentFaceV = (TextView)findViewById(R.id.coin_current_face);
+
+        childImage = (ImageView)findViewById(R.id.child_image_view);
+        childImage.setImageResource(R.drawable.ic_child); //default image
 
         //coinText = (TextView)findViewById(R.id.coin_text);
         coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
         Button flipButton = (Button)findViewById(R.id.flip_button);
 
+        setFlipButton(flipButton); //button to flip coin
+        setSwitchChildButton();// button to switch child
+        setSwitchFaceButton(); // button to pick new face
 
-        setFlipButton(flipButton);
+
         //load config children
         mChildrenList = utility.loadData(this);
         //load coin history
@@ -117,12 +125,19 @@ public class CoinFlipMain extends AppCompatActivity {
         //alert dialog setting
         builder.setCancelable(true);
         builder.setView(view);
+        builder.setPositiveButton("pick no child", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                currentChild = null;
+                nextChild = mChildrenList.get(0);
+                updateUI();
+            }
+        });
         AlertDialog pop = builder.create();
-
         createChildrenList(view,pop);
         pop.show();
     }
-    public void popUpMsg(String msg, Context context){
+    public void PickFaceMsg(String msg, Context context){
         // popup screen base on popup_dialog.xml
         // change popup_dialog.xml for more effect
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -137,6 +152,7 @@ public class CoinFlipMain extends AppCompatActivity {
         builder.setPositiveButton("Tail", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 selection = Global.TAIL;
+                setFaceText();
                 dialog.cancel();
             }
         });
@@ -144,11 +160,24 @@ public class CoinFlipMain extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 selection = Global.HEAD;
+                setFaceText();
                 dialog.cancel();
             }
         });
         AlertDialog pop = builder.create();
         pop.show();
+    }
+    private void setFaceText(){
+        if (currentChild!=null){
+            if (selection == Global.HEAD){
+                currentFaceV.setText(R.string.picked_head_text);
+            }
+            else{
+                currentFaceV.setText(R.string.picked_tail_text);
+            }
+        }else{
+            currentFaceV.setText("");
+        }
     }
     private void createChildrenList(View view, AlertDialog dialog){
         //recycle layout for popup
@@ -164,11 +193,17 @@ public class CoinFlipMain extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new AdapterForConfigureChildren.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                if (currentChild!=null){
+                    previousChild = currentChild;
+                }
+                nextChild = mChildrenList.get(position);
+                updateUI();
+                currentChild = mChildrenList.get(position);
+                setChildInQuene(); //update the children list
 
-                childrenName = mChildrenList.get(position).getmText1();
-                updateText();
+
                 dialog.dismiss();
-                popUpMsg("Pick Your Face", CoinFlipMain.this);
+                PickFaceMsg("Pick Your Face", CoinFlipMain.this);
             }
             @Override
             public void onDeleteClick(int position) {}
@@ -179,8 +214,20 @@ public class CoinFlipMain extends AppCompatActivity {
             public void onChildPhotoClick(int position) {}
         });
     }
-    private void updateText(){
-        currentChildren.setText(childrenName);
+    private void updateUI(){
+        if (currentChild!= null){
+            currentChildTextV.setText(currentChild.getmText1());
+            nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            Uri uri = Uri.parse(currentChild.getImageResource());
+            childImage.setImageURI(uri);
+
+        }
+        else{
+            currentChildTextV.setText("");
+            nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            childImage.setImageResource(R.drawable.ic_child);
+        }
+        setFaceText();
     }
     private void saveHistory(){
 
@@ -194,7 +241,7 @@ public class CoinFlipMain extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         Date currentTime = Calendar.getInstance().getTime();
-        coinHistory.add(new CoinHistoryClass(childrenName,currentTime,coinFace,winner));
+        coinHistory.add(new CoinHistoryClass(currentChild.getmText1(),currentTime,coinFace,winner));
         String json = gson.toJson(coinHistory);
         editor.putString(Global.LIST_CHILDREN_HISTORY, json);
         editor.commit();
@@ -205,24 +252,75 @@ public class CoinFlipMain extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 coinFace = utility.randomTwoFace();
                 flipCoin(coinFace);
-                String coinResult;
                 if (coinFace == 1){
-                    coinResult = "Heads";
+                    coinFlipResultText.setText(R.string.head);
                 }
                 else {
-                    coinResult = "Tails";
+                    coinFlipResultText.setText(R.string.tail);
                 }
-                coinFlipResultText.setText(coinResult);
-
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
 
-                if (childrenName != null){ //if there is config children
+                if (currentChild != null){ //if there is config children
+
                     saveHistory();
+                    updateUI();
+                    previousChild = currentChild;
+                    currentChild = mChildrenList.get(1);
+                    setChildInQuene();
+
                 }
+                else{
+                    updateUI();
+                    previousChild = currentChild;
+                    currentChild = mChildrenList.get(0);
+                    setFaceText();
+                    setChildInQuene();
+                }
+            }
+        });
+    }
+    private void setSwitchChildButton(){
+       Button switchChildButton = (Button)findViewById(R.id.switch_child_button);
+       switchChildButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if (!mChildrenList.isEmpty()){ //if there is config children
+                   popUpChildren(CoinFlipMain.this);
+               }
+               else{
+                   utility.popUpMsg("please add a children before you select",CoinFlipMain.this);
+               }
+           }
+       });
+    }
+    private void setChildInQuene(){
+        ArrayList<ConfigureChildrenItem> tempChildItem = new ArrayList<>();
+        if (currentChild!=null){ // if a current child is picked
+                tempChildItem.add(currentChild);
+                mChildrenList.remove(currentChild);
+        }
+        if (previousChild != null){ //if there is a previous child
+                mChildrenList.remove(previousChild);
+        }
+        int childListLength = mChildrenList.size();
+        for (int i = 0;i<childListLength;i++){
+            tempChildItem.add(mChildrenList.get(i));
+        }
+        if (previousChild != null){
+            tempChildItem.add(previousChild);
+        }
+        mChildrenList = tempChildItem; //save back
+        nextChild = mChildrenList.get(1);
+    }
+    private void setSwitchFaceButton(){
+        Button switchFaceButton = (Button)findViewById(R.id.switch_face_button);
+        switchFaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PickFaceMsg("Pick Your Face",CoinFlipMain.this);
             }
         });
     }
@@ -250,9 +348,11 @@ public class CoinFlipMain extends AppCompatActivity {
                 }
                 Animation fadeIn = new AlphaAnimation(0, 1);
                 fadeIn.setInterpolator(new DecelerateInterpolator());
-                fadeIn.setDuration(500);
+                fadeIn.setDuration(1000);
                 fadeIn.setFillAfter(true);
+
                 coin.startAnimation(fadeIn);
+
             }
 
             @Override
