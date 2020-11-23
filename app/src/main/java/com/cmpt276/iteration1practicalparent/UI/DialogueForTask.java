@@ -13,9 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
-import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
 
 public class DialogueForTask extends AppCompatDialogFragment {
     private EditText editTextTaskName;

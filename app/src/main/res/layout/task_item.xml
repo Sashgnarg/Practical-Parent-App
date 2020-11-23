@@ -46,8 +46,8 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/txtTaskName"
-            android:textColor="@android:color/holo_blue_dark"
-            android:text="Child's Name" />
+            android:text="No Child For Task"
+            android:textColor="@android:color/holo_blue_dark" />
 
         <ImageView
             android:id="@+id/imgTaskDelete"
