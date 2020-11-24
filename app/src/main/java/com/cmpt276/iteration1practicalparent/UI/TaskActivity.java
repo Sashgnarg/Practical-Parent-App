@@ -112,15 +112,14 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         if (!childrenList.isEmpty()){
             childToInsert = childrenList.get(0);
             indexOfChild = 0;
+            taskList.add(taskEditPosition, new TaskItem(R.drawable.task_image, "", "", childToInsert.getIdOfChild(), indexOfChild));
         }
         else{
-            childToInsert = null;
             indexOfChild = -1;
+            taskList.add(taskEditPosition, new TaskItem(R.drawable.task_image, "", "", -1 , indexOfChild));
         }
-        taskList.add(taskEditPosition, new TaskItem(R.drawable.task_image, "", "", childToInsert.getIdOfChild(), indexOfChild));
         openTaskEditDialog();
         taskAdapter.notifyItemInserted(taskEditPosition);
-        //TO DO: save data
         saveData();
     }
 
@@ -213,9 +212,8 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         view = LayoutInflater.from(this).inflate(R.layout.task_pop_up_dialog,null);
 
         String taskName = clickedTask.getTaskName();
-        String taskDescription = clickedTask.getTaskDescription();
 
-        //setting the task name and task description in our dialog pop up
+        //setting the task name in our dialog pop up
         TextView txtTaskName = view.findViewById(R.id.txtTaskNameDialog);
         txtTaskName.setText(taskName);
 
@@ -245,7 +243,6 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         TaskItem currentItem = taskList.get(taskEditPosition);
         taskList.set(taskEditPosition, new TaskItem(R.drawable.task_image, task_name, task_description, currentItem.getIdOfChild(), currentItem.getIndexOfChildForTask()));
         taskAdapter.notifyItemChanged(taskEditPosition);
-        //TODO:save data
         saveData();
     }
 
@@ -277,11 +274,29 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
     @Override
     protected void onStart() {
         super.onStart();
-        taskAdapter.notifyDataSetChanged();
+        //taskAdapter.notifyDataSetChanged();
+        for (TaskItem task: taskList){
+            if (task.getIndexOfChildForTask() == -1){
+                if (!childrenList.isEmpty()){
+                    task.setIndexOfChildForTask(0);
+                    task.setChildForTask(childrenList.get(0).getIdOfChild());
+                    taskAdapter.notifyItemChanged(0);
+                }
+            }
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        for (TaskItem task: taskList){
+            if (task.getIndexOfChildForTask() == -1){
+                if (!childrenList.isEmpty()){
+                    task.setIndexOfChildForTask(0);
+                    task.setChildForTask(childrenList.get(0).getIdOfChild());
+                    taskAdapter.notifyItemChanged(0);
+                }
+            }
+        }
     }
 }
