@@ -55,21 +55,10 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
         setTitle("Tasks");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        //initializeTaskData();
         loadData();
         buildTaskRecyclerView();
         setupInsertTaskButton();
     }
-
-    public void initializeTaskData(){
-        taskList = new ArrayList<>(); //change it to load it from saved data after
-        utility = new UtilityFunction();
-        //load config children
-        childrenList = utility.loadData(this);
-
-        //taskList.add(new TaskItem(R.drawable.task_image, "Task Name", "Task Description"));
-    }
-
     public void buildTaskRecyclerView(){
 
         taskRecyclerView = findViewById(R.id.recyclerviewForTasks);
@@ -181,16 +170,15 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
                 //if there is, the next child gets their turn to do this task
                 if (indexOfChildForTask < childrenList.size()-1){
                     clickedTask.setIndexOfChildForTask(indexOfChildForTask + 1);
-                    ConfigureChildrenItem configureChildrenItem1 = childrenList.get(indexOfChildForTask + 1);
-                    clickedTask.setChildForTask(configureChildrenItem.getIdOfChild());
+                    ConfigureChildrenItem nextChild = childrenList.get(indexOfChildForTask + 1);
+                    clickedTask.setChildForTask(nextChild.getIdOfChild());
                     taskAdapter.notifyItemChanged(position);
                 }
                 //if not we restart indexOfChildForTask to 0
                 else {
                     if (!childrenList.isEmpty()) {
                         clickedTask.setIndexOfChildForTask(0);
-                        ConfigureChildrenItem configureChildrenItem1 = childrenList.get(0);
-                        clickedTask.setChildForTask(configureChildrenItem.getIdOfChild());
+                        clickedTask.setChildForTask(childrenList.get(0).getIdOfChild());
                         taskAdapter.notifyItemChanged(position);
                     }
                 }
@@ -290,11 +278,6 @@ public class TaskActivity extends AppCompatActivity implements DialogueForTask.D
     protected void onStart() {
         super.onStart();
         taskAdapter.notifyDataSetChanged();
-        for (TaskItem task: taskList){
-            if (task.getIdOfChild() != -1){
-                Log.i("inTASK ACTIVITY ON START","TASK CHILD FOR TASK IS " + task.getIdOfChild());
-            }
-        }
     }
 
     @Override

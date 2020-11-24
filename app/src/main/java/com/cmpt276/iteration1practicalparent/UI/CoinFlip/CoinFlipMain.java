@@ -267,7 +267,9 @@ public class CoinFlipMain extends AppCompatActivity {
                         saveHistory();
                         updateUI();
                         previousChild = currentChild;
-                        currentChild = mChildrenList.get(1);
+                        if (mChildrenList.size() > 1) {
+                            currentChild = mChildrenList.get(1);
+                        }
                         setChildInQuene();
                     }
                     else{
@@ -311,7 +313,9 @@ public class CoinFlipMain extends AppCompatActivity {
             tempChildItem.add(previousChild);
         }
         mChildrenList = tempChildItem; //save back
-        nextChild = mChildrenList.get(1);
+        if (mChildrenList.size() > 1) {
+            nextChild = mChildrenList.get(1);
+        }
     }
     private void setSwitchFaceButton(){
         Button switchFaceButton = (Button)findViewById(R.id.switch_face_button);
