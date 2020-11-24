@@ -19,11 +19,13 @@ public class ConfigureChildrenItem {
     private String mImageResource;
     private String mText1;
     private String mText2;
+    private int idOfChild;
 
     public ConfigureChildrenItem(String imageResource, String text1, String text2){
         mImageResource = imageResource;
         mText1 = text1;
         mText2 = text2;
+        idOfChild = (int)(Math.random() * (2147483647 - 0));
     }
 
     public void setmText1(String mText1) {
@@ -48,5 +50,9 @@ public class ConfigureChildrenItem {
 
     public String getmText2() {
         return mText2;
+    }
+
+    public int getIdOfChild() {
+        return idOfChild;
     }
 }

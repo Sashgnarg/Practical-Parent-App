@@ -93,4 +93,15 @@ public class UtilityFunction{
         return taskList;
     }
 
+    public ConfigureChildrenItem findChildForTask(int idOfChild, ArrayList<ConfigureChildrenItem> configureChildrenItemArray) {
+
+        for(ConfigureChildrenItem configureChildrenItem : configureChildrenItemArray){
+            if (configureChildrenItem.getIdOfChild() == idOfChild)
+            {
+                return configureChildrenItem;
+            }
+        }
+        return null;
+    }
+
 }
