@@ -83,9 +83,10 @@ public class ConfigureChildren extends AppCompatActivity
         mChildrenList.add(editPosition, new ConfigureChildrenItem(getDefaultImageForChild(), "Edit Name", "Edit details"));
         openEditDialog();
         mAdapter.notifyItemInserted(editPosition);
+        ConfigureChildrenItem configureChildrenItem = mChildrenList.get(editPosition);
         if (editPosition == 0){
             for (TaskItem task: taskList){
-                task.setChildForTask(mChildrenList.get(editPosition));
+                task.setChildForTask(configureChildrenItem.getIdOfChild());
                 task.setIndexOfChildForTask(editPosition);
                 //taskAdapter.notifyItemChanged(editPosition);
             }
@@ -105,20 +106,23 @@ public class ConfigureChildren extends AppCompatActivity
     }
 
     public void removeItem(int position) {
+        ConfigureChildrenItem configureChildrenItem = mChildrenList.get(position);
         for (TaskItem task: taskList){
-            if (task.getChildForTask() == mChildrenList.get(position)){
+            if (task.getIdOfChild() == configureChildrenItem.getIdOfChild()){
                 if (position!= mChildrenList.size() - 1) {
-                    task.setChildForTask(mChildrenList.get(position + 1));
+                    configureChildrenItem = mChildrenList.get((position + 1));
+                    task.setChildForTask(configureChildrenItem.getIdOfChild());
                     task.setIndexOfChildForTask(position+1);
                 }
                 //this was the last child in the list (must set task child to be first one again
                 else if (position == mChildrenList.size()-1 && mChildrenList.size()!=1){
-                    task.setChildForTask(mChildrenList.get(0));
+                    configureChildrenItem = mChildrenList.get(0);
+                    task.setChildForTask(configureChildrenItem.getIdOfChild());
                     task.setIndexOfChildForTask(0);
                 }
                 //ONLY child in the list
                 else if (mChildrenList.size() == 1){
-                        task.setChildForTask(null);
+                        task.setChildForTask(-1);
                         task.setIndexOfChildForTask(-1);
                 }
 

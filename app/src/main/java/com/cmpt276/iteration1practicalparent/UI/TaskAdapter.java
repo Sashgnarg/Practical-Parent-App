@@ -9,14 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.Model.TaskItem;
 import com.cmpt276.iteration1practicalparent.R;
+import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
 
 import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private ArrayList<TaskItem> taskList;
     private OnItemClickListener taskListener;
+    private UtilityFunction utility;
+    private  ArrayList<ConfigureChildrenItem> configureChildrenItemArrayList;
 
     public interface OnItemClickListener {
         void onTaskItemClick(int position);
@@ -85,8 +89,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
     }
 
-    public TaskAdapter(ArrayList<TaskItem> task_List){
+    public TaskAdapter(ArrayList<TaskItem> task_List, ArrayList<ConfigureChildrenItem> configureChildrenItemArrayList){
         taskList = task_List;
+        this.configureChildrenItemArrayList = configureChildrenItemArrayList;
     }
 
     @NonNull
@@ -101,12 +106,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         TaskItem currentTask = taskList.get(position);
-
+        utility = new UtilityFunction();
         holder.taskImageView.setImageResource(currentTask.getTaskImage());
         holder.taskNameTextView.setText(currentTask.getTaskName());
         holder.taskDescriptionTextView.setText(currentTask.getTaskDescription());
-        if (currentTask.getChildForTask()!= null){
-            holder.taskChildNameTextView.setText(currentTask.getChildForTask().getmText1());
+        if (currentTask.getIdOfChild()!= -1){
+            ConfigureChildrenItem configureChildrenItem = utility.findChildForTask(currentTask.getIdOfChild(), configureChildrenItemArrayList);
+            if(configureChildrenItem!=null) {
+                holder.taskChildNameTextView.setText(configureChildrenItem.getmText1());
+            }
         }
 
     }

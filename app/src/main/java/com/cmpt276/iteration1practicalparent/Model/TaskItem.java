@@ -6,14 +6,14 @@ public class TaskItem {
     private int taskImage;
     private String taskName;
     private String taskDescription;
-    private ConfigureChildrenItem taskChild;
+    private int idOfChild;
     private int indexOfChildForTask;
 
-    public TaskItem(int task_Image, String task_Name, String task_Description, ConfigureChildrenItem task_Child, int indexOfChild){
+    public TaskItem(int task_Image, String task_Name, String task_Description, int id_Of_Child, int indexOfChild){
         taskImage = task_Image;
         taskName = task_Name;
         taskDescription = task_Description;
-        taskChild = task_Child;
+        idOfChild = id_Of_Child;
         indexOfChildForTask = indexOfChild;
     }
 
@@ -29,12 +29,12 @@ public class TaskItem {
         return taskDescription;
     }
 
-    public ConfigureChildrenItem getChildForTask(){
-        return taskChild;
+    public int getIdOfChild(){
+        return idOfChild;
     }
 
-    public void setChildForTask(ConfigureChildrenItem childForTask){
-        this.taskChild = childForTask;
+    public void setChildForTask(int id_Of_Child){
+        idOfChild = id_Of_Child;
     }
 
     public int getIndexOfChildForTask(){
