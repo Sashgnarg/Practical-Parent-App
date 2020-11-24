@@ -2,6 +2,9 @@ package com.cmpt276.iteration1practicalparent.Model;
 
 import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
 
+//a single TaskItem that stores a taskImage, name, and description
+//and also stores the ID of a unique child for that task
+//and where the index of that child is in the childrenList
 public class TaskItem {
     private int taskImage;
     private String taskName;

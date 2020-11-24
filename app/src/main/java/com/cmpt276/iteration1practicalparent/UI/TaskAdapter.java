@@ -16,6 +16,11 @@ import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunc
 
 import java.util.ArrayList;
 
+/*
+ * The adapted for the taskList
+ * Deals with individual item clicks
+ * and updating the adapter when the delete, edit, or individual item is clicked
+ */
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private ArrayList<TaskItem> taskList;
     private OnItemClickListener taskListener;

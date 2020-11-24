@@ -32,6 +32,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/*
+* Builds the recycler view for tasks
+* deals with inserting, deleting, and editing tasks
+*/
 public class TaskActivity extends AppCompatActivity implements DialogueForTask.DialogueForTaskListener {
     public static final String LIST_OF_TASKS = "list of tasks";
     private ArrayList<TaskItem> taskList;
