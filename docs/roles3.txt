@@ -1,0 +1,4 @@
+Scrum Master: Sash Stolba
+Product Owner: Mariz Fahmy
+Repo Manager: Hang Wei Liu
+Team Member: Andrew Liang
