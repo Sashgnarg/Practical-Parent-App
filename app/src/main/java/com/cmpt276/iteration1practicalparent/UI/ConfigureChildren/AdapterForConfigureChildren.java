@@ -122,7 +122,6 @@ public class AdapterForConfigureChildren extends RecyclerView.Adapter<AdapterFor
         ConfigureChildrenItem currentItem = mConfigureChildrenList.get(position);
         Uri uri = Uri.parse(currentItem.getImageResource());
         holder.mChildPhoto.setImageURI(uri);
-
         holder.nameTextView.setText(currentItem.getmText1());
         holder.addition_infoTextView.setText(currentItem.getmText2());
 

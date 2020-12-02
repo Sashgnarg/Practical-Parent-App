@@ -13,22 +13,22 @@
     <string name="picked_head_text">Picked Head</string>
     <string name="current_child_history">Current Child History</string>
     <string name="coin_flip_history">Coin Flip History</string>
-    <string name ="homePageBackground">
-        <a href = "https://www.pinterest.ca/pin/565975878168745099/">
+    <string name="homePageBackground">
+        <a href="https://www.pinterest.ca/pin/565975878168745099/">
             <u>
                 Home page background
             </u>
         </a>
     </string>
-    <string name = "timerBackground">
-        <a href = "https://www.pinterest.ca/pin/509117932857055374/">
+    <string name="timerBackground">
+        <a href="https://www.pinterest.ca/pin/509117932857055374/">
             <u>
                 Timer page background
             </u>
         </a>
     </string>
     <string name="linkToCourse">
-        <a href = "https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home">
+        <a href="https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/home">
             <u>
                 Link to course webpage
             </u>
@@ -72,5 +72,17 @@
     <string name="mariz_fahmy">Mariz Fahmy</string>
     <string name="andrew_liang">Andrew Liang</string>
     <string name="links_to_resource">Links to resource</string>
+
+    <string name="n_breaths">Let\'s take %d breaths</string>
+    <string name="begin_breath">Begin</string>
+    <string name="n_breath_text">Select between 1 to 10 breaths</string>
+    <string name="to_breath">Breath</string>
+    <string name="button_breath_in">In</string>
+    <string name="text_breath_in">Press and hold the Button for at least 3s \n and then breath in</string>
+    <string name="button_breath_out">Out</string>
+    <string name="text_breath_out">Time to Breath out</string>
+    <string name="remain_breath">Remain Breath: %d</string>
+    <string name="good_job_button">Good Job</string>
+    <string name="finish_text">No remaining Breath !!!</string>
 
 </resources>

@@ -88,7 +88,7 @@ public class CoinFlipMain extends AppCompatActivity {
             }
         });
     }
-    public void initialLayout(){
+    private void initialLayout(){
         //initial layout
         currentChildTextV = (TextView)findViewById(R.id.current_children);
         nextChildTextV = (TextView)findViewById(R.id.new_child_text);
