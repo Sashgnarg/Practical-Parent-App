@@ -84,5 +84,6 @@
     <string name="remain_breath">Remain Breath: %d</string>
     <string name="good_job_button">Good Job</string>
     <string name="finish_text">No remaining Breath !!!</string>
+    <string name="breath_time_text">Remaining Time: %.2f</string>
 
 </resources>

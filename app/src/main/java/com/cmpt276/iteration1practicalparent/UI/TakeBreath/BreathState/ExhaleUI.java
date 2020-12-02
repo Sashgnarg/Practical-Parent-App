@@ -1,6 +1,9 @@
 package com.cmpt276.iteration1practicalparent.UI.TakeBreath.BreathState;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.CountDownTimer;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -34,6 +37,46 @@ public class ExhaleUI extends StateControlCommend {
         beginBreath.setOnClickListener((nextView)->state.Run(context, view));//move to next event button
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    public void setStateChangeTimer(){
+        beginBreath.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                CountDownTimer timer_3s = new CountDownTimer(3000,1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                };;
+                CountDownTimer timer_10s = new CountDownTimer(10000,1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                };
+
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN://pressed
+                        break;
+                    case MotionEvent.ACTION_CANCEL: //released
+                        // RELEASED
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
     @Override
     public void initialLayout(Context context, View view) {
         super.initialLayout(context, view);
@@ -44,7 +87,6 @@ public class ExhaleUI extends StateControlCommend {
         showBreathText  = (TextView)view.findViewById(R.id.show_breath_text);
 
         setExhaleUI(context,view);
-
 
         setNextState(context,view,new InhaleUI()); //set button to the next event
         NBreath -=1;
@@ -58,6 +100,7 @@ public class ExhaleUI extends StateControlCommend {
     }
     private void setText(View view){
         //set up text element
+
         beginBreath.setText(R.string.button_breath_out);
         showBreathText.setText(R.string.text_breath_out);
         showBreathText.setTextSize(20);
