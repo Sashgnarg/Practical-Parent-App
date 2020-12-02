@@ -60,7 +60,7 @@ public class CoinFlipMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Coin Flip");
+        setTitle(R.string.coin_flip);
 
         //initial functions
         utility = new UtilityFunction();

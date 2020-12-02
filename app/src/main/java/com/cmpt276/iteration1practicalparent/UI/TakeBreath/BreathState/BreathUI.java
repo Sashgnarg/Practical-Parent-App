@@ -12,17 +12,18 @@ import com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain;
 
 import java.util.Locale;
 
+import static com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain.programState;
+
 public class BreathUI extends StateControlCommend {
 
     private TextView setBreathText, showBreathText; //reset the UI elements of Breath
     private SeekBar selectNBreath;
-    private Button beginBreath;
-
-    private StateControlCommend currentState; //state
+    private Button beginBreath,breathingButton;
 
     @Override
     public void Run(Context context, View view) {
         super.Run(context, view);
+        programState = 1;
         initialLayout(context,view); //do event on Breath
         Toast.makeText(context, "breath in breath ui",
                 Toast.LENGTH_SHORT).show();
@@ -38,21 +39,36 @@ public class BreathUI extends StateControlCommend {
         super.initialLayout(context,view);
         selectNBreath   = (SeekBar) view.findViewById(R.id.select_n_breath_seek_bar);//reset the UI elements of Breath
         setBreathText   = (TextView)view.findViewById(R.id.set_breath_text);
-        beginBreath = (Button) view.findViewById(R.id.begin_breath_button);
+        beginBreath     = (Button) view.findViewById(R.id.begin_breath_button);
+        breathingButton = (Button)view.findViewById(R.id.breathing_button);
         showBreathText  = (TextView)view.findViewById(R.id.show_breath_text);
 
-        setBreathSeekBar(context,view);
-        setText(view);
+        // there are two button on the same position
+        // beginBreath     -> which have onclick event from BreathUI to InhaleUI and InhaleUI to BreathUI
+        //                 -> invisible in Exhale UI and Inhale UI
+        //                 -> visible in breath UI
+        // breathingButton -> which have on torch event on going between ExhaleUI and InhaleUI
+        //                 -> invisible in breath UI
+        //                 -> visible in Exhale UI and Inhale UI
+        beginBreath.setVisibility(View.VISIBLE);
+        beginBreath.setEnabled(true);
+
+        breathingButton.setEnabled(false);
+        breathingButton.setVisibility(View.INVISIBLE);
+
+        setBreathSeekBar(context,view); //set seekBar
+        setText(view);//UI text
 
         setNextState(context,view,new InhaleUI()); //set button to the next event
 
     }
     public void setText(View view){
         showBreathText.setText(String.format(view.getResources().getString(R.string.n_breaths),TakeBreathMain.NBreath));
+        setBreathText.setText(R.string.n_breath_text);
     }
     public void setBreathSeekBar(Context context,View view){
-        selectNBreath.setVisibility(View.VISIBLE);
-        setBreathText.setVisibility(View.VISIBLE);
+        selectNBreath.setVisibility(View.VISIBLE); //seekBar only visible in breath UI
+
         selectNBreath.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

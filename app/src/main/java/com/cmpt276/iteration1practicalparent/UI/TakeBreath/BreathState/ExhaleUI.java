@@ -13,19 +13,22 @@ import android.widget.Toast;
 import com.cmpt276.iteration1practicalparent.R;
 import com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain;
 
+import java.util.Locale;
+
 import static com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain.NBreath;
+import static com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain.programState;
 
 public class ExhaleUI extends StateControlCommend {
     private TextView setBreathText, showBreathText;
     private SeekBar selectNBreath;
-    private Button beginBreath;
+    private Button beginBreath,breathingButton;
     private StateControlCommend currentState;
 
 
     @Override
     public void Run(Context context, View view) {
-
         super.Run(context, view);
+        programState = 2;
         initialLayout(context,view);
         Toast.makeText(context, "breath in exhale ui",
                 Toast.LENGTH_SHORT).show();
@@ -34,63 +37,57 @@ public class ExhaleUI extends StateControlCommend {
     public void setNextState(Context context, View view,StateControlCommend state){
         //set button to the next event
         super.setNextState(context,view, state);
-        beginBreath.setOnClickListener((nextView)->state.Run(context, view));//move to next event button
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void setStateChangeTimer(){
-        beginBreath.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                CountDownTimer timer_3s = new CountDownTimer(3000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-
-                    }
-                };;
-                CountDownTimer timer_10s = new CountDownTimer(10000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-
-                    @Override
-                    public void onFinish() {
-
-                    }
-                };
-
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN://pressed
-                        break;
-                    case MotionEvent.ACTION_CANCEL: //released
-                        // RELEASED
-                        break;
-                }
-                return false;
-            }
-        });
+        state.Run(context, view);//move to next event button
     }
 
     @Override
     public void initialLayout(Context context, View view) {
         super.initialLayout(context, view);
-
         selectNBreath   = (SeekBar) view.findViewById(R.id.select_n_breath_seek_bar);//reset the UI elements of Breath
         setBreathText   = (TextView)view.findViewById(R.id.set_breath_text);
-        beginBreath = (Button) view.findViewById(R.id.begin_breath_button);
+        breathingButton = (Button) view.findViewById(R.id.breathing_button);
+        beginBreath     =(Button)view.findViewById(R.id.begin_breath_button);
         showBreathText  = (TextView)view.findViewById(R.id.show_breath_text);
+        beginBreath.setEnabled(false);
+        beginBreath.setVisibility(View.INVISIBLE);
+
+        breathingButton.setEnabled(false); //disable the button
 
         setExhaleUI(context,view);
+        CountDownTimer timer_3s = new CountDownTimer(3000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (programState ==1){
+                    cancel();
+                }else{
+                    showBreathText.setText(String.format(Locale.CANADA, view.getResources().getString(R.string.text_breath_out)
+                            ,millisUntilFinished/1000));
+                }
+            }
+            @Override
+            public void onFinish() {
+                showBreathText.setText(R.string.text_breath_out_ok);
+                NBreath -=1;
+                setNextState(context,view,new InhaleUI());
+            }
 
-        setNextState(context,view,new InhaleUI()); //set button to the next event
-        NBreath -=1;
+        };
+        CountDownTimer timer_10s = new CountDownTimer(10000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //do something
+                if (programState ==1){
+                    cancel();
+                }
+            }
+            @Override
+            public void onFinish() {
 
+            }
+        };
+        timer_3s.start();
+        timer_10s.start();
+        //beginBreath.setOnClickListener((view1)->setNextState(context,view,new InhaleUI())); //set button to the next event
     }
 
     private void setExhaleUI(Context context, View view){
@@ -100,8 +97,7 @@ public class ExhaleUI extends StateControlCommend {
     }
     private void setText(View view){
         //set up text element
-
-        beginBreath.setText(R.string.button_breath_out);
+        breathingButton.setText(R.string.button_breath_out);
         showBreathText.setText(R.string.text_breath_out);
         showBreathText.setTextSize(20);
         setBreathText.setText(String.format(view.getResources().getString(R.string.remain_breath),NBreath));
