@@ -28,7 +28,7 @@ public class InhaleUI extends StateControlCommend {
         super.Run(context, view);
         programState = 2;
         Toast.makeText(context, "breath in inhale ui",
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT).show(); //debug checking
         initialLayout(context,view);
 
     }
@@ -37,7 +37,7 @@ public class InhaleUI extends StateControlCommend {
     public void setNextState(Context context, View view,StateControlCommend state){
         //set button to the next event
         super.setNextState(context,view, state);
-        state.Run(context, view);//move to next event button
+        state.Run(context, view);//move to next event
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -55,7 +55,6 @@ public class InhaleUI extends StateControlCommend {
                 canProcess[0] = true; //can process to next activity after 3s
                 cancel();
             }
-
         };
         CountDownTimer timer_10s = new CountDownTimer(10000,1000) {
             @Override
@@ -71,7 +70,7 @@ public class InhaleUI extends StateControlCommend {
         breathingButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == 0){
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
                     Log.d("doing","touching");
                     timer_3s.start();
                     timer_10s.start();
@@ -106,9 +105,9 @@ public class InhaleUI extends StateControlCommend {
         breathingButton.setVisibility(View.VISIBLE);
 
         if (NBreath == 0){ //no more breath
-            beginBreath.setEnabled(true);//disable the button
+            beginBreath.setEnabled(true);
             beginBreath.setVisibility(View.VISIBLE);
-            breathingButton.setEnabled(false);
+            breathingButton.setEnabled(false); //disable the button
             breathingButton.setVisibility(View.INVISIBLE);
 
             setFinishText();

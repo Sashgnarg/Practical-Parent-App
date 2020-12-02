@@ -63,6 +63,7 @@ public class BreathUI extends StateControlCommend {
 
     }
     public void setText(View view){
+        showBreathText.setTextSize(24); 
         showBreathText.setText(String.format(view.getResources().getString(R.string.n_breaths),TakeBreathMain.NBreath));
         setBreathText.setText(R.string.n_breath_text);
     }

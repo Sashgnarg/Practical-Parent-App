@@ -21,17 +21,18 @@ public class TakeBreathMain extends AppCompatActivity {
 
     public static int NBreath,programState;
     //NBreath       -> how many breath
-    //program state -> the navigate away between UIs
-    //hit back in Exhale and Inhale will return to
+    //program state -> check the navigation between UIs
+    //hit back in Exhale and Inhale will return to BreathUI
     //hit back in BreathUI will return to menu
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_breath_main);
+        setTitle(R.string.breath);
+
         NBreath = 3;
         programState = 1;//default -> return to menu
-        setTitle(R.string.breath);
 
         initialLayout();
         //when back pressed
