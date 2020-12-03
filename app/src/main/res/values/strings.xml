@@ -15,6 +15,9 @@
     <string name="picked_head_text">Picked Head</string>
     <string name="current_child_history">Current Child History</string>
     <string name="coin_flip_history">Coin Flip History</string>
+    <string name="name">Name</string>
+    <string name="addition_info">Addition Info</string>
+
 
     <string name="homePageBackground">
         <a href="https://www.pinterest.ca/pin/565975878168745099/">

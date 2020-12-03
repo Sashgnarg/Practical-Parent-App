@@ -2,11 +2,17 @@ package com.cmpt276.iteration1practicalparent.UI.TakeBreath.BreathState;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +28,10 @@ public class InhaleUI extends StateControlCommend {
     private TextView setBreathText, showBreathText;
     private SeekBar selectNBreath;
     private Button beginBreath,breathingButton;
+    private ImageView breathingCircle;
+    private Animation animation;
+    private ViewGroup.LayoutParams params;
+    private MediaPlayer inhaleSound;
 
     @Override
     public void Run(Context context, View view) {
@@ -64,6 +74,7 @@ public class InhaleUI extends StateControlCommend {
             @Override
             public void onFinish() {
                 setNextState(context,view,new ExhaleUI()); //to exhale UI after 10s
+                inhaleSound.pause();
                 cancel();
             }
         };
@@ -74,16 +85,23 @@ public class InhaleUI extends StateControlCommend {
                     Log.d("doing","touching");
                     timer_3s.start();
                     timer_10s.start();
+                    breathingCircle.startAnimation(animation);
+                    inhaleSound.start();
                 }
                 else{
                     Log.d("doing","releasing");
                     timer_3s.cancel();
                     timer_10s.cancel();
                     setInhaleUI(context,view);
+                    breathingCircle.clearAnimation();
                     if (canProcess[0]){
                         setNextState(context,view,new ExhaleUI());
                     }
+                    inhaleSound.pause();
                 }
+                /*params.width = 300;
+                params.height = 300;
+                breathingCircle.setLayoutParams(params);*/
                 return false;
             }
         });
@@ -97,6 +115,11 @@ public class InhaleUI extends StateControlCommend {
         beginBreath     = (Button)  view.findViewById(R.id.begin_breath_button);
         breathingButton = (Button)  view.findViewById(R.id.breathing_button);
         showBreathText  = (TextView)view.findViewById(R.id.show_breath_text);
+        breathingCircle = (ImageView) view.findViewById(R.id.breathing_circle);
+        animation = AnimationUtils.loadAnimation(context, R.anim.anim_zoom_in);
+        inhaleSound = MediaPlayer.create(context, R.raw.inhale_sound);
+
+       breathingCircle.setImageResource(R.drawable.green_circle);
 
         beginBreath.setEnabled(false);//disable the button
         beginBreath.setVisibility(View.INVISIBLE);
