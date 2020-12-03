@@ -21,6 +21,7 @@ import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global.LIST_OF_CHILDREN;
+import static com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global.QUEUE_OF_CHILDREN;
 import static com.cmpt276.iteration1practicalparent.UI.TaskActivity.LIST_OF_TASKS;
 
 public class UtilityFunction{
@@ -60,6 +61,26 @@ public class UtilityFunction{
         SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(LIST_OF_CHILDREN, null);
+        Type type = new TypeToken<ArrayList<ConfigureChildrenItem>>(){}.getType();
+        ArrayList<ConfigureChildrenItem> mChildrenList = gson.fromJson(json, type);
+        if(mChildrenList == null){
+            mChildrenList = new ArrayList<>();
+        }
+        return mChildrenList;
+    }
+    public void saveQueue(Context context,ArrayList<ConfigureChildrenItem> mChildrenList) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mChildrenList);
+        editor.putString(QUEUE_OF_CHILDREN, json);
+        editor.apply();
+    }
+    public ArrayList<ConfigureChildrenItem> loadQueue(Context context) {
+        //load all config children
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(QUEUE_OF_CHILDREN, null);
         Type type = new TypeToken<ArrayList<ConfigureChildrenItem>>(){}.getType();
         ArrayList<ConfigureChildrenItem> mChildrenList = gson.fromJson(json, type);
         if(mChildrenList == null){

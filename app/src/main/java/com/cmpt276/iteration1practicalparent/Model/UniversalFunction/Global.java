@@ -3,6 +3,7 @@ package com.cmpt276.iteration1practicalparent.Model.UniversalFunction;
 public class Global {
     //children config
     public static final String LIST_OF_CHILDREN = "list of children";
+    public static final String QUEUE_OF_CHILDREN = "queue of children";
     public static final String SHAREDPREFERENCE_FOR_CHILDREN = "shared preferences";
     //coin picker history
     public static final String CHILDREN_HISTORY = "children history";

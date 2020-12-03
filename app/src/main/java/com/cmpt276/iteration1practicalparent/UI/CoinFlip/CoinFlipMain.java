@@ -52,7 +52,8 @@ public class CoinFlipMain extends AppCompatActivity {
     private Button historyAllBtn;
     private Button historyCurrBtn;
 
-    private Uri currentChildrenImgUri;
+    private Uri currentChildrenImgUri,nextChildrenImgUri;
+
 
 
     // coin Flip Main class:
@@ -109,14 +110,19 @@ public class CoinFlipMain extends AppCompatActivity {
         setSwitchFaceButton(); // button to pick new face
 
 
-        //load config children
-        mChildrenList = utility.loadData(this);
+        //load queue of config children
+        mChildrenList = utility.loadQueue(this);
+        if (mChildrenList.isEmpty()){ //if no queue have been initialize
+            mChildrenList = utility.loadData(this);
+        }
+        if (!mChildrenList.isEmpty()){ //if there is queue or config children
+            popUpChildren(this);
+        }
+
         //load coin history
         coinHistory = utility.loadCoinHistory(this);
 
-        if (!mChildrenList.isEmpty()){ //if there is config children
-            popUpChildren(this);
-        }
+
     }
 
     public void popUpChildren(Context context){
@@ -149,7 +155,7 @@ public class CoinFlipMain extends AppCompatActivity {
 
         TextView text   = (TextView)view.findViewById(R.id.message);
         ImageView image = (ImageView) view.findViewById(R.id.message_image);
-        image.setImageURI(currentChildrenImgUri);
+        image.setImageURI(nextChildrenImgUri);
         text.setText(msg);
 
         builder.setCancelable(true);
@@ -316,6 +322,7 @@ public class CoinFlipMain extends AppCompatActivity {
             tempChildItem.add(previousChild);
         }
         mChildrenList = tempChildItem; //save back
+        utility.saveQueue(this,mChildrenList);
         nextChild = mChildrenList.get(1);
     }
     private void setSwitchFaceButton(){
