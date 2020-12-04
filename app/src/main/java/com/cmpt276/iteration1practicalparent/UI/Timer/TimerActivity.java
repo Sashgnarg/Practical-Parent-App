@@ -1,6 +1,7 @@
 package com.cmpt276.iteration1practicalparent.UI.Timer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 
 import android.app.NotificationManager;
@@ -14,9 +15,12 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,12 +50,21 @@ public class TimerActivity extends AppCompatActivity {
     private long timeLeftInMillis = startTimeInMillis;
     private long endTime;
 
+    Toolbar myToolbar;
+    Spinner mySpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-        setTitle("Timer");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        myToolbar.setTitle("Timer");
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mySpinner = (Spinner) findViewById(R.id.spinner);
+
 
         editTextMinutesInput = findViewById(R.id.editTextTimerInput);
         txtCountDown = findViewById(R.id.txtCountDown);
@@ -142,6 +155,7 @@ public class TimerActivity extends AppCompatActivity {
         });
 
         updateCountDownText();
+        setupSpinner();
 
     }
 
@@ -316,6 +330,26 @@ public class TimerActivity extends AppCompatActivity {
     private void setProgressBarValues() {
         progressBar.setMax((int) timeLeftInMillis / 1000);
         progressBar.setProgress((int) timeLeftInMillis / 1000);
+    }
+
+    //creating a spinner in the toolbar video tutorial: https://www.youtube.com/watch?v=CvO0Ng-_C6A
+    private void setupSpinner(){
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(TimerActivity.this, R.layout.custom_spinner_item, getResources().getStringArray(R.array.timer_speed));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
+        mySpinner.setSelection(3); //position 3 is 100%, so we set that as the default value
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //mySpinner.getSelectedItem().to
+                TextView timerSpeed = (TextView) findViewById(R.id.timerSpeedTxtView);
+                timerSpeed.setText("Timer is at " + mySpinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
 }

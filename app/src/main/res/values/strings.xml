@@ -74,4 +74,14 @@
     <string name="andrew_liang">Andrew Liang</string>
     <string name="links_to_resource">Links to resource</string>
 
+    <string-array name="timer_speed">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%</item>
+        <item>200%</item>
+        <item>300%</item>
+        <item>400%</item>
+    </string-array>
+
 </resources>
