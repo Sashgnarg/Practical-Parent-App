@@ -72,7 +72,7 @@ public class ExhaleUI extends StateControlCommend {
 
 
         setExhaleUI(context,view);
-        CountDownTimer timer_3s = new CountDownTimer(3000,1000) {
+        CountDownTimer timer_3s = new CountDownTimer(3100,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (programState ==1){

@@ -30,7 +30,6 @@ public class InhaleUI extends StateControlCommend {
     private Button beginBreath,breathingButton;
     private ImageView breathingCircle;
     private Animation animation;
-    private ViewGroup.LayoutParams params;
     private MediaPlayer inhaleSound;
 
     @Override
@@ -53,7 +52,7 @@ public class InhaleUI extends StateControlCommend {
     @SuppressLint("ClickableViewAccessibility")
     public void setStateChangeTimer(Context context,View view){
         final boolean[] canProcess = {false};
-        CountDownTimer timer_3s = new CountDownTimer(3000,1000) {
+        CountDownTimer timer_3s = new CountDownTimer(3100,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 showBreathText.setText(String.format(Locale.CANADA, view.getResources().getString(R.string.remain_time_text)
@@ -74,7 +73,7 @@ public class InhaleUI extends StateControlCommend {
             @Override
             public void onFinish() {
                 setNextState(context,view,new ExhaleUI()); //to exhale UI after 10s
-                inhaleSound.pause();
+                inhaleSound.stop();
                 cancel();
             }
         };
@@ -97,7 +96,7 @@ public class InhaleUI extends StateControlCommend {
                     if (canProcess[0]){
                         setNextState(context,view,new ExhaleUI());
                     }
-                    inhaleSound.pause();
+                    inhaleSound.stop();
                 }
                 /*params.width = 300;
                 params.height = 300;
