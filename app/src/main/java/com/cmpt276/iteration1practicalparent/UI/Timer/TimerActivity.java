@@ -49,6 +49,13 @@ public class TimerActivity extends AppCompatActivity {
     private long startTimeInMillis;
     private long timeLeftInMillis = startTimeInMillis;
     private long endTime;
+    private boolean clicked25;
+    private boolean clicked50;
+    private boolean clicked75;
+    private boolean clicked200;
+    private boolean clicked300;
+    private boolean clicked400;
+
 
     Toolbar myToolbar;
     Spinner mySpinner;
@@ -213,6 +220,27 @@ public class TimerActivity extends AppCompatActivity {
         int minutes = (int) (( timeLeftInMillis / 1000 ) % 3600) / 60; //left over minutes after calculating hours
         int seconds = (int) ( timeLeftInMillis / 1000 ) % 60; //left over seconds after calculating mins
 
+        if (clicked25){
+            minutes = (int) (( timeLeftInMillis / 4 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
+            seconds = (int) ( timeLeftInMillis / 4 / 1000 ) % 60; //left over seconds after calculating mins
+        }
+        if (clicked50){
+            minutes = (int) (( timeLeftInMillis / 2 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
+            seconds = (int) ( timeLeftInMillis / 2 / 1000 ) % 60; //left over seconds after calculating mins
+        }
+        if (clicked200){
+            minutes = (int) (( timeLeftInMillis * 2 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
+            seconds = (int) ( timeLeftInMillis * 2 / 1000 ) % 60; //left over seconds after calculating mins
+        }
+        if (clicked300){
+            minutes = (int) (( timeLeftInMillis * 3 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
+            seconds = (int) ( timeLeftInMillis * 3 / 1000 ) % 60; //left over seconds after calculating mins
+        }
+        if (clicked400){
+            minutes = (int) (( timeLeftInMillis * 4 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
+            seconds = (int) ( timeLeftInMillis * 4 / 1000 ) % 60; //left over seconds after calculating mins
+        }
+
         String timeLeftFormatted;
         if (hours > 0){
             timeLeftFormatted = String.format(Locale.getDefault(),
@@ -340,17 +368,65 @@ public class TimerActivity extends AppCompatActivity {
         mySpinner.setSelection(3); //position 3 is 100%, so we set that as the default value
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //mySpinner.getSelectedItem().to
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 TextView timerSpeed = (TextView) findViewById(R.id.timerSpeedTxtView);
                 timerSpeed.setText("Timer is at " + mySpinner.getSelectedItem().toString());
+                //25%
+                if (position == 0){
+                    clicked25 = true;
+                    clicked50 = clicked75 = clicked200 = clicked300 = clicked400 = false;
+                    timeLeftInMillis = timeLeftInMillis*4;
+                }
+                //50%
+                if (position == 1){
+                    clicked50 = true;
+                    clicked25 = clicked75 = clicked200 = clicked300 = clicked400 = false;
+                    timeLeftInMillis = timeLeftInMillis*2;
+                }
+                //75%
+                if (position == 2){
+                    clicked75 = true;
+                    clicked50 = clicked25 = clicked200 = clicked300 = clicked400 = false;
+                }
+                //100%: do nothing
+                if (position == 3){
+                    clicked25= clicked50 = clicked75 = clicked200 = clicked300 = clicked400 = false;
+                }
+                //200%
+                if (position == 4){
+                    clicked200 = true;
+                    clicked50 = clicked75 = clicked25 = clicked300 = clicked400 = false;
+                    timeLeftInMillis = timeLeftInMillis/2;
+                }
+                //300%
+                if (position == 5){
+                    clicked300 = true;
+                    clicked50 = clicked75 = clicked200 = clicked25 = clicked400 = false;
+                    timeLeftInMillis = timeLeftInMillis/3;
+
+                }
+                //400%
+                if (position == 5){
+                    clicked400 = true;
+                    clicked50 = clicked75 = clicked200 = clicked300 = clicked25 = false;
+                    timeLeftInMillis = timeLeftInMillis/4;
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
+    private static void sleep(long timeout) {
+        try {
+            Thread.sleep(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 
