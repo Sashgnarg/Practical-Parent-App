@@ -52,6 +52,9 @@ public class CoinFlipMain extends AppCompatActivity {
     private Button historyAllBtn;
     private Button historyCurrBtn;
 
+    private Uri currentChildrenImgUri,nextChildrenImgUri;
+
+
 
     // coin Flip Main class:
     // doing the coin flip and save to
@@ -60,7 +63,7 @@ public class CoinFlipMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Coin Flip");
+        setTitle(R.string.coin_flip);
 
         //initial functions
         utility = new UtilityFunction();
@@ -68,7 +71,6 @@ public class CoinFlipMain extends AppCompatActivity {
 
         coinHistory = new ArrayList<>();
         initialLayout();
-
 
         historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
         buttonF.setChangeActivity(historyAllBtn,CoinFlipMain.this,HistoryAllDisplay.class,false);
@@ -88,26 +90,35 @@ public class CoinFlipMain extends AppCompatActivity {
             }
         });
     }
-    public void initialLayout(){
+    private void initialLayout(){
         //initial layout
-        currentChildTextV = (TextView)findViewById(R.id.current_children);
-        nextChildTextV = (TextView)findViewById(R.id.new_child_text);
-        currentFaceV = (TextView)findViewById(R.id.coin_current_face);
+        //textViews
+        currentChildTextV  = (TextView)findViewById(R.id.current_children);
+        nextChildTextV     = (TextView)findViewById(R.id.new_child_text);
+        currentFaceV       = (TextView)findViewById(R.id.coin_current_face);
+        coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
 
         childImage = (ImageView)findViewById(R.id.child_image_view);
         childImage.setImageResource(R.drawable.ic_child); //default image
 
         //coinText = (TextView)findViewById(R.id.coin_text);
-        coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
-        Button flipButton = (Button)findViewById(R.id.flip_button);
+
+        Button flipButton  = (Button)findViewById(R.id.flip_button);
 
         setFlipButton(flipButton); //button to flip coin
         setSwitchChildButton();// button to switch child
         setSwitchFaceButton(); // button to pick new face
 
 
-        //load config children
-        mChildrenList = utility.loadData(this);
+        //load queue of config children
+        mChildrenList = utility.loadQueue(this);
+        if (mChildrenList.isEmpty()){ //if no queue have been initialize
+            mChildrenList = utility.loadData(this);
+        }
+        if (!mChildrenList.isEmpty()){ //if there is queue or config children
+            popUpChildren(this);
+        }
+
         //load coin history
         coinHistory = utility.loadCoinHistory(this);
 
@@ -144,7 +155,9 @@ public class CoinFlipMain extends AppCompatActivity {
         View view;
         view = LayoutInflater.from(context).inflate(R.layout.popup_dialog,null);
 
-        TextView text = (TextView)view.findViewById(R.id.message);
+        TextView text   = (TextView)view.findViewById(R.id.message);
+        ImageView image = (ImageView) view.findViewById(R.id.message_image);
+        image.setImageURI(nextChildrenImgUri);
         text.setText(msg);
 
         builder.setCancelable(true);
@@ -197,8 +210,8 @@ public class CoinFlipMain extends AppCompatActivity {
                     previousChild = currentChild;
                 }
                 nextChild = mChildrenList.get(position);
-                updateUI();
                 currentChild = mChildrenList.get(position);
+                updateUI();
                 setChildInQuene(); //update the children list
                 dialog.dismiss();
                 PickFaceMsg("Pick Your Face", CoinFlipMain.this);
@@ -216,8 +229,8 @@ public class CoinFlipMain extends AppCompatActivity {
         if (currentChild!= null){
             currentChildTextV.setText(currentChild.getmText1());
             nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
-            Uri uri = Uri.parse(currentChild.getImageResource());
-            childImage.setImageURI(uri);
+            currentChildrenImgUri = Uri.parse(currentChild.getImageResource());
+            childImage.setImageURI(currentChildrenImgUri);
 
         }
         else{
@@ -313,9 +326,8 @@ public class CoinFlipMain extends AppCompatActivity {
             tempChildItem.add(previousChild);
         }
         mChildrenList = tempChildItem; //save back
-        if (mChildrenList.size() > 1) {
-            nextChild = mChildrenList.get(1);
-        }
+        utility.saveQueue(this,mChildrenList);
+        nextChild = mChildrenList.get(1);
     }
     private void setSwitchFaceButton(){
         Button switchFaceButton = (Button)findViewById(R.id.switch_face_button);
