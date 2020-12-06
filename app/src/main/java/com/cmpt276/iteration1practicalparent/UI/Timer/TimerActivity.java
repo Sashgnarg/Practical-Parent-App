@@ -456,11 +456,10 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 //
-                /*if ((incrementTimerEverySecond[0] - millisUntilFinished) > 12) {
+                if ((incrementTimerEverySecond[0] - millisUntilFinished) > 12) {
                     millisUntilFinished = incrementTimerEverySecond[0] - 24;
                     incrementTimerEverySecond[0] = millisUntilFinished;
-                }*/
-                millisUntilFinished +=37.5;
+                }
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
@@ -495,11 +494,10 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 //every approximately 12 ms
-                /*if ((incrementTimerEverySecond[0]-millisUntilFinished)>12) {
+                if ((incrementTimerEverySecond[0]-millisUntilFinished)>12) {
                     millisUntilFinished = incrementTimerEverySecond[0]-48;
                     incrementTimerEverySecond[0] = millisUntilFinished;
-                }*/
-                millisUntilFinished +=25;
+                }
 
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
@@ -533,11 +531,10 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 //every approximately 12 ms
-                /*if ((incrementTimerEverySecond[0]-millisUntilFinished)>12) {
+                if ((incrementTimerEverySecond[0]-millisUntilFinished)>12) {
                     millisUntilFinished = incrementTimerEverySecond[0]-60;
                     incrementTimerEverySecond[0] = millisUntilFinished;
-                }*/
-                millisUntilFinished+=19.75;
+                }
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
