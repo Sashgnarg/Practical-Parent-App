@@ -56,7 +56,7 @@ public class HistoryAllDisplay extends AppCompatActivity {
 
     public class MyListAdapter extends ArrayAdapter<CoinHistoryClass> {
         public MyListAdapter(){
-            super(HistoryAllDisplay.this, R.layout.history_of_all_flips, coinHistoryAll);
+            super(HistoryAllDisplay.this, R.layout.history_all, coinHistoryAll);
 
         }
 
