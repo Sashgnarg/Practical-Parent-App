@@ -57,6 +57,9 @@ public class TimerActivity extends AppCompatActivity {
     private boolean clicked300;
     private boolean clicked400;
 
+    long tickCounter = 0;
+    long trackTimeLeftInMillis;
+
 
     Toolbar myToolbar;
     Spinner mySpinner;
@@ -450,15 +453,15 @@ public class TimerActivity extends AppCompatActivity {
 
     private void setOneFourthSpeedTimer() {
         //if the timer is running set this variable to true. This checks whether
-        final long[] incrementTimerEverySecond = {timeLeftInMillis};
+        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //
-                if ((incrementTimerEverySecond[0] - millisUntilFinished) > 12) {
-                    millisUntilFinished = incrementTimerEverySecond[0] - 24;
-                    incrementTimerEverySecond[0] = millisUntilFinished;
+                if ((trackTimeLeftInMillis - millisUntilFinished) > 12) {
+                    millisUntilFinished = trackTimeLeftInMillis - 24;
+                    trackTimeLeftInMillis = millisUntilFinished;
                 }
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
@@ -488,15 +491,15 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setHalfSpeedTimer() {
-        final long[] incrementTimerEverySecond = {timeLeftInMillis};
+        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //every approximately 12 ms
-                if ((incrementTimerEverySecond[0]-millisUntilFinished)>12) {
-                    millisUntilFinished = incrementTimerEverySecond[0]-48;
-                    incrementTimerEverySecond[0] = millisUntilFinished;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>12) {
+                    millisUntilFinished = trackTimeLeftInMillis-48;
+                    trackTimeLeftInMillis = millisUntilFinished;
                 }
 
                 timeLeftInMillis = millisUntilFinished;
@@ -525,15 +528,15 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setThreeFourthsSpeedTimer() {
-        final long[] incrementTimerEverySecond = {timeLeftInMillis};
+        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //every approximately 12 ms
-                if ((incrementTimerEverySecond[0]-millisUntilFinished)>12) {
-                    millisUntilFinished = incrementTimerEverySecond[0]-60;
-                    incrementTimerEverySecond[0] = millisUntilFinished;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>12) {
+                    millisUntilFinished = trackTimeLeftInMillis-60;
+                    trackTimeLeftInMillis = millisUntilFinished;
                 }
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
@@ -564,12 +567,13 @@ public class TimerActivity extends AppCompatActivity {
         if(countDownTimer!=null){
             countDownTimer.cancel();
         }
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
+                tickCounter+=1;
             }
 
 
@@ -594,9 +598,9 @@ public class TimerActivity extends AppCompatActivity {
 
 
     private void setDoubleSpeedTimer() {
-        final long[] incrementTimerEverySecond = {timeLeftInMillis};
+        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 millisUntilFinished -=50;
@@ -625,9 +629,9 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setTripleSpeedTimer() {
-        final long[] incrementTimerEverySecond = {timeLeftInMillis};
+        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //
@@ -657,12 +661,12 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setFourTimesSpeedTimer() {
-        final long[] incrementTimerEverySecond = {timeLeftInMillis};
+        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                //
+
                 millisUntilFinished -=150;
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
