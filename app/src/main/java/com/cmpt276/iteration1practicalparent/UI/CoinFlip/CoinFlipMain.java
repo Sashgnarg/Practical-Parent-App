@@ -289,7 +289,7 @@ public class CoinFlipMain extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         Date currentTime = Calendar.getInstance().getTime();
-        coinHistory.add(new CoinHistoryClass(currentChild.getmText1(),currentTime,coinFace,winner));
+        coinHistory.add(new CoinHistoryClass(currentChild, currentChild.getmText1(),currentTime,coinFace,winner));
         String json = gson.toJson(coinHistory);
         editor.putString(Global.LIST_CHILDREN_HISTORY, json);
         editor.commit();
