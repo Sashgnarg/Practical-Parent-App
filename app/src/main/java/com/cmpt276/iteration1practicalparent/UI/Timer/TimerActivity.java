@@ -453,17 +453,16 @@ public class TimerActivity extends AppCompatActivity {
 
     private void setOneFourthSpeedTimer() {
         //if the timer is running set this variable to true. This checks whether
-        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
+        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //
-                if ((trackTimeLeftInMillis - millisUntilFinished) > 12) {
-                    millisUntilFinished = trackTimeLeftInMillis - 24;
+                if ((trackTimeLeftInMillis - millisUntilFinished) >= 6000) {
+                    millisUntilFinished = trackTimeLeftInMillis - 1500;
                     trackTimeLeftInMillis = millisUntilFinished;
                 }
-                timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
@@ -497,12 +496,11 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 //every approximately 12 ms
-                if ((trackTimeLeftInMillis-millisUntilFinished)>12) {
-                    millisUntilFinished = trackTimeLeftInMillis-48;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
+                    millisUntilFinished = trackTimeLeftInMillis-3000;
                     trackTimeLeftInMillis = millisUntilFinished;
                 }
 
-                timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
@@ -534,11 +532,10 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 //every approximately 12 ms
-                if ((trackTimeLeftInMillis-millisUntilFinished)>12) {
-                    millisUntilFinished = trackTimeLeftInMillis-60;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
+                    millisUntilFinished = trackTimeLeftInMillis-1500;
                     trackTimeLeftInMillis = millisUntilFinished;
                 }
-                timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
@@ -603,8 +600,10 @@ public class TimerActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
-                millisUntilFinished -=50;
-                timeLeftInMillis = millisUntilFinished;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
+                    millisUntilFinished = trackTimeLeftInMillis+6000;
+                    trackTimeLeftInMillis = millisUntilFinished;
+                }
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
@@ -635,8 +634,10 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 //
-                millisUntilFinished -= 100;
-                timeLeftInMillis = millisUntilFinished;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
+                    millisUntilFinished = trackTimeLeftInMillis+12000;
+                    trackTimeLeftInMillis = millisUntilFinished;
+                }
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
@@ -667,8 +668,10 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
 
-                millisUntilFinished -=150;
-                timeLeftInMillis = millisUntilFinished;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
+                    millisUntilFinished = trackTimeLeftInMillis+18000;
+                    trackTimeLeftInMillis = millisUntilFinished;
+                }
                 updateCountDownText();
                 progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
