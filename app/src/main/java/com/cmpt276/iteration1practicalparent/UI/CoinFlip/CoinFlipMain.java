@@ -157,7 +157,8 @@ public class CoinFlipMain extends AppCompatActivity {
 
         TextView text   = (TextView)view.findViewById(R.id.message);
         ImageView image = (ImageView) view.findViewById(R.id.message_image);
-        image.setImageURI(nextChildrenImgUri);
+        //image.setImageURI(nextChildrenImgUri);
+        image.setImageURI(currentChildrenImgUri);
         text.setText(msg);
 
         builder.setCancelable(true);
