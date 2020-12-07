@@ -1,5 +1,7 @@
 package com.cmpt276.iteration1practicalparent.Model;
 
+import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
+
 import java.util.Date;
 
 public class CoinHistoryClass {
@@ -8,12 +10,14 @@ public class CoinHistoryClass {
     // time -> current time
     // face -> 1 -> head 2 > tail
     // winner -> win and lose
+    private ConfigureChildrenItem child;
     private final String pickersName;
     private final Date time;
     private final int face;
     private final String winner;
 
-    public CoinHistoryClass(String pickersName, Date time, int face, String winner) {
+    public CoinHistoryClass(ConfigureChildrenItem child, String pickersName, Date time, int face, String winner) {
+        this.child= child;
         this.pickersName = pickersName;
         this.time = time;
         this.face = face;
@@ -23,6 +27,8 @@ public class CoinHistoryClass {
     public String getPickersName() {
         return pickersName;
     }
+
+    public ConfigureChildrenItem getChild() { return child; }
 
     public Date getTime() {
         return time;

@@ -21,6 +21,7 @@ import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global.LIST_OF_CHILDREN;
+import static com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global.QUEUE_OF_CHILDREN;
 import static com.cmpt276.iteration1practicalparent.UI.TaskActivity.LIST_OF_TASKS;
 
 public class UtilityFunction{
@@ -66,6 +67,26 @@ public class UtilityFunction{
             mChildrenList = new ArrayList<>();
         }
         return mChildrenList;
+    }
+    public void saveQueue(Context context,ArrayList<Integer> childrenQueue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(childrenQueue);
+        editor.putString(QUEUE_OF_CHILDREN, json);
+        editor.apply();
+    }
+    public ArrayList<Integer> loadQueue(Context context) {
+        //load all config children
+        SharedPreferences sharedPreferences = context.getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(QUEUE_OF_CHILDREN, null);
+        Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
+        ArrayList<Integer> childrenQueue = gson.fromJson(json, type);
+        if(childrenQueue == null){
+            childrenQueue = new ArrayList<>();
+        }
+        return childrenQueue;
     }
     public ArrayList<CoinHistoryClass> loadCoinHistory(Context context) {
         //load all coin history
