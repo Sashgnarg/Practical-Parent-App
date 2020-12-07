@@ -85,9 +85,10 @@ public class InhaleUI extends StateControlCommend {
                     timer_3s.start();
                     timer_10s.start();
                     breathingCircle.startAnimation(animation);
+                    inhaleSound = MediaPlayer.create(context, R.raw.inhale_sound);
                     inhaleSound.start();
                 }
-                else{
+                else if (event.getAction() == MotionEvent.ACTION_UP){
                     Log.d("doing","releasing");
                     timer_3s.cancel();
                     timer_10s.cancel();
