@@ -1,6 +1,7 @@
 package com.cmpt276.iteration1practicalparent.UI.Timer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 
 import android.app.NotificationManager;
@@ -14,16 +15,18 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmpt276.iteration1practicalparent.R;
 
 import java.util.Locale;
-import java.util.Objects;
 
 /*
  * Timer activity gives user the option to set a timer for a whole number of minutes
@@ -32,6 +35,8 @@ import java.util.Objects;
  * */
 
 public class TimerActivity extends AppCompatActivity {
+    public static final int TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100 = 2000;
+    public static final int TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100 = 500;
     //code for timer referenced from the following: https://www.youtube.com/playlist?list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd
     private EditText editTextMinutesInput;
     private TextView txtCountDown;
@@ -45,13 +50,32 @@ public class TimerActivity extends AppCompatActivity {
     private long startTimeInMillis;
     private long timeLeftInMillis = startTimeInMillis;
     private long endTime;
+    private boolean clicked25;
+    private boolean clicked50;
+    private boolean clicked75;
+    private boolean clicked100;
+    private boolean clicked200;
+    private boolean clicked300;
+    private boolean clicked400;
+
+    long trackTimeLeftInMillis=-1;
+
+
+    Toolbar myToolbar;
+    Spinner mySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-        setTitle("Timer");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        myToolbar.setTitle("Timer");
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mySpinner = (Spinner) findViewById(R.id.spinner);
+
 
         editTextMinutesInput = findViewById(R.id.editTextTimerInput);
         txtCountDown = findViewById(R.id.txtCountDown);
@@ -77,6 +101,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setTime(120000);
+
             }
         });
 
@@ -117,9 +142,7 @@ public class TimerActivity extends AppCompatActivity {
                 }
 
                 setTime(millisInput);
-                editTextMinutesInput.setText("");
-
-            }
+                editTextMinutesInput.setText(""); }
         });
 
         btnStartPause.setOnClickListener(new View.OnClickListener() {
@@ -142,45 +165,27 @@ public class TimerActivity extends AppCompatActivity {
         });
 
         updateCountDownText();
+        setupSpinner();
 
     }
 
     private void setTime(long milliseconds){
         startTimeInMillis = milliseconds;
+        trackTimeLeftInMillis = startTimeInMillis;
         resetTimer();
     }
 
     private void startTimer(){
         endTime = System.currentTimeMillis() + timeLeftInMillis;
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
-            }
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                txtCountDown.setText("00:00");
-                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
-                timerSound.start();
-                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                Vibration.vibrate(2000);
-                sendNotification();
-                updateButtons();
-                setProgressBarValues();
-            }
-        }.start();
-
+        if(clicked25!=true&&clicked50!=true&&clicked75!=true&&clicked100!=true&&clicked200!=true&&clicked300!=true&&clicked400!=true) {
+            clicked100 = true;
+        }
         timerRunning = true;
+        setTimer();
         updateButtons();
     }
 
     private void pauseTimer(){
-        countDownTimer.cancel();
         timerRunning = false;
         updateButtons();
 
@@ -188,6 +193,7 @@ public class TimerActivity extends AppCompatActivity {
 
     private void resetTimer(){
         timeLeftInMillis = startTimeInMillis;
+        trackTimeLeftInMillis = startTimeInMillis;
         updateCountDownText();
         updateButtons();
         closeKeyboard();
@@ -199,17 +205,50 @@ public class TimerActivity extends AppCompatActivity {
         int minutes = (int) (( timeLeftInMillis / 1000 ) % 3600) / 60; //left over minutes after calculating hours
         int seconds = (int) ( timeLeftInMillis / 1000 ) % 60; //left over seconds after calculating mins
 
-        String timeLeftFormatted;
-        if (hours > 0){
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%d:%02d:%02d", hours, minutes, seconds);
-        }
-        else{
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%02d:%02d", minutes, seconds);
 
+        if (clicked25){
+
+            setSpeed(25);
         }
-        txtCountDown.setText(timeLeftFormatted);
+        if (clicked50){
+
+            setSpeed(50);
+        }
+        if(clicked100) {
+            setSpeed(100);
+        }
+
+        if(clicked75){
+            setSpeed(75);
+        }
+
+        if (clicked200){
+
+            setSpeed(200);
+        }
+        if (clicked300){
+
+            setSpeed(300);
+        }
+        if (clicked400){
+
+            setSpeed(400);
+        }
+
+        String timeLeftFormatted;
+        {
+            if (hours > 0) {
+                timeLeftFormatted = String.format(Locale.getDefault(),
+                        "%d:%02d:%02d", hours, minutes, seconds);
+            } else {
+                timeLeftFormatted = String.format(Locale.getDefault(),
+                        "%02d:%02d", minutes, seconds);
+
+            }
+            txtCountDown.setText(timeLeftFormatted);
+        }
+
+
     }
 
     private void updateButtons() {
@@ -282,6 +321,7 @@ public class TimerActivity extends AppCompatActivity {
 
         if (countDownTimer != null){
             countDownTimer.cancel();
+            countDownTimer = null;
         }
     }
 
@@ -317,6 +357,159 @@ public class TimerActivity extends AppCompatActivity {
         progressBar.setMax((int) timeLeftInMillis / 1000);
         progressBar.setProgress((int) timeLeftInMillis / 1000);
     }
+
+    //creating a spinner in the toolbar video tutorial: https://www.youtube.com/watch?v=CvO0Ng-_C6A
+    private void setupSpinner(){
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(TimerActivity.this, R.layout.custom_spinner_item, getResources().getStringArray(R.array.timer_speed));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
+        mySpinner.setSelection(3); //position 3 is 100%, so we set that as the default value
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                TextView timerSpeed = (TextView) findViewById(R.id.timerSpeedTxtView);
+                timerSpeed.setText("Timer is at " + mySpinner.getSelectedItem().toString());
+                //25%
+                if (position == 0){
+                    clicked25 = true;
+                    clicked50 = clicked75 =clicked100 = clicked200 = clicked300 = clicked400 = false;
+                    setTimer();
+                    //timeLeftInMillis = timeLeftInMillis*4;
+                }
+                //50%
+                if (position == 1){
+                    clicked50 = true;
+                    clicked25 = clicked75=clicked100 = clicked200 = clicked300 = clicked400 = false;
+                    setTimer();
+                    //timeLeftInMillis = timeLeftInMillis*2;
+                }
+                //75%
+                if (position == 2){
+                    clicked75 = true;
+                    clicked50 = clicked25 =clicked100 = clicked200 = clicked300 = clicked400 = false;
+                    setTimer();
+                }
+                //100%: do nothing
+                if (position == 3){
+                    clicked100 = true;
+                    clicked25= clicked50 = clicked75 = clicked200 = clicked300 = clicked400 = false;
+                    setTimer();
+                }
+                //200%
+                if (position == 4){
+                    clicked200 = true;
+                    clicked50 = clicked75=clicked100 = clicked25 = clicked300 = clicked400 = false;
+                    setTimer();
+                    //timeLeftInMillis = timeLeftInMillis/2;
+                }
+                //300%
+                if (position == 5){
+                    clicked300 = true;
+                    clicked50 = clicked75=clicked100 = clicked200 = clicked25 = clicked400 = false;
+                    setTimer();
+                    //timeLeftInMillis = timeLeftInMillis/3;
+
+                }
+                //400%
+                if (position == 6){
+                    clicked400 = true;
+                    clicked50 = clicked75=clicked100 = clicked200 = clicked300 = clicked25 = false;
+                    setTimer();
+                    //timeLeftInMillis = timeLeftInMillis/4;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void setTimer() {
+        if(clicked25){
+            setSpeed(25);
+        }
+        if(clicked50){
+            setSpeed(50);
+        }
+        if(clicked75){
+            setSpeed(75);        }
+        if(clicked100){
+            setSpeed(100);        }
+        if(clicked200){
+            setSpeed(200);        }
+        if(clicked300){
+            setSpeed(300);        }
+        if(clicked400){
+            setSpeed(400);        }
+    }
+
+    private void setSpeed(float speed) {
+        if(countDownTimer!=null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+        if(trackTimeLeftInMillis==-1){
+            trackTimeLeftInMillis = timeLeftInMillis;
+        }
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //
+                if(speed<100) {
+                    if ((trackTimeLeftInMillis - millisUntilFinished) >= TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100) {
+                        millisUntilFinished = trackTimeLeftInMillis - (long)(TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100 * (speed/100));
+                        trackTimeLeftInMillis = millisUntilFinished;
+                        timeLeftInMillis = millisUntilFinished;
+                        updateCountDownText();
+                        progressBar.setProgress((int) (timeLeftInMillis / 1000));
+                    }
+                }
+                if(speed>=100){
+                    if ((trackTimeLeftInMillis-millisUntilFinished)> TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100) {
+                        //line 625 is the equivilent of "jump 2000 ms ahead". this doubles the timer
+                        millisUntilFinished -=TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100*(speed/100)-TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100;
+                        trackTimeLeftInMillis = millisUntilFinished;
+                        timeLeftInMillis = millisUntilFinished;
+                        updateCountDownText();
+                        progressBar.setProgress((int) (timeLeftInMillis / 1000));
+                    }
+
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                timerRunning = false;
+                txtCountDown.setText("00:00");
+                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
+                timerSound.start();
+                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                Vibration.vibrate(2000);
+                sendNotification();
+                updateButtons();
+                setProgressBarValues();
+            }
+        };
+
+        if(timerRunning==true){
+            countDownTimer.start();
+        }
+
+    }
+
+
+    private static void sleep(long timeout) {
+        try {
+            Thread.sleep(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 

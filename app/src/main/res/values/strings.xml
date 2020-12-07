@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Practical Parent</string>
-
-    <string name="coin_flip">Coin Flip</string>
     <string name="flip_button_text">FLIP</string>
     <string name="coin_pick_text_string">Pick a Child</string>
     <string name="win">WIN</string>
@@ -95,5 +93,15 @@
     <string name="remain_time_text">Remaining Time: %o</string>
     <string name="to_release_text">Release button and breath out!</string>
     <string name="breath">Take a breath</string>
+
+    <string-array name="timer_speed">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%</item>
+        <item>200%</item>
+        <item>300%</item>
+        <item>400%</item>
+    </string-array>
 
 </resources>
