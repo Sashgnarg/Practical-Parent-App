@@ -122,7 +122,9 @@ public class CoinFlipMain extends AppCompatActivity {
         //load coin history
         coinHistory = utility.loadCoinHistory(this);
 
-
+        if (!mChildrenList.isEmpty()){ //if there is config children
+            popUpChildren(this);
+        }
     }
 
     public void popUpChildren(Context context){
@@ -278,7 +280,9 @@ public class CoinFlipMain extends AppCompatActivity {
                         saveHistory();
                         updateUI();
                         previousChild = currentChild;
-                        currentChild = mChildrenList.get(1);
+                        if (mChildrenList.size() > 1) {
+                            currentChild = mChildrenList.get(1);
+                        }
                         setChildInQuene();
                     }
                     else{

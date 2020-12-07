@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class TimerActivity extends AppCompatActivity {
     private Button btnSet;
     private Button btnStartPause;
     private Button btnReset;
+    private ProgressBar progressBar;
 
     private CountDownTimer countDownTimer;
     private boolean timerRunning;
@@ -56,6 +58,7 @@ public class TimerActivity extends AppCompatActivity {
         btnStartPause = findViewById(R.id.btnStartPause);
         btnReset = findViewById(R.id.btnReset);
         btnSet = findViewById(R.id.btnSetMinutes);
+        progressBar = findViewById(R.id.countDownProgress);
 
         Button btnOneMin = findViewById(R.id.btnOneMin);
         Button btnTwoMin = findViewById(R.id.btnTwoMin);
@@ -106,11 +109,13 @@ public class TimerActivity extends AppCompatActivity {
                     Toast.makeText(TimerActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 long millisInput = Long.parseLong(input) * 60000;
                 if (millisInput == 0){
                     Toast.makeText(TimerActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 setTime(millisInput);
                 editTextMinutesInput.setText("");
 
@@ -152,6 +157,8 @@ public class TimerActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
+
+                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
             @Override
@@ -164,6 +171,7 @@ public class TimerActivity extends AppCompatActivity {
                 Vibration.vibrate(2000);
                 sendNotification();
                 updateButtons();
+                setProgressBarValues();
             }
         }.start();
 
@@ -175,6 +183,7 @@ public class TimerActivity extends AppCompatActivity {
         countDownTimer.cancel();
         timerRunning = false;
         updateButtons();
+
     }
 
     private void resetTimer(){
@@ -182,6 +191,7 @@ public class TimerActivity extends AppCompatActivity {
         updateCountDownText();
         updateButtons();
         closeKeyboard();
+        setProgressBarValues();
     }
 
     private void updateCountDownText(){
@@ -302,5 +312,11 @@ public class TimerActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void setProgressBarValues() {
+        progressBar.setMax((int) timeLeftInMillis / 1000);
+        progressBar.setProgress((int) timeLeftInMillis / 1000);
+    }
+
 }
 

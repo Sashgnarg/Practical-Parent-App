@@ -80,20 +80,7 @@ public class DialogueForSelectImageOrPicture extends AppCompatDialogFragment {
         viewGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                    if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)==
-                            PackageManager.PERMISSION_DENIED||ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)==
-                            PackageManager.PERMISSION_DENIED){
-                        String[] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                        requestPermissions(permission, PERMISSION_CODE);
-                    }
-                    else{
-                        openGallery();
-                    }
-                }
-                else{
-                    openGallery();
-                }
+                openGallery();
             }
         });
 
