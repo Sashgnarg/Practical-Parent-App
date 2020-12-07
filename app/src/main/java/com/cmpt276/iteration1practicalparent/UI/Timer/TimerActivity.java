@@ -624,10 +624,10 @@ public class TimerActivity extends AppCompatActivity {
                     //line 625 is the equivilent of "jump 2000 ms ahead". this doubles the timer
                     millisUntilFinished -=500;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
