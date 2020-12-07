@@ -658,13 +658,13 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 //
-                if ((trackTimeLeftInMillis-millisUntilFinished)>300) {
-                    millisUntilFinished -=600;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>500) {
+                    millisUntilFinished -=1000;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
@@ -698,10 +698,10 @@ public class TimerActivity extends AppCompatActivity {
                 if ((trackTimeLeftInMillis-millisUntilFinished)>500) {
                     millisUntilFinished -=1500;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
