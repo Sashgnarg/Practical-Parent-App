@@ -13,6 +13,7 @@
     <string name="picked_head_text">Picked Head</string>
     <string name="current_child_history">Current Child History</string>
     <string name="coin_flip_history">Coin Flip History</string>
+    <string name="coin_flip">Coin Flip</string>
     <string name="name">Name</string>
     <string name="insert">insert</string>
     <string name="addition_info">Addition Info</string>
