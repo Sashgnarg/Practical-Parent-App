@@ -195,9 +195,11 @@ public class TimerActivity extends AppCompatActivity {
     private void resetTimer(){
         timeLeftInMillis = startTimeInMillis;
         updateCountDownText();
+        setProgressBarValues();
+        setTimer();
         updateButtons();
         closeKeyboard();
-        setProgressBarValues();
+
     }
 
     /*
@@ -471,11 +473,12 @@ setSpeed(25);
                 //
                 if(speed<100) {
                     if ((trackTimeLeftInMillis - millisUntilFinished) >= TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100) {
-                        millisUntilFinished = trackTimeLeftInMillis - (long)(TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100 * (speed/100));
+                        millisUntilFinished = trackTimeLeftInMillis - (long) (TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100 * (speed / 100));
                         trackTimeLeftInMillis = millisUntilFinished;
                         timeLeftInMillis = millisUntilFinished;
                         updateCountDownText();
-                        progressBar.setProgress((int) (timeLeftInMillis / TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100));
+                        progressBar.setProgress((int) (timeLeftInMillis / 1000));
+
                     }
                 }
                 if(speed>=100){
