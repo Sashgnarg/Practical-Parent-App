@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -20,14 +22,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmpt276.iteration1practicalparent.Model.CoinHistoryClass;
+import com.cmpt276.iteration1practicalparent.Model.ConfigureChildrenItem;
 import com.cmpt276.iteration1practicalparent.R;
 import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
+import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
 
 import java.util.ArrayList;
 
 public class HistoryAllDisplay extends AppCompatActivity {
     UtilityFunction utility;
     ArrayList<CoinHistoryClass> coinHistoryAll;
+    ArrayList<ConfigureChildrenItem> childList;
+    Uri currentTaskChildPicUri;
     String face;
 
 
@@ -39,8 +45,10 @@ public class HistoryAllDisplay extends AppCompatActivity {
         setTitle("History for all Coin Flips");
 
         utility = new UtilityFunction();
+
         coinHistoryAll = new ArrayList<>();
         coinHistoryAll = utility.loadCoinHistory(this);
+        childList = utility.loadData(this);
 
         displayAll();
 
@@ -59,7 +67,6 @@ public class HistoryAllDisplay extends AppCompatActivity {
             super(HistoryAllDisplay.this, R.layout.history_all, coinHistoryAll);
 
         }
-
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -68,7 +75,6 @@ public class HistoryAllDisplay extends AppCompatActivity {
                 //itemView = getLayoutInflater().inflate(R.layout.history_of_all_flips, parent, false);
                 itemView = getLayoutInflater().inflate(R.layout.history_all, parent, false);
             }
-
             CoinHistoryClass history = coinHistoryAll.get(position);
 
             //TextView display = (TextView) itemView.findViewById(R.id.itemHistory);
@@ -82,25 +88,33 @@ public class HistoryAllDisplay extends AppCompatActivity {
             else if (history.getFace() == 1){
                 face = "head";
             }
-
             display.setText(history.getTime() + ":\n" +
                     "   " + history.getPickersName() + " chose " + face + "\n" +
                     "   The result was " + history.getWinner());
 
-            ImageView childImg = (ImageView) findViewById(R.id.childImgHistoryAll);
+            ImageView childImg = findViewById(R.id.childImgHistoryAll);
 
-            if (history.getChild() != null) {
-                Uri currentTaskChildPicUri = Uri.parse(history.getChild().getImageResource());
+            ConfigureChildrenItem tempChild = IDChecker(history);
 
-                if (childImg != null) {
+            if (tempChild != null) {
+                currentTaskChildPicUri = Uri.parse(tempChild.getImageResource());
+                try{
                     childImg.setImageURI(currentTaskChildPicUri);
+                }catch (NullPointerException exception){
+                    Log.d("check: 2 ", currentTaskChildPicUri.toString());
                 }
             }
-
             return itemView;
-
         }
 
+    }
+    public ConfigureChildrenItem IDChecker(CoinHistoryClass history){
+        for (ConfigureChildrenItem child : childList){
+            if (child.getIdOfChild() == history.getChild().getIdOfChild()){
+                return child;
+            }
+        }
+        return null;
     }
 }
 

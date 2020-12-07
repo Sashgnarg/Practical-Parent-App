@@ -54,7 +54,7 @@ public class CoinFlipMain extends AppCompatActivity {
     private Button historyAllBtn;
     private Button historyCurrBtn;
 
-    private Uri currentChildrenImgUri,nextChildrenImgUri;
+    private Uri currentChildrenImgUri;
 
     private int programState = 0;
     // hard coded programState to manuel check for not put the current child to the end of the list.
