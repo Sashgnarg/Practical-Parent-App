@@ -57,17 +57,11 @@ public class TimerActivity extends AppCompatActivity {
     private boolean clicked300;
     private boolean clicked400;
 
-    int prevSeconds;
-    int prevHours;
-    int prevMinutes;
-
-    long tickCounter = 0;
     long trackTimeLeftInMillis=-1;
 
 
     Toolbar myToolbar;
     Spinner mySpinner;
-    private boolean setText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +100,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setTime(120000);
-                setText = true;
+
             }
         });
 
@@ -114,7 +108,6 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setTime(180000);
-                setText = true;
             }
         });
 
@@ -122,7 +115,6 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setTime(300000);
-                setText = true;
             }
         });
 
@@ -130,7 +122,6 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setTime(600000);
-                setText = true;
             }
         });
 
@@ -150,9 +141,7 @@ public class TimerActivity extends AppCompatActivity {
                 }
 
                 setTime(millisInput);
-                editTextMinutesInput.setText("");
-                setText = true;
-            }
+                editTextMinutesInput.setText(""); }
         });
 
         btnStartPause.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +193,6 @@ public class TimerActivity extends AppCompatActivity {
 
     private void resetTimer(){
         timeLeftInMillis = startTimeInMillis;
-        setText=true;
         updateCountDownText();
         updateButtons();
         closeKeyboard();
@@ -225,11 +213,6 @@ public class TimerActivity extends AppCompatActivity {
         int minutes = (int) (( timeLeftInMillis / 1000 ) % 3600) / 60; //left over minutes after calculating hours
         int seconds = (int) ( timeLeftInMillis / 1000 ) % 60; //left over seconds after calculating mins
 
-        if((seconds<=prevSeconds)||minutes>prevMinutes||setText==true){
-            prevSeconds = seconds;
-        }
-        prevHours = hours;
-        prevMinutes = minutes;
 
         if (clicked25){
             /*minutes = (int) (( timeLeftInMillis / 4 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
@@ -268,14 +251,13 @@ public class TimerActivity extends AppCompatActivity {
         {
             if (hours > 0) {
                 timeLeftFormatted = String.format(Locale.getDefault(),
-                        "%d:%02d:%02d", prevHours, prevMinutes, prevSeconds);
+                        "%d:%02d:%02d", hours, minutes, seconds);
             } else {
                 timeLeftFormatted = String.format(Locale.getDefault(),
-                        "%02d:%02d", prevMinutes, prevSeconds);
+                        "%02d:%02d", minutes, seconds);
 
             }
             txtCountDown.setText(timeLeftFormatted);
-            setText = false;
         }
 
 
@@ -492,11 +474,11 @@ public class TimerActivity extends AppCompatActivity {
                 if ((trackTimeLeftInMillis - millisUntilFinished) >= 2000) {
                     millisUntilFinished = trackTimeLeftInMillis - 500;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
 
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
@@ -522,7 +504,9 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setHalfSpeedTimer() {
-        trackTimeLeftInMillis = timeLeftInMillis;
+        if(trackTimeLeftInMillis==-1){
+            trackTimeLeftInMillis = timeLeftInMillis;
+        }
         countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
@@ -531,12 +515,12 @@ public class TimerActivity extends AppCompatActivity {
                 if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
                     millisUntilFinished = trackTimeLeftInMillis-3000;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
+
                 }
-                timeLeftInMillis = millisUntilFinished;
 
-
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
@@ -560,7 +544,9 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setThreeFourthsSpeedTimer() {
-        trackTimeLeftInMillis = timeLeftInMillis;
+        if(trackTimeLeftInMillis==-1){
+            trackTimeLeftInMillis = timeLeftInMillis;
+        }
         countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
@@ -569,10 +555,10 @@ public class TimerActivity extends AppCompatActivity {
                 if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
                     millisUntilFinished = trackTimeLeftInMillis-1500;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
@@ -629,7 +615,9 @@ public class TimerActivity extends AppCompatActivity {
 
 
     private void setDoubleSpeedTimer() {
-        trackTimeLeftInMillis = timeLeftInMillis;
+        if(trackTimeLeftInMillis==-1){
+            trackTimeLeftInMillis = timeLeftInMillis;
+        }
         countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
@@ -637,11 +625,10 @@ public class TimerActivity extends AppCompatActivity {
                 if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
                     millisUntilFinished = trackTimeLeftInMillis+6000;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
-
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
@@ -664,7 +651,9 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setTripleSpeedTimer() {
-        trackTimeLeftInMillis = timeLeftInMillis;
+        if(trackTimeLeftInMillis==-1){
+            trackTimeLeftInMillis = timeLeftInMillis;
+        }
         countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
@@ -673,11 +662,10 @@ public class TimerActivity extends AppCompatActivity {
                 if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
                     millisUntilFinished = trackTimeLeftInMillis+12000;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
-
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
@@ -700,7 +688,9 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setFourTimesSpeedTimer() {
-        trackTimeLeftInMillis = timeLeftInMillis;
+        if(trackTimeLeftInMillis==-1){
+            trackTimeLeftInMillis = timeLeftInMillis;
+        }
         countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -709,10 +699,10 @@ public class TimerActivity extends AppCompatActivity {
                 if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
                     millisUntilFinished = trackTimeLeftInMillis+18000;
                     trackTimeLeftInMillis = millisUntilFinished;
+                    timeLeftInMillis = millisUntilFinished;
+                    updateCountDownText();
+                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
                 }
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
             }
 
 
