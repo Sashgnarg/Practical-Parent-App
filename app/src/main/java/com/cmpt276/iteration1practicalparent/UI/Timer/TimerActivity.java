@@ -549,8 +549,8 @@ public class TimerActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if ((trackTimeLeftInMillis-millisUntilFinished)>2000){
-                    millisUntilFinished = trackTimeLeftInMillis-1500;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>1000){
+                    millisUntilFinished = trackTimeLeftInMillis-750;
                     trackTimeLeftInMillis = millisUntilFinished;
                     timeLeftInMillis = millisUntilFinished;
                     updateCountDownText();
