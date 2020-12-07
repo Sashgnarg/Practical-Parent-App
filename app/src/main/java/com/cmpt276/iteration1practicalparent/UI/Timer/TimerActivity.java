@@ -186,7 +186,6 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void pauseTimer(){
-        countDownTimer.cancel();
         timerRunning = false;
         updateButtons();
 
@@ -194,21 +193,13 @@ public class TimerActivity extends AppCompatActivity {
 
     private void resetTimer(){
         timeLeftInMillis = startTimeInMillis;
+        trackTimeLeftInMillis = startTimeInMillis;
         updateCountDownText();
         updateButtons();
         closeKeyboard();
         setProgressBarValues();
     }
 
-    /*
-    Bug 1
-    in order to simulate speeding/slowing of the timer, we add a certain amount of milliseconds every little while. however this creates an issue where
-    sometimes the timer goes up. For example from 9:55, it jumps to 9:56. I added prevseconds/prevminutes which keeps track of the smallest value. this value is updated
-    when
-
-    Bug 2
-    The other issue was that this caused setting the time with the buttons to not work (because the value cant be increased, so i made the set text
-     */
     private void updateCountDownText(){
         int hours = (int) (timeLeftInMillis / 1000 ) /3600;
         int minutes = (int) (( timeLeftInMillis / 1000 ) % 3600) / 60; //left over minutes after calculating hours
@@ -216,13 +207,11 @@ public class TimerActivity extends AppCompatActivity {
 
 
         if (clicked25){
-            /*minutes = (int) (( timeLeftInMillis / 4 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
-            seconds = (int) ( timeLeftInMillis / 4 / 1000 ) % 60; //left over seconds after calculating mins*/
-setSpeed(25);
+
+            setSpeed(25);
         }
         if (clicked50){
-            /*minutes = (int) (( timeLeftInMillis / 2 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
-            seconds = (int) ( timeLeftInMillis / 2 / 1000 ) % 60; //left over seconds after calculating mins*/
+
             setSpeed(50);
         }
         if(clicked100) {
@@ -234,18 +223,15 @@ setSpeed(25);
         }
 
         if (clicked200){
-            /*minutes = (int) (( timeLeftInMillis * 2 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
-            seconds = (int) ( timeLeftInMillis * 2 / 1000 ) % 60; //left over seconds after calculating mins*/
+
             setSpeed(200);
         }
         if (clicked300){
-            /*minutes = (int) (( timeLeftInMillis * 3 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
-            seconds = (int) ( timeLeftInMillis * 3 / 1000 ) % 60; //left over seconds after calculating mins*/
+
             setSpeed(300);
         }
         if (clicked400){
-            /*minutes = (int) (( timeLeftInMillis * 4 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
-            seconds = (int) ( timeLeftInMillis * 4 / 1000 ) % 60; //left over seconds after calculating mins*/
+
             setSpeed(400);
         }
 
@@ -335,6 +321,7 @@ setSpeed(25);
 
         if (countDownTimer != null){
             countDownTimer.cancel();
+            countDownTimer = null;
         }
     }
 
@@ -461,6 +448,7 @@ setSpeed(25);
     private void setSpeed(float speed) {
         if(countDownTimer!=null) {
             countDownTimer.cancel();
+            countDownTimer = null;
         }
         if(trackTimeLeftInMillis==-1){
             trackTimeLeftInMillis = timeLeftInMillis;
@@ -475,7 +463,7 @@ setSpeed(25);
                         trackTimeLeftInMillis = millisUntilFinished;
                         timeLeftInMillis = millisUntilFinished;
                         updateCountDownText();
-                        progressBar.setProgress((int) (timeLeftInMillis / TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100));
+                        progressBar.setProgress((int) (timeLeftInMillis / 1000));
                     }
                 }
                 if(speed>=100){
