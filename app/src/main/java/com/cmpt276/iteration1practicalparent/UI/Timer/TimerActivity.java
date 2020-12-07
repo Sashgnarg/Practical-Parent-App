@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.cmpt276.iteration1practicalparent.R;
 
 import java.util.Locale;
-import java.util.Objects;
 
 /*
  * Timer activity gives user the option to set a timer for a whole number of minutes
@@ -36,6 +35,8 @@ import java.util.Objects;
  * */
 
 public class TimerActivity extends AppCompatActivity {
+    public static final int TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100 = 2000;
+    public static final int TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100 = 500;
     //code for timer referenced from the following: https://www.youtube.com/playlist?list=PLrnPJCHvNZuB8wxqXCwKw2_NkyEmFwcSd
     private EditText editTextMinutesInput;
     private TextView txtCountDown;
@@ -217,34 +218,35 @@ public class TimerActivity extends AppCompatActivity {
         if (clicked25){
             /*minutes = (int) (( timeLeftInMillis / 4 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
             seconds = (int) ( timeLeftInMillis / 4 / 1000 ) % 60; //left over seconds after calculating mins*/
-            setOneFourthSpeedTimer();
+setSpeed(25);
         }
         if (clicked50){
             /*minutes = (int) (( timeLeftInMillis / 2 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
             seconds = (int) ( timeLeftInMillis / 2 / 1000 ) % 60; //left over seconds after calculating mins*/
-            setHalfSpeedTimer();
+            setSpeed(50);
         }
-        if(clicked100){
-            setNormalSpeedTimer();
+        if(clicked100) {
+            setSpeed(100);
         }
+
         if(clicked75){
-            setThreeFourthsSpeedTimer();
+            setSpeed(75);
         }
 
         if (clicked200){
             /*minutes = (int) (( timeLeftInMillis * 2 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
             seconds = (int) ( timeLeftInMillis * 2 / 1000 ) % 60; //left over seconds after calculating mins*/
-            setDoubleSpeedTimer();
+            setSpeed(200);
         }
         if (clicked300){
             /*minutes = (int) (( timeLeftInMillis * 3 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
             seconds = (int) ( timeLeftInMillis * 3 / 1000 ) % 60; //left over seconds after calculating mins*/
-            setTripleSpeedTimer();
+            setSpeed(300);
         }
         if (clicked400){
             /*minutes = (int) (( timeLeftInMillis * 4 / 1000 ) % 3600) / 60; //left over minutes after calculating hours
             seconds = (int) ( timeLeftInMillis * 4 / 1000 ) % 60; //left over seconds after calculating mins*/
-            setFourTimesSpeedTimer();
+            setSpeed(400);
         }
 
         String timeLeftFormatted;
@@ -439,232 +441,55 @@ public class TimerActivity extends AppCompatActivity {
 
     private void setTimer() {
         if(clicked25){
-            setOneFourthSpeedTimer();
+            setSpeed(25);
         }
         if(clicked50){
-            setHalfSpeedTimer();
+            setSpeed(50);
         }
         if(clicked75){
-            setThreeFourthsSpeedTimer();
-        }
+            setSpeed(75);        }
         if(clicked100){
-            setNormalSpeedTimer();
-        }
+            setSpeed(100);        }
         if(clicked200){
-            setDoubleSpeedTimer();
-        }
+            setSpeed(200);        }
         if(clicked300){
-            setTripleSpeedTimer();
-        }
+            setSpeed(300);        }
         if(clicked400){
-            setFourTimesSpeedTimer();
-        }
+            setSpeed(400);        }
     }
 
-    private void setOneFourthSpeedTimer() {
-        //if the timer is running set this variable to true. This checks whether
-        countDownTimer.cancel();
-        if(trackTimeLeftInMillis==-1){
-        trackTimeLeftInMillis = timeLeftInMillis;
-        }
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                //
-                if ((trackTimeLeftInMillis - millisUntilFinished) >= 2000) {
-                    millisUntilFinished = trackTimeLeftInMillis - 500;
-                    trackTimeLeftInMillis = millisUntilFinished;
-                    timeLeftInMillis = millisUntilFinished;
-                    updateCountDownText();
-                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
-                }
-
-            }
-
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                txtCountDown.setText("00:00");
-                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
-                timerSound.start();
-                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                Vibration.vibrate(2000);
-                sendNotification();
-                updateButtons();
-                setProgressBarValues();
-            }
-        };
-
-        if(timerRunning==true){
-            countDownTimer.start();
-        }
-
-
-    }
-
-    private void setHalfSpeedTimer() {
-        if(trackTimeLeftInMillis==-1){
-            trackTimeLeftInMillis = timeLeftInMillis;
-        }
-        countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if ((trackTimeLeftInMillis-millisUntilFinished)>2000) {
-                    millisUntilFinished = trackTimeLeftInMillis-1000;
-                    trackTimeLeftInMillis = millisUntilFinished;
-                    timeLeftInMillis = millisUntilFinished;
-                    updateCountDownText();
-                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
-                }
-
-            }
-
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                txtCountDown.setText("00:00");
-                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
-                timerSound.start();
-                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                Vibration.vibrate(2000);
-                sendNotification();
-                updateButtons();
-                setProgressBarValues();
-            }
-        };
-
-        if(timerRunning==true){
-            countDownTimer.start();
-        }
-    }
-
-    private void setThreeFourthsSpeedTimer() {
-        if(trackTimeLeftInMillis==-1){
-            trackTimeLeftInMillis = timeLeftInMillis;
-        }
-        countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if ((trackTimeLeftInMillis-millisUntilFinished)>1000){
-                    millisUntilFinished = trackTimeLeftInMillis-750;
-                    trackTimeLeftInMillis = millisUntilFinished;
-                    timeLeftInMillis = millisUntilFinished;
-                    updateCountDownText();
-                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
-                }
-            }
-
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                txtCountDown.setText("00:00");
-                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
-                timerSound.start();
-                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                Vibration.vibrate(2000);
-                sendNotification();
-                updateButtons();
-                setProgressBarValues();
-            }
-        };
-
-        if(timerRunning==true){
-            countDownTimer.start();
-        }
-    }
-
-    private void setNormalSpeedTimer() {
-        if(countDownTimer!=null){
+    private void setSpeed(float speed) {
+        if(countDownTimer!=null) {
             countDownTimer.cancel();
         }
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-                progressBar.setProgress((int) (timeLeftInMillis / 1000));
-            }
-
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                txtCountDown.setText("00:00");
-                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
-                timerSound.start();
-                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                Vibration.vibrate(2000);
-                sendNotification();
-                updateButtons();
-                setProgressBarValues();
-            }
-        };
-
-        if(timerRunning==true){
-            countDownTimer.start();
-        }
-    }
-
-
-    private void setDoubleSpeedTimer() {
         if(trackTimeLeftInMillis==-1){
             trackTimeLeftInMillis = timeLeftInMillis;
         }
-        countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                //if statement is the equivilent of "if 2000 ms have passed"
-                if ((trackTimeLeftInMillis-millisUntilFinished)>500) {
-                    //line 625 is the equivilent of "jump 2000 ms ahead". this doubles the timer
-                    millisUntilFinished -=500;
-                    trackTimeLeftInMillis = millisUntilFinished;
-                    timeLeftInMillis = millisUntilFinished;
-                    updateCountDownText();
-                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
-                }
-            }
-
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                txtCountDown.setText("00:00");
-                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
-                timerSound.start();
-                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                Vibration.vibrate(2000);
-                sendNotification();
-                updateButtons();
-                setProgressBarValues();
-            }
-        };
-        if(timerRunning==true){
-            countDownTimer.start();
-        }
-    }
-
-    private void setTripleSpeedTimer() {
-        if(trackTimeLeftInMillis==-1){
-            trackTimeLeftInMillis = timeLeftInMillis;
-        }
-        countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //
-                if ((trackTimeLeftInMillis-millisUntilFinished)>500) {
-                    millisUntilFinished -=1000;
-                    trackTimeLeftInMillis = millisUntilFinished;
-                    timeLeftInMillis = millisUntilFinished;
-                    updateCountDownText();
-                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
+                if(speed<100) {
+                    if ((trackTimeLeftInMillis - millisUntilFinished) >= TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100) {
+                        millisUntilFinished = trackTimeLeftInMillis - (long)(TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100 * (speed/100));
+                        trackTimeLeftInMillis = millisUntilFinished;
+                        timeLeftInMillis = millisUntilFinished;
+                        updateCountDownText();
+                        progressBar.setProgress((int) (timeLeftInMillis / TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100));
+                    }
                 }
+                if(speed>=100){
+                    if ((trackTimeLeftInMillis-millisUntilFinished)> TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100) {
+                        //line 625 is the equivilent of "jump 2000 ms ahead". this doubles the timer
+                        millisUntilFinished -=TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100*(speed/100)-TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100;
+                        trackTimeLeftInMillis = millisUntilFinished;
+                        timeLeftInMillis = millisUntilFinished;
+                        updateCountDownText();
+                        progressBar.setProgress((int) (timeLeftInMillis / 1000));
+                    }
+
+                }
+
             }
 
 
@@ -681,46 +506,11 @@ public class TimerActivity extends AppCompatActivity {
                 setProgressBarValues();
             }
         };
+
         if(timerRunning==true){
             countDownTimer.start();
         }
-    }
 
-    private void setFourTimesSpeedTimer() {
-        if(trackTimeLeftInMillis==-1){
-            trackTimeLeftInMillis = timeLeftInMillis;
-        }
-        countDownTimer.cancel();
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-                if ((trackTimeLeftInMillis-millisUntilFinished)>500) {
-                    millisUntilFinished -=1500;
-                    trackTimeLeftInMillis = millisUntilFinished;
-                    timeLeftInMillis = millisUntilFinished;
-                    updateCountDownText();
-                    progressBar.setProgress((int) (timeLeftInMillis / 1000));
-                }
-            }
-
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                txtCountDown.setText("00:00");
-                MediaPlayer timerSound = MediaPlayer.create(TimerActivity.this, R.raw.timer_sound);
-                timerSound.start();
-                Vibrator Vibration = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                Vibration.vibrate(2000);
-                sendNotification();
-                updateButtons();
-                setProgressBarValues();
-            }
-        };
-        if(timerRunning==true){
-            countDownTimer.start();
-        }
     }
 
 
