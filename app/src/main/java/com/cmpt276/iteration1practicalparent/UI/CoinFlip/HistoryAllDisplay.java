@@ -10,10 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,7 +56,7 @@ public class HistoryAllDisplay extends AppCompatActivity {
 
     public class MyListAdapter extends ArrayAdapter<CoinHistoryClass> {
         public MyListAdapter(){
-            super(HistoryAllDisplay.this, R.layout.history_of_all_flips, coinHistoryAll);
+            super(HistoryAllDisplay.this, R.layout.history_all, coinHistoryAll);
 
         }
 
@@ -63,12 +65,14 @@ public class HistoryAllDisplay extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View itemView = convertView;
             if (itemView == null){
-                itemView = getLayoutInflater().inflate(R.layout.history_of_all_flips, parent, false);
+                //itemView = getLayoutInflater().inflate(R.layout.history_of_all_flips, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.history_all, parent, false);
             }
 
             CoinHistoryClass history = coinHistoryAll.get(position);
 
-            TextView display = (TextView) itemView.findViewById(R.id.itemHistory);
+            //TextView display = (TextView) itemView.findViewById(R.id.itemHistory);
+            TextView display = (TextView) itemView.findViewById(R.id.historyAllTxtView);
             /*display.setText(history.getPickersName() + " " + history.getTime().toString()
             + " " + history.getWinner() + " " + history.getFace());*/
 
@@ -82,6 +86,16 @@ public class HistoryAllDisplay extends AppCompatActivity {
             display.setText(history.getTime() + ":\n" +
                     "   " + history.getPickersName() + " chose " + face + "\n" +
                     "   The result was " + history.getWinner());
+
+            ImageView childImg = (ImageView) findViewById(R.id.childImgHistoryAll);
+
+            if (history.getChild() != null) {
+                Uri currentTaskChildPicUri = Uri.parse(history.getChild().getImageResource());
+
+                if (childImg != null) {
+                    childImg.setImageURI(currentTaskChildPicUri);
+                }
+            }
 
             return itemView;
 

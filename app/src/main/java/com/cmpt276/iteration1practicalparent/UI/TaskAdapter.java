@@ -1,5 +1,6 @@
 package com.cmpt276.iteration1practicalparent.UI;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             ConfigureChildrenItem configureChildrenItem = utility.findChildForTask(currentTask.getIdOfChild(), configureChildrenItemArrayList);
             if(configureChildrenItem!=null) {
                 holder.taskChildNameTextView.setText(configureChildrenItem.getmText1());
+                Uri currentTaskChildPicUri = Uri.parse(configureChildrenItem.getImageResource());
+                holder.taskImageView.setImageURI(currentTaskChildPicUri);
             }
         }
 

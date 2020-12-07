@@ -30,6 +30,7 @@ import com.cmpt276.iteration1practicalparent.R;
 import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.ButtonFunctions;
 import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.Global;
 import com.cmpt276.iteration1practicalparent.Model.UniversalFunction.UtilityFunction;
+import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChildren;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -41,7 +42,8 @@ public class CoinFlipMain extends AppCompatActivity {
     ButtonFunctions buttonF;
     UtilityFunction utility;
     private TextView currentChildTextV, coinFlipResultText,nextChildTextV, currentFaceV;
-    private ArrayList<ConfigureChildrenItem> mChildrenList;
+    private ArrayList<ConfigureChildrenItem> mChildrenList, newChildrenQueueList;
+    private ArrayList<Integer> childrenQueue;
 
     private String winner;
     private ConfigureChildrenItem currentChild, previousChild, nextChild;
@@ -53,6 +55,11 @@ public class CoinFlipMain extends AppCompatActivity {
     private Button historyCurrBtn;
 
     private Uri currentChildrenImgUri,nextChildrenImgUri;
+
+    private int programState = 0;
+    // hard coded programState to manuel check for not put the current child to the end of the list.
+    // I guess a "queue" means that I should not drop the child on the top.
+    // instead, add child on the "top" of the queue and push everything down.
 
 
 
@@ -72,9 +79,9 @@ public class CoinFlipMain extends AppCompatActivity {
         coinHistory = new ArrayList<>();
         initialLayout();
 
-        historyAllBtn = (Button) findViewById(R.id.viewAllHistory);
+        historyAllBtn = findViewById(R.id.viewAllHistory);
         buttonF.setChangeActivity(historyAllBtn,CoinFlipMain.this,HistoryAllDisplay.class,false);
-        historyCurrBtn = (Button) findViewById(R.id.viewCurrHistory);
+        historyCurrBtn = findViewById(R.id.viewCurrHistory);
         historyCurrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,12 +100,12 @@ public class CoinFlipMain extends AppCompatActivity {
     private void initialLayout(){
         //initial layout
         //textViews
-        currentChildTextV  = (TextView)findViewById(R.id.current_children);
-        nextChildTextV     = (TextView)findViewById(R.id.new_child_text);
-        currentFaceV       = (TextView)findViewById(R.id.coin_current_face);
-        coinFlipResultText = (TextView)findViewById(R.id.coin_flip_result_text);
+        currentChildTextV  = findViewById(R.id.current_children);
+        nextChildTextV     = findViewById(R.id.new_child_text);
+        currentFaceV       = findViewById(R.id.coin_current_face);
+        coinFlipResultText = findViewById(R.id.coin_flip_result_text);
 
-        childImage = (ImageView)findViewById(R.id.child_image_view);
+        childImage = findViewById(R.id.child_image_view);
         childImage.setImageResource(R.drawable.ic_child); //default image
 
         //coinText = (TextView)findViewById(R.id.coin_text);
@@ -109,22 +116,44 @@ public class CoinFlipMain extends AppCompatActivity {
         setSwitchChildButton();// button to switch child
         setSwitchFaceButton(); // button to pick new face
 
-
         //load queue of config children
-        mChildrenList = utility.loadQueue(this);
-        if (mChildrenList.isEmpty()){ //if no queue have been initialize
-            mChildrenList = utility.loadData(this);
-        }
-        if (!mChildrenList.isEmpty()){ //if there is queue or config children
-            popUpChildren(this);
-        }
+        loadQueue();
 
         //load coin history
         coinHistory = utility.loadCoinHistory(this);
+    }
+    public void loadQueue(){
+        mChildrenList = utility.loadData(this);
+        childrenQueue = utility.loadQueue(this);
+        newChildrenQueueList = new ArrayList<>();
+        if (!childrenQueue.isEmpty()){
+            // check childID in old queue exist in the children list
 
-        if (!mChildrenList.isEmpty()){ //if there is config children
+            for (int childID : childrenQueue){
+                for (ConfigureChildrenItem child : mChildrenList){
+                    if (child.getIdOfChild()==childID){
+                        newChildrenQueueList.add(child);
+                    }
+                }
+            }
+        }
+        //add the newly updated child (not yet added to the queue)
+        for (ConfigureChildrenItem child : mChildrenList){
+            if(!childrenQueue.contains(child.getIdOfChild())){
+                newChildrenQueueList.add(child);
+            }
+        }
+        saveQueue();
+        if (!newChildrenQueueList.isEmpty()){ //if there is config children
             popUpChildren(this);
         }
+    }
+    public void saveQueue(){
+        ArrayList<Integer> newChildrenQueue = new ArrayList<>();
+        for (ConfigureChildrenItem child : newChildrenQueueList){
+            newChildrenQueue.add(child.getIdOfChild());
+        }
+        utility.saveQueue(this,newChildrenQueue);
     }
 
     public void popUpChildren(Context context){
@@ -140,8 +169,9 @@ public class CoinFlipMain extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 currentChild = null;
-                nextChild = mChildrenList.get(0);
+                nextChild = null;
                 updateUI();
+                nextChild = newChildrenQueueList.get(0);
             }
         });
         AlertDialog pop = builder.create();
@@ -157,7 +187,8 @@ public class CoinFlipMain extends AppCompatActivity {
 
         TextView text   = (TextView)view.findViewById(R.id.message);
         ImageView image = (ImageView) view.findViewById(R.id.message_image);
-        image.setImageURI(nextChildrenImgUri);
+        //image.setImageURI(nextChildrenImgUri);
+        image.setImageURI(currentChildrenImgUri);
         text.setText(msg);
 
         builder.setCancelable(true);
@@ -200,7 +231,7 @@ public class CoinFlipMain extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        AdapterForConfigureChildren mAdapter = new AdapterForConfigureChildren(mChildrenList);
+        AdapterForConfigureChildren mAdapter = new AdapterForConfigureChildren(newChildrenQueueList);
         mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new AdapterForConfigureChildren.OnItemClickListener() {
@@ -209,8 +240,8 @@ public class CoinFlipMain extends AppCompatActivity {
                 if (currentChild!=null){
                     previousChild = currentChild;
                 }
-                nextChild = mChildrenList.get(position);
-                currentChild = mChildrenList.get(position);
+                nextChild = newChildrenQueueList.get(position);
+                currentChild = newChildrenQueueList.get(position);
                 updateUI();
                 setChildInQuene(); //update the children list
                 dialog.dismiss();
@@ -228,15 +259,19 @@ public class CoinFlipMain extends AppCompatActivity {
     private void updateUI(){
         if (currentChild!= null){
             currentChildTextV.setText(currentChild.getmText1());
-            nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            if (nextChild!=null){
+                nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            }
             currentChildrenImgUri = Uri.parse(currentChild.getImageResource());
             childImage.setImageURI(currentChildrenImgUri);
-
         }
         else{
             currentChildTextV.setText("");
             if (nextChild!=null){
                 nextChildTextV.setText("Next:  "+nextChild.getmText1());//next Child
+            }
+            else{
+                nextChildTextV.setText("Next:  ");
             }
             childImage.setImageResource(R.drawable.ic_child);
         }
@@ -254,7 +289,7 @@ public class CoinFlipMain extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         Date currentTime = Calendar.getInstance().getTime();
-        coinHistory.add(new CoinHistoryClass(currentChild.getmText1(),currentTime,coinFace,winner));
+        coinHistory.add(new CoinHistoryClass(currentChild, currentChild.getmText1(),currentTime,coinFace,winner));
         String json = gson.toJson(coinHistory);
         editor.putString(Global.LIST_CHILDREN_HISTORY, json);
         editor.commit();
@@ -275,13 +310,13 @@ public class CoinFlipMain extends AppCompatActivity {
                 }
                 MediaPlayer coinSound = MediaPlayer.create(CoinFlipMain.this, R.raw.coin_flip_sound);
                 coinSound.start();
-                if (!mChildrenList.isEmpty()){
+                if (!newChildrenQueueList.isEmpty()){
                     if (currentChild != null){ //if there is config children
                         saveHistory();
                         updateUI();
                         previousChild = currentChild;
-                        if (mChildrenList.size() > 1) {
-                            currentChild = mChildrenList.get(1);
+                        if (newChildrenQueueList.size() > 1) {
+                            currentChild = newChildrenQueueList.get(1);
                         }
                         setChildInQuene();
                     }
@@ -300,7 +335,8 @@ public class CoinFlipMain extends AppCompatActivity {
        switchChildButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               if (!mChildrenList.isEmpty()){ //if there is config children
+               if (!newChildrenQueueList.isEmpty()){ //if there is config children
+                   programState = 1;
                    popUpChildren(CoinFlipMain.this);
                }
                else{
@@ -311,23 +347,26 @@ public class CoinFlipMain extends AppCompatActivity {
     }
     private void setChildInQuene(){
         ArrayList<ConfigureChildrenItem> tempChildItem = new ArrayList<>();
-        if (currentChild!=null){ // if a current child is picked
-                tempChildItem.add(currentChild);
-                mChildrenList.remove(currentChild);
+        if (currentChild!=null){
+            for (int i=0;i<newChildrenQueueList.size();i++){
+                if(newChildrenQueueList.get(0)!=currentChild){
+                    tempChildItem.add(newChildrenQueueList.get(0));//move one to the back
+                    newChildrenQueueList.remove(0);
+                }
+                else{
+                    break;
+                }
+            }
+            newChildrenQueueList.addAll(tempChildItem);
+            if (newChildrenQueueList.size() > 1) {
+                nextChild = newChildrenQueueList.get(1);
+            }
         }
-        if (previousChild != null){ //if there is a previous child
-                mChildrenList.remove(previousChild);
+        else{
+            currentChild = newChildrenQueueList.get(0);
+            nextChild = newChildrenQueueList.get(1);
         }
-        int childListLength = mChildrenList.size();
-        for (int i = 0;i<childListLength;i++){
-            tempChildItem.add(mChildrenList.get(i));
-        }
-        if (previousChild != null){
-            tempChildItem.add(previousChild);
-        }
-        mChildrenList = tempChildItem; //save back
-        utility.saveQueue(this,mChildrenList);
-        nextChild = mChildrenList.get(1);
+        saveQueue();//save
     }
     private void setSwitchFaceButton(){
         Button switchFaceButton = (Button)findViewById(R.id.switch_face_button);
