@@ -1,6 +1,8 @@
 package com.cmpt276.iteration1practicalparent.UI.TakeBreath.BreathState;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -12,6 +14,7 @@ import com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain;
 
 import java.util.Locale;
 
+import static com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain.NBreath;
 import static com.cmpt276.iteration1practicalparent.UI.TakeBreath.TakeBreathMain.programState;
 
 public class BreathUI extends StateControlCommend {
@@ -77,7 +80,17 @@ public class BreathUI extends StateControlCommend {
                     progress = 1; //min (set min function on seekBar only available for api 26 lol)
                 }
                 TakeBreathMain.NBreath = progress;
+                saveNBreath();
             }
+
+            private void saveNBreath() {
+                SharedPreferences settings = context.getSharedPreferences("saveNBreath", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("NBreath",NBreath);
+                editor.commit();
+            }
+
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
