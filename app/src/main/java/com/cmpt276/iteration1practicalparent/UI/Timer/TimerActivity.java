@@ -218,14 +218,18 @@ public class TimerActivity extends AppCompatActivity {
     when
 
     Bug 2
-    The other issue was that this caused setting the time with the buttons to not work (because the value cant be increased, so i made the set text
+    The other issue was that this caused setting the time with the buttons to not work (because the value cant be increased). So i made the
+    setText for whenever the timer was changed for the buttons. This will also allow the buttons to incrase
+
+    Bug 3
+
      */
     private void updateCountDownText(){
         int hours = (int) (timeLeftInMillis / 1000 ) /3600;
         int minutes = (int) (( timeLeftInMillis / 1000 ) % 3600) / 60; //left over minutes after calculating hours
         int seconds = (int) ( timeLeftInMillis / 1000 ) % 60; //left over seconds after calculating mins
 
-        if((seconds<=prevSeconds)||minutes>prevMinutes||setText==true){
+        if((seconds<=prevSeconds)||minutes<prevMinutes||setText==true){
             prevSeconds = seconds;
         }
         prevHours = hours;
@@ -522,7 +526,6 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setHalfSpeedTimer() {
-        trackTimeLeftInMillis = timeLeftInMillis;
         countDownTimer.cancel();
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
@@ -634,8 +637,8 @@ public class TimerActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if ((trackTimeLeftInMillis-millisUntilFinished)>6000) {
-                    millisUntilFinished = trackTimeLeftInMillis+6000;
+                if ((trackTimeLeftInMillis-millisUntilFinished)>2000) {
+                    millisUntilFinished = trackTimeLeftInMillis+2000;
                     trackTimeLeftInMillis = millisUntilFinished;
                 }
                 timeLeftInMillis = millisUntilFinished;
