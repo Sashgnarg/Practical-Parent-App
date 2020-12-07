@@ -3,7 +3,9 @@ package com.cmpt276.iteration1practicalparent.UI.TakeBreath;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -28,10 +30,9 @@ public class TakeBreathMain extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadNBreath();
         setContentView(R.layout.activity_take_breath_main);
         setTitle(R.string.breath);
-
-        NBreath = 3;
         programState = 1;//default -> return to menu
 
         initialLayout();
@@ -55,6 +56,12 @@ public class TakeBreathMain extends AppCompatActivity {
         //top left arrow pressed
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
+
+    private void loadNBreath() {
+        SharedPreferences settings = getSharedPreferences("saveNBreath", 0);
+        NBreath = settings.getInt("NBreath", 3);
+    }
+
     private void initialLayout(){
         start(new BreathUI());
     }
