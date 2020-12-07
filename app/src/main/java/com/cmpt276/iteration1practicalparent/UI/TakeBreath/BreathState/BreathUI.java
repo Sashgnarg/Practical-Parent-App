@@ -90,6 +90,7 @@ public class BreathUI extends StateControlCommend {
                 editor.commit();
             }
 
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
