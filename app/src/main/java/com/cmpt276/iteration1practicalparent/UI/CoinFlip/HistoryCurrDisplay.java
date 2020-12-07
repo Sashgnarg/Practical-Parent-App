@@ -8,6 +8,8 @@ package com.cmpt276.iteration1practicalparent.UI.CoinFlip;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,65 +53,16 @@ public class HistoryCurrDisplay extends AppCompatActivity {
                 currInfo.add(coinHistoryAll.get(i));
             }
         }
-
         displayCurr();
     }
 
     private void displayCurr() {
-        HistoryCurrDisplay.MyListAdapter historyAdatper = new HistoryCurrDisplay.MyListAdapter();
+        RecyclerView recyclerView = findViewById(R.id.showCurr);
+        historyAdapter adapter = new historyAdapter(this,currInfo);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        ListView list = (ListView) findViewById(R.id.showCurr);
-        list.setAdapter(historyAdatper);
-
-    }
-
-    public class MyListAdapter extends ArrayAdapter<CoinHistoryClass> {
-        public MyListAdapter(){
-            super(HistoryCurrDisplay.this, R.layout.history_all, currInfo);
-
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            View itemView = convertView;
-            if (itemView == null){
-                itemView = getLayoutInflater().inflate(R.layout.history_all, parent, false);
-            }
-
-            CoinHistoryClass history = currInfo.get(position);
-
-            TextView display = (TextView) itemView.findViewById(R.id.historyAllTxtView);
-            /*display.setText(history.getPickersName() + " " + history.getTime().toString()
-            + " " + history.getWinner() + " " + history.getFace());*/
-
-            if (history.getFace() == 0){
-                face = "tail";
-            }
-            else if (history.getFace() == 1){
-                face = "head";
-            }
-
-            display.setText(history.getTime() + ":\n" +
-                    "   " + history.getPickersName() + " chose " + face + "\n" +
-                    "   The result was " + history.getWinner());
-
-            ImageView childImg = (ImageView) findViewById(R.id.childImgHistoryAll);
-
-            if (history.getChild() != null) {
-                Uri currentTaskChildPicUri = Uri.parse(history.getChild().getImageResource());
-
-                if (childImg != null) {
-                    childImg.setImageURI(currentTaskChildPicUri);
-                }
-            }
-
-            return itemView;
-
-        }
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
     }
-
-
-
 }
