@@ -75,8 +75,6 @@ public class TimerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mySpinner = (Spinner) findViewById(R.id.spinner);
-
-
         editTextMinutesInput = findViewById(R.id.editTextTimerInput);
         txtCountDown = findViewById(R.id.txtCountDown);
         btnStartPause = findViewById(R.id.btnStartPause);
@@ -89,7 +87,6 @@ public class TimerActivity extends AppCompatActivity {
         Button btnThreeMin = findViewById(R.id.btnThreeMin);
         Button btnFiveMin = findViewById(R.id.btnFiveMin);
         Button btnTenMin = findViewById(R.id.btnTenMin);
-
         btnOneMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -333,6 +330,7 @@ public class TimerActivity extends AppCompatActivity {
         startTimeInMillis = prefs.getLong("startTimeInMillis", 600000);
         timeLeftInMillis = prefs.getLong("millisLeft", startTimeInMillis);
         timerRunning = prefs.getBoolean("timerRunning", false);
+        setProgressBarValues();
 
         updateCountDownText();
         updateButtons();
@@ -354,7 +352,7 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setProgressBarValues() {
-        progressBar.setMax((int) timeLeftInMillis / 1000);
+        progressBar.setMax((int) startTimeInMillis / 1000);
         progressBar.setProgress((int) timeLeftInMillis / 1000);
     }
 
