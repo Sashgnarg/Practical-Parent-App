@@ -4,6 +4,8 @@ import com.cmpt276.iteration1practicalparent.UI.ConfigureChildren.ConfigureChild
 
 import java.util.Date;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class CoinHistoryClass {
     // class the save history information...
     // pickersName -> children name
