@@ -57,8 +57,8 @@ public class TimerActivity extends AppCompatActivity {
     private boolean clicked200;
     private boolean clicked300;
     private boolean clicked400;
+    float speedPerc;
 
-    long trackTimeLeftInMillis=-1;
 
 
     Toolbar myToolbar;
@@ -168,7 +168,6 @@ public class TimerActivity extends AppCompatActivity {
 
     private void setTime(long milliseconds){
         startTimeInMillis = milliseconds;
-        trackTimeLeftInMillis = startTimeInMillis;
         resetTimer();
     }
 
@@ -190,7 +189,6 @@ public class TimerActivity extends AppCompatActivity {
 
     private void resetTimer(){
         timeLeftInMillis = startTimeInMillis;
-        trackTimeLeftInMillis = startTimeInMillis;
         updateCountDownText();
         updateButtons();
         closeKeyboard();
@@ -203,7 +201,7 @@ public class TimerActivity extends AppCompatActivity {
         int seconds = (int) ( timeLeftInMillis / 1000 ) % 60; //left over seconds after calculating mins
 
 
-        if (clicked25){
+        /*if (clicked25){
 
             setSpeed(25);
         }
@@ -230,7 +228,7 @@ public class TimerActivity extends AppCompatActivity {
         if (clicked400){
 
             setSpeed(400);
-        }
+        }*/
 
         String timeLeftFormatted;
         {
@@ -444,38 +442,16 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setSpeed(float speed) {
+        speedPerc = speed/100;
         if(countDownTimer!=null) {
             countDownTimer.cancel();
             countDownTimer = null;
         }
-        if(trackTimeLeftInMillis==-1){
-            trackTimeLeftInMillis = timeLeftInMillis;
-        }
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1) {
+        countDownTimer = new CountDownTimer((long)(startTimeInMillis/(speedPerc)), 100) {
             @Override
             public void onTick(long millisUntilFinished) {
-                //
-                if(speed<100) {
-                    if ((trackTimeLeftInMillis - millisUntilFinished) >= TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100) {
-                        millisUntilFinished = trackTimeLeftInMillis - (long)(TIME_BETWEEN_DECREMENTS_SPEED_LESS_THAN_100 * (speed/100));
-                        trackTimeLeftInMillis = millisUntilFinished;
-                        timeLeftInMillis = millisUntilFinished;
-                        updateCountDownText();
-                        progressBar.setProgress((int) (timeLeftInMillis / 1000));
-                    }
-                }
-                if(speed>=100){
-                    if ((trackTimeLeftInMillis-millisUntilFinished)> TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100) {
-                        //line 625 is the equivilent of "jump 2000 ms ahead". this doubles the timer
-                        millisUntilFinished -=TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100*(speed/100)-TIME_BETWEEN_DECREMENTS_SPEED_GREATER_THAN_100;
-                        trackTimeLeftInMillis = millisUntilFinished;
-                        timeLeftInMillis = millisUntilFinished;
-                        updateCountDownText();
-                        progressBar.setProgress((int) (timeLeftInMillis / 1000));
-                    }
-
-                }
-
+                timeLeftInMillis = (long)(millisUntilFinished*speedPerc);
+                updateCountDownText();
             }
 
 
